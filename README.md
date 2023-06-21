@@ -1,1 +1,2 @@
-# NewRepo
+# QuickGridCollection
+Notre version de QuickGrid offre des fonctionnalités supplémentaires par rapport à la version originale. Elle accepte les ICollection et offre des options de filtre avancées. De plus, elle permet un tri multiple et peut être utilisée avec n’importe quel fournisseur qui accepte System.Linq.Expressions, tels que Linq, Entity Framework ou Simple.Odata.Client. Le filtrage et le tri sont effectués en externe, et la pagination est indépendante de la grille.
