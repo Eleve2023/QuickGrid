@@ -1,0 +1,58 @@
+﻿.sorting_ascending,
+.sorting_descending,
+.sorting_default {
+    cursor: pointer;
+    position: relative;
+    padding-right: 6px;
+}
+
+    .sorting_ascending:before,
+    .sorting_descending:before,
+    .sorting_default:before,
+    .sorting_ascending:after,
+    .sorting_descending:after,
+    .sorting_default:after {
+        position: absolute;
+        display: block;
+        opacity: 0.125;
+        line-height: 9px;
+        font-size: 0.8em;
+    }
+
+    .sorting_ascending:before,
+    .sorting_descending:before,
+    .sorting_default:before {
+        bottom: 50%;
+        content: "▲";
+    }
+
+    .sorting_ascending:after,
+    .sorting_descending:after,
+    .sorting_default:after {
+        top: 50%;
+        content: "▼";
+    }
+
+    .sorting_ascending:before {
+        opacity: 0.6;
+    }
+
+    .sorting_descending:after {
+        opacity: 0.6;
+    }
+
+    .sorting_default:before {
+        opacity: 0.125;
+    }
+
+    .sorting_default:after {
+        display: none;
+    }
+
+    .sorting_descending:before {
+        display: none;
+    }
+
+
+
+

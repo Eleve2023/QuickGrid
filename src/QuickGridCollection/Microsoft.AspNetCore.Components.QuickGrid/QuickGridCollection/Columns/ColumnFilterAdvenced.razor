@@ -1,0 +1,45 @@
+﻿@using Microsoft.AspNetCore.Components.Rendering;
+@using Microsoft.AspNetCore.Components.Web
+@using System.Linq.Expressions;
+@using Microsoft.AspNetCore.Components.QuickGrid.QuickGridCollection.Infrastructure;
+
+@namespace Microsoft.AspNetCore.Components.QuickGrid.QuickGridCollection.Columns
+@typeparam TGridItem
+@inherits ColumnFiltre<TGridItem>
+
+@RenderFragment
+
+@code {
+
+    protected sealed override void OptionRender(RenderTreeBuilder __builder, int index)
+    {
+        this.index = index;
+
+        <div class="@ClassAndStyle[ClassHtml.ColumnFiltreAdenced_div]" style="@ClassAndStyle[StyleCss.ColumnFiltreAdenced_div]">
+
+            @if (index < MaxFilters - 1)
+            {
+                bool disabled = !showButtonAdd[index];
+
+                <button class="@ClassAndStyle[ClassHtml.ColumnFiltreAdenced_div_button_Operator]"
+                        style="@ClassAndStyle[StyleCss.ColumnFiltreAdenced_div_button_Operator]"
+                        @onclick="ToggleOperatorFilter">
+                    @if (operatorFilter == OperatorFilter.And)
+                    {
+                        <strong>And</strong> <text> -> Or</text>
+                    }
+                    else if (operatorFilter == OperatorFilter.Or)
+                    {
+                        <strong>Or</strong> <text> -> And</text>
+                    }
+                </button>
+                <button class="@ClassAndStyle[ClassHtml.ColumnFiltreAdenced_div_button_Add]"
+                        style="@ClassAndStyle[StyleCss.ColumnFiltreAdenced_div_button_Add]"
+                        disabled="@disabled" @onclick="AddOptionFilter">
+                    ADD
+                </button>
+            }
+        </div>
+    }
+
+}
