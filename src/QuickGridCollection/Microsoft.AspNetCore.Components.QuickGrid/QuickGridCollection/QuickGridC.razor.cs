@@ -174,13 +174,18 @@ namespace Microsoft.AspNetCore.Components.QuickGrid.QuickGridCollection
             var hasValue = columnSortDirections.TryGetValue(column, out SortDirection sortDirection);
             if (hasValue)
             {
-                if (sortDirection == SortDirection.Ascending)
+                if (sortDirection == SortDirection.Ascending || sortDirection == SortDirection.Descending)
                 {
                     columnsSorted.RemoveAll(e => e.Key == column);
                 }
-                else if (sortDirection == SortDirection.Descending)
+                else if (!column.MultipleSortingAllowed)
                 {
-                    columnsSorted.RemoveAll(e => e.Key == column);
+                    columnsSorted.RemoveAll(e => e.Key == column || e.Key != column);                    
+                    foreach (var keyValue in columnSortDirections)
+                    {
+                        if(keyValue.Key != column)
+                        columnSortDirections[keyValue.Key] = SortDirection.Default;
+                    }
                 }
                 var newSortDirection = sortDirection switch
                 {

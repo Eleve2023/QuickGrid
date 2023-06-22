@@ -36,6 +36,13 @@ namespace Microsoft.AspNetCore.Components.QuickGrid.QuickGridCollection.Columns
         /// </remarks>
         protected bool isSortable = false;
         /// <summary>
+        /// Obtient ou définit une valeur indiquant si cette colonne peut être triée avec d'autres colonnes triables.
+        /// </summary>
+        /// <remarks>
+        /// Si cette propriété est définie sur <c>true</c> et que la propriété <see cref="IsSortable"/> est également définie sur <c>true</c>, cette colonne peut être triée avec d'autres colonnes triables.
+        /// </remarks>
+        protected bool multipleSortingAllowed;
+        /// <summary>
         /// Nombre maximum de filtres à applique pour cette colonne. La valeur par défaut est 5.
         /// </summary>
         protected int maxFilters = 5;
@@ -65,6 +72,7 @@ namespace Microsoft.AspNetCore.Components.QuickGrid.QuickGridCollection.Columns
         /// Expression de propriété pour la colonne.
         /// </summary>
         protected Expression<Func<TGridItem, object>>? propertyExpression;
+        
 
         protected ColumnCBase()
         {
@@ -105,6 +113,13 @@ namespace Microsoft.AspNetCore.Components.QuickGrid.QuickGridCollection.Columns
         /// si <see cref="IsSortable"/> est définir sur <c>true</c> la <see cref="ColumnCBase{TGridItem}.PropertyExpression"/> ne doit pas être <c>null</c>
         /// </remarks>
         internal bool IsSortable { get => isSortable; set => isSortable = value; }
+        /// <summary>
+        /// Obtient ou définit une valeur indiquant si cette colonne peut être triée avec d'autres colonnes triables.
+        /// </summary>
+        /// <remarks>
+        /// Si cette propriété est définie sur <c>true</c> et que la propriété <see cref="IsSortable"/> est également définie sur <c>true</c>, cette colonne peut être triée avec d'autres colonnes triables.
+        /// </remarks>
+        internal bool MultipleSortingAllowed { get => multipleSortingAllowed; set => multipleSortingAllowed = value; }
         /// <summary>
         /// instance de <see cref="QuickGridC{TGridItem}"/>
         /// </summary>

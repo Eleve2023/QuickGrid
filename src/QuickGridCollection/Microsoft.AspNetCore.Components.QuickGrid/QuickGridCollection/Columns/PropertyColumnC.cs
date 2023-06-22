@@ -36,6 +36,13 @@ namespace Microsoft.AspNetCore.Components.QuickGrid.QuickGridCollection.Columns
         /// Indique si la colonne est triable. La valeur par défaut est <c>true</c>.
         ///</summary>
         [Parameter] public new bool IsSortable { get => isSortable; set => isSortable = value; }
+        /// <summary>
+        /// Obtient ou définit une valeur indiquant si cette colonne peut être triée avec d'autres colonnes triables.
+        /// </summary>
+        /// <remarks>
+        /// Si cette propriété est définie sur <c>true</c> et que la propriété <see cref="IsSortable"/> est également définie sur <c>true</c>, cette colonne peut être triée avec d'autres colonnes triables.
+        /// </remarks>
+        [Parameter] public new bool MultipleSortingAllowed { get => multipleSortingAllowed; set => multipleSortingAllowed = value; }
         ///<summary>
         /// Indique si la colonne a des options de filtre. 
         /// <para>
