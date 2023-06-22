@@ -184,7 +184,7 @@ namespace Microsoft.AspNetCore.Components.QuickGrid.QuickGridCollection.Columns
             if (propertyInfo != null)
             {
                 typeOfProperty = propertyInfo.PropertyType;
-                var parameter = Expression.Parameter(itemType, "x");
+                var parameter = Expression.Parameter(itemType, "c");
                 Expression propertyExpression = Expression.Property(parameter, propertyInfo);
                 if (propertyInfo.PropertyType.IsValueType)
                     propertyExpression = Expression.Convert(propertyExpression, typeof(object));

@@ -18,14 +18,14 @@ else
 {
     <QuickGridC TGridItem="WeatherForecast" Items="@forecasts" FilterSortChanged="FilterSortChanged">
         <PropertyColumnC Property="@(e => e.Date)" />
-        <PropertyColumnC Property="@(e => e.TemperatureC)" Title="Temp. (C)" />
+        <PropertyColumnC Property="@(e => e.TemperatureC)" Title="Temp. (C)" HasAdvancedFilterOptions="true" />
         <PropertyColumnC Property="@(e => e.TemperatureF)" Title="Temp. (F)" />
         <PropertyColumnC Property="@(e => e.Summary)" />
     </QuickGridC>
 }
 
 @code {
-    private WeatherForecast[]? forecasts;    
+    private WeatherForecast[]? forecasts;
     private WeatherForecast[]? Originalforecasts;
     protected override async Task OnInitializedAsync()
     {
@@ -35,14 +35,9 @@ else
     private void FilterSortChanged(GridFilteringAndSorting<WeatherForecast> filteringAndSorting)
     {
         IQueryable<WeatherForecast> queryable = Originalforecasts.AsQueryable();
-        if(filteringAndSorting.WhereIsNotNullAndEmpty())
-        {
-            queryable =  Originalforecasts.AsQueryable().Where(filteringAndSorting.Where[0]);
-        }
-        if(filteringAndSorting.ValuesIsNotNullAndEmpty())
-        {
-            queryable = filteringAndSorting.GetQueryableSorting(queryable);
-        }
+        var q = filteringAndSorting.GetQuerable(queryable);
+        if (q != null)
+            queryable = q;
         forecasts = queryable.ToArray();
     }
 }

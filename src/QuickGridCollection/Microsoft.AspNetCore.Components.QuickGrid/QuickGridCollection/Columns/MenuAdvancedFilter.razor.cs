@@ -1,4 +1,6 @@
-﻿using System.Linq.Expressions;
+﻿using Microsoft.AspNetCore.Components.QuickGrid.QuickGridCollection.Infrastructure;
+using System.Linq.Expressions;
+using System.Reflection.Metadata;
 
 namespace Microsoft.AspNetCore.Components.QuickGrid.QuickGridCollection.Columns
 {
@@ -144,11 +146,14 @@ namespace Microsoft.AspNetCore.Components.QuickGrid.QuickGridCollection.Columns
             if (columnFilterExpressions != null)
             {
                 var parameter = Expression.Parameter(typeof(TGridItem), "x");
+                var replacedExpressions = columnFilterExpressions.Select(e => ((Expression<Func<TGridItem, bool>>)ParameterReplacer.Replace(e, e.Parameters[0], parameter)).Body);
                 Expression expression;
                 if (operatorFilter == OperatorFilter.And)
-                    expression = columnFilterExpressions.Select(e => e.Body).Aggregate(Expression.AndAlso);
+                {
+                    expression = replacedExpressions.Aggregate(Expression.AndAlso);
+                }
                 else if (operatorFilter == OperatorFilter.Or)
-                    expression = columnFilterExpressions.Select(e => e.Body).Aggregate(Expression.OrElse);
+                    expression = replacedExpressions.Aggregate(Expression.Or);
                 else throw new Exception();
 
                 var lambda = Expression.Lambda<Func<TGridItem, bool>>(expression, parameter);

@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Components;
+using Microsoft.AspNetCore.Components.QuickGrid.QuickGridCollection.Infrastructure;
 using System.Linq.Expressions;
 
 namespace Microsoft.AspNetCore.Components.QuickGrid.QuickGridCollection
@@ -118,16 +119,31 @@ namespace Microsoft.AspNetCore.Components.QuickGrid.QuickGridCollection
         private readonly Expression<Func<TGridItem, T>> GetAggregate<T>(ExpressionType expressionType, IEnumerable<Expression<Func<TGridItem, T>>> expressions)
         {
             var parameter = Expression.Parameter(typeof(TGridItem), "x");
-
+            var replacedExpressions = expressions.Select(e => ((Expression<Func<TGridItem, T>>)ParameterReplacer.Replace(e, e.Parameters[0], parameter)).Body);
             Expression expression = expressionType switch
             {
-                ExpressionType.AndAlso => expressions.Select(e => e.Body).Aggregate(Expression.AndAlso),
-                ExpressionType.OrElse => expressions.Select(e => e.Body).Aggregate(Expression.OrElse),
-                ExpressionType.And => expressions.Select(e => e.Body).Aggregate(Expression.And),
-                ExpressionType.AndAssign => expressions.Select(e => e.Body).Aggregate(Expression.AndAssign),
+                ExpressionType.AndAlso => replacedExpressions.Aggregate(Expression.AndAlso),
+                ExpressionType.OrElse => replacedExpressions.Aggregate(Expression.OrElse),
+                ExpressionType.And => replacedExpressions.Aggregate(Expression.And),
+                ExpressionType.AndAssign => replacedExpressions.Aggregate(Expression.AndAssign),
                 _ => throw new NotImplementedException(),
             };
             return Expression.Lambda<Func<TGridItem, T>>(expression, parameter);
+            //var parameter = Expression.Parameter(typeof(TGridItem), "x");
+            //List<ParameterExpression> parameters = new();
+            //foreach (var item in expressions)
+            //{
+            //    parameters.AddRange(item.Parameters);
+            //}
+            //Expression expression = expressionType switch
+            //{
+            //    ExpressionType.AndAlso => expressions.Select(e => e.Body).Aggregate(Expression.AndAlso),
+            //    ExpressionType.OrElse => expressions.Select(e => e.Body).Aggregate(Expression.OrElse),
+            //    ExpressionType.And => expressions.Select(e => e.Body).Aggregate(Expression.And),
+            //    ExpressionType.AndAssign => expressions.Select(e => e.Body).Aggregate(Expression.AndAssign),
+            //    _ => throw new NotImplementedException(),
+            //};
+            //return Expression.Lambda<Func<TGridItem, T>>(expression, expressions.First().Parameters);
         }
     }
 }
