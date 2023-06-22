@@ -1,6 +1,4 @@
-﻿using Microsoft.AspNetCore.Components;
-
-namespace Microsoft.AspNetCore.Components.QuickGrid.QuickGridCollection
+﻿namespace Microsoft.AspNetCore.Components.QuickGrid.QuickGridCollection.Pagination
 {
     public abstract class GridPagingBase : ComponentBase
     {

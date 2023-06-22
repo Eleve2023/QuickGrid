@@ -1,4 +1,4 @@
-﻿namespace Microsoft.AspNetCore.Components.QuickGrid.QuickGridCollection
+﻿namespace Microsoft.AspNetCore.Components.QuickGrid.QuickGridCollection.Pagination
 {
     /// <summary>
     /// Représente l'état de la pagination d'une grille.

@@ -1,4 +1,4 @@
-﻿namespace Microsoft.AspNetCore.Components.QuickGrid.QuickGridCollection
+﻿namespace Microsoft.AspNetCore.Components.QuickGrid.QuickGridCollection.Pagination
 {
     /// <summary>
     /// Fournit des données pour l'événement <see cref="GridPagingState.PageChanged"/>.
