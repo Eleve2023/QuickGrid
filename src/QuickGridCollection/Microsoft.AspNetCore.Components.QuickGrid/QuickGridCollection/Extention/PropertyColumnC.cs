@@ -6,11 +6,11 @@ using System.Reflection;
 namespace Microsoft.AspNetCore.Components.QuickGrid.QuickGridCollection.Columns
 {
     // doit être déplace verre un autre Project d'extension, si le développeur veux utilise DataAnnotation il devrai téléchargé extension
-    public partial class PropertyColumn<TGridItem, TProp>
+    public partial class PropertyColumnC<TGridItem, TProp>
     {
         ///<summary>
         /// Méthode partielle pour obtenir le titre de la colonne à partir des annotations de données.
-        /// Si l'extension est installée, cette méthode utilise les attributs <see cref="DisplayNameAttribute"/>  et <see cref="DisplayAttribute"/>  pour définir <see cref="Column{TGridItem}.Title"/> le titre de la colonne.
+        /// Si l'extension est installée, cette méthode utilise les attributs <see cref="DisplayNameAttribute"/>  et <see cref="DisplayAttribute"/>  pour définir <see cref="ColumnCBase{TGridItem}.Title"/> le titre de la colonne.
         ///</summary>
         partial void GetTitleFromDataAnnotations(MemberInfo? memberInfo)
         {
@@ -20,7 +20,7 @@ namespace Microsoft.AspNetCore.Components.QuickGrid.QuickGridCollection.Columns
         }
         ///<summary>
         /// Méthode partielle pour obtenir le format à utiliser pour afficher la propriété à partir des annotations de données.
-        /// Si l'extension est installée, cette méthode utilise l'attribut <see cref="DisplayFormatAttribute"/> pour définir <see cref="PropertyColumn{TGridItem, TProp}.Format"/> le format de la colonne.
+        /// Si l'extension est installée, cette méthode utilise l'attribut <see cref="DisplayFormatAttribute"/> pour définir <see cref="PropertyColumnC{TGridItem, TProp}.Format"/> le format de la colonne.
         ///</summary>
         partial void GetDisplayFormatFromDataAnnotations(MemberInfo? memberInfo)
         {

@@ -3,6 +3,7 @@
 @using Microsoft.AspNetCore.Components.Web
 @using System.Linq.Expressions;
 @using Microsoft.AspNetCore.Components.QuickGrid.QuickGridCollection.Infrastructure;
+@using Microsoft.AspNetCore.Components.QuickGrid.QuickGridCollection.GridCss;
 
 @namespace Microsoft.AspNetCore.Components.QuickGrid.QuickGridCollection.Columns
 @typeparam TGridItem
@@ -13,8 +14,8 @@
 
     private void FromRender(RenderTreeBuilder __builder)
     {
-        <from class="@ClassAndStyle[ClassHtml.ColumnFiltre_from]" style="@ClassAndStyle[StyleCss.ColumnFiltre_from]">
-            <div name="input" class="@ClassAndStyle[ClassHtml.ColumnFiltre_from_divInput]" style="@ClassAndStyle[StyleCss.ColumnFiltre_from_divInput]">
+        <from class="@ClassAndStyle[ClassHtml.MenuFiltre_from]" style="@ClassAndStyle[StyleCss.ColumnFiltre_from]">
+            <div name="input" class="@ClassAndStyle[ClassHtml.MenuFiltre_from_divInput]" style="@ClassAndStyle[StyleCss.ColumnFiltre_from_divInput]">
                 @for (int i = 0; i < columnFilterAdditions + 1; i++)
                 {
                     FindOptionRender(__builder, i);
@@ -22,12 +23,12 @@
                     OptionRender(__builder, i);
                 }
             </div>
-            <div name="action" class="@ClassAndStyle[ClassHtml.ColumnFiltre_from_divAction]" style="@ClassAndStyle[StyleCss.ColumnFiltre_from_divAction]">
-                <button name="reset" class="@ClassAndStyle[ClassHtml.ColumnFiltre_from_divAction_buttonReset]" style="@ClassAndStyle[StyleCss.ColumnFiltre_from_divAction_buttonReset]"
+            <div name="action" class="@ClassAndStyle[ClassHtml.MenuFiltre_from_divAction]" style="@ClassAndStyle[StyleCss.ColumnFiltre_from_divAction]">
+                <button name="reset" class="@ClassAndStyle[ClassHtml.MenuFiltre_from_divAction_buttonReset]" style="@ClassAndStyle[StyleCss.ColumnFiltre_from_divAction_buttonReset]"
                         type="button" @onclick="ResetColumnFilters">
                     Reset
                 </button>
-                <button name="ok" class="@ClassAndStyle[ClassHtml.ColumnFiltre_from_divAction_buttonOk]" style="@ClassAndStyle[StyleCss.ColumnFiltre_from_divAction_buttonOk]"
+                <button name="ok" class="@ClassAndStyle[ClassHtml.MenuFiltre_from_divAction_buttonOk]" style="@ClassAndStyle[StyleCss.ColumnFiltre_from_divAction_buttonOk]"
                         type="button" @onclick="ApplyFilters">
                     OK
                 </button>
@@ -45,7 +46,7 @@
                     filterValues[index] = (Enum.GetValues(TypeOfProperty)).GetValue(0)!.ToString()!;
                 }
             }
-            <select name="inputEnumValue" class="@ClassAndStyle[ClassHtml.ColumnFiltre_from_divInput_selectInputEnumValue]"
+            <select name="inputEnumValue" class="@ClassAndStyle[ClassHtml.MenuFiltre_from_divInput_selectInputEnumValue]"
                     style="@ClassAndStyle[StyleCss.ColumnFiltre_from_divInput_selectInputEnumValue]"
                     @bind:get="@filterValues[index].ToString()" @bind:set=@((arg) => filterValues[index] = arg)>
                 @foreach (var opt in Enum.GetValues(TypeOfProperty))
@@ -56,14 +57,14 @@
         }
         else
         {
-            <input name="inputValue" type="@htmlInputType" class="@ClassAndStyle[ClassHtml.ColumnFiltre_from_divInput_inputInputValue]"
+            <input name="inputValue" type="@htmlInputType" class="@ClassAndStyle[ClassHtml.MenuFiltre_from_divInput_inputInputValue]"
                    style="@ClassAndStyle[StyleCss.ColumnFiltre_from_divInput_inputInputValue]"
                    value="@filterValues[index]" @onchange="@((arg) => filterValues[index] = arg.Value!)" />
         }
     }
     private void FindOptionRender(RenderTreeBuilder __builder, int index)
     {
-        <select name="inputOption" class="@ClassAndStyle[ClassHtml.ColumnFiltre_from_divInput_selectInputOption]"
+        <select name="inputOption" class="@ClassAndStyle[ClassHtml.MenuFiltre_from_divInput_selectInputOption]"
                 style="@ClassAndStyle[StyleCss.ColumnFiltre_from_divInput_selectInputOption]"
                 @bind:get="@selectedFilterOptions[index].ToString()"
                 @bind:set=@((arg) => selectedFilterOptions[index] = (Enum) Enum.Parse(optionsType, arg.ToString()))>

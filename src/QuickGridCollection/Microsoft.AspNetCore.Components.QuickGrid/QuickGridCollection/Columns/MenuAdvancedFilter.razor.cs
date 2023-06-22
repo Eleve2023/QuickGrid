@@ -2,7 +2,7 @@
 
 namespace Microsoft.AspNetCore.Components.QuickGrid.QuickGridCollection.Columns
 {
-    public partial class ColumnFilterAdvenced<TGridItem> : ColumnFiltre<TGridItem>
+    public partial class MenuAdvancedFilter<TGridItem> : MenuFiltre<TGridItem>
     {
         /// <summary>
         /// représente l'index des filtres de la colonne
@@ -13,7 +13,7 @@ namespace Microsoft.AspNetCore.Components.QuickGrid.QuickGridCollection.Columns
         /// </summary>
         private readonly List<bool> showButtonAdd = new() { false };
         /// <summary>
-        /// Quelle opérateur a utilise pour aggregation des filtres de la colonne <see cref="ColumnFiltre{TGridItem}.columnFilterExpressions"/>.
+        /// Quelle opérateur a utilise pour aggregation des filtres de la colonne <see cref="MenuFiltre{TGridItem}.columnFilterExpressions"/>.
         /// </summary>
         private OperatorFilter operatorFilter = OperatorFilter.And;
         /// <summary>

@@ -1,9 +1,7 @@
-﻿using Microsoft.AspNetCore.Components.QuickGrid.QuickGridCollection;
-
-namespace Microsoft.AspNetCore.Components.QuickGrid.QuickGridCollection.Infrastructure
+﻿namespace Microsoft.AspNetCore.Components.QuickGrid.QuickGridCollection.GridCss
 {
     /// <summary>
-    /// Classe permettant de gérer les classes CSS et les styles des éléments HTML de la grille <see cref="Grid{TGridItem}"/>.
+    /// Classe permettant de gérer les classes CSS et les styles des éléments HTML de la grille <see cref="QuickGridC{TGridItem}"/>.
     /// Contient des dictionnaires associant chaque élément HTML à sa classe CSS ou à son style.
     /// </summary>
     public class GridHtmlCssManager
@@ -45,21 +43,21 @@ namespace Microsoft.AspNetCore.Components.QuickGrid.QuickGridCollection.Infrastr
                 { ClassHtml.Column_i_div_Show, "dropdown-content show" },
                 { ClassHtml.Column_i_i_ColumnOptionActive, "grid-option-Acteved" },
                 { ClassHtml.Column_i_i_ColumnOptionNotActive, "grid-option" },
-                { ClassHtml.Column_i_i_ColumnFilterActive, "grid-filter" },
-                { ClassHtml.Column_i_i_ColumnFilterNotActive, "grid-filter" },
-                { ClassHtml.Column_i_i_ColumnFilterAdvenceActive, "grid-filter-advanced-Active" },
-                { ClassHtml.Column_i_i_ColumnFilterAdvenceNotActive, "grid-filter-advanced" },
-                { ClassHtml.ColumnFiltre_from, "" },
-                { ClassHtml.ColumnFiltre_from_divInput, "form-control" },
-                { ClassHtml.ColumnFiltre_from_divInput_selectInputOption, "form-control" },
-                { ClassHtml.ColumnFiltre_from_divInput_selectInputEnumValue, "form-control" },
-                { ClassHtml.ColumnFiltre_from_divInput_inputInputValue, "form-control" },
-                { ClassHtml.ColumnFiltre_from_divAction, "form-control d-grid gap-2 d-md-block" },
-                { ClassHtml.ColumnFiltre_from_divAction_buttonOk, "btn btn-primary" },
-                { ClassHtml.ColumnFiltre_from_divAction_buttonReset, "btn btn-primary" },
-                { ClassHtml.ColumnFiltreAdenced_div, "d-grid gap-2 d-md-flex justify-content-between" },
-                { ClassHtml.ColumnFiltreAdenced_div_button_Operator, "btn btn-primary btn-sm" },
-                { ClassHtml.ColumnFiltreAdenced_div_button_Add, "btn btn-primary btn-sm" },
+                { ClassHtml.Column_i_i_MenuFiltreActive, "grid-filter" },
+                { ClassHtml.Column_i_i_MenuFiltreNotActive, "grid-filter" },
+                { ClassHtml.Column_i_i_MenuAdvancedFilterActive, "grid-filter-advanced-Active" },
+                { ClassHtml.Column_i_i_MenuAdvancedFilterNotActive, "grid-filter-advanced" },
+                { ClassHtml.MenuFiltre_from, "" },
+                { ClassHtml.MenuFiltre_from_divInput, "form-control" },
+                { ClassHtml.MenuFiltre_from_divInput_selectInputOption, "form-control" },
+                { ClassHtml.MenuFiltre_from_divInput_selectInputEnumValue, "form-control" },
+                { ClassHtml.MenuFiltre_from_divInput_inputInputValue, "form-control" },
+                { ClassHtml.MenuFiltre_from_divAction, "form-control d-grid gap-2 d-md-block" },
+                { ClassHtml.MenuFiltre_from_divAction_buttonOk, "btn btn-primary" },
+                { ClassHtml.MenuFiltre_from_divAction_buttonReset, "btn btn-primary" },
+                { ClassHtml.MenuAdvancedFilter_div, "d-grid gap-2 d-md-flex justify-content-between" },
+                { ClassHtml.MenuAdvancedFilter_div_button_Operator, "btn btn-primary btn-sm" },
+                { ClassHtml.MenuAdvancedFilter_div_button_Add, "btn btn-primary btn-sm" },
 
             };
         }
@@ -91,8 +89,8 @@ namespace Microsoft.AspNetCore.Components.QuickGrid.QuickGridCollection.Infrastr
                 { StyleCss.Column_i_i_ColumnOptionNotActive, "" },
                 { StyleCss.Column_i_i_ColumnFilterActive, "" },
                 { StyleCss.Column_i_i_ColumnFilterNotActive, "" },
-                { StyleCss.Column_i_i_ColumnFilterAdvenceActive, "" },
-                { StyleCss.Column_i_i_ColumnFilterAdvenceNotActive, "" },
+                { StyleCss.Column_i_i_MenuAdvancedFilterActive, "" },
+                { StyleCss.Column_i_i_MenuAdvancedFilterNotActive, "" },
                 { StyleCss.ColumnFiltre_from, "" },
                 { StyleCss.ColumnFiltre_from_divInput, "width: max-content;" },
                 { StyleCss.ColumnFiltre_from_divInput_selectInputOption, "" },
@@ -101,9 +99,9 @@ namespace Microsoft.AspNetCore.Components.QuickGrid.QuickGridCollection.Infrastr
                 { StyleCss.ColumnFiltre_from_divAction, "" },
                 { StyleCss.ColumnFiltre_from_divAction_buttonOk, "" },
                 { StyleCss.ColumnFiltre_from_divAction_buttonReset, "" },
-                { StyleCss.ColumnFiltreAdenced_div, "" },
-                { StyleCss.ColumnFiltreAdenced_div_button_Operator, "" },
-                { StyleCss.ColumnFiltreAdenced_div_button_Add, "" },
+                { StyleCss.MenuAdvancedFilter_div, "" },
+                { StyleCss.MenuAdvancedFilter_div_button_Operator, "" },
+                { StyleCss.MenuAdvancedFilter_div_button_Add, "" },
             };
         }
     }

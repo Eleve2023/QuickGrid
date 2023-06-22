@@ -4,14 +4,14 @@ namespace Microsoft.AspNetCore.Components.QuickGrid.QuickGridCollection.Columns
 {
     /// <summary>
     /// Fournit un contexte pour les options de colonne personnalisées
-    /// définies dans la propriété <see cref="Column{TGridItem}.ColumnOptions"/>.    
+    /// définies dans la propriété <see cref="ColumnCBase{TGridItem}.ColumnOptions"/>.    
     /// </summary>
     /// <typeparam name="TGridItem">Le type des éléments de données affichés dans la grille.</typeparam>
     public class ColumnOptionsContext<TGridItem>
     {
-        private readonly Column<TGridItem> column;
+        private readonly ColumnCBase<TGridItem> column;
 
-        public ColumnOptionsContext(Column<TGridItem> column)
+        public ColumnOptionsContext(ColumnCBase<TGridItem> column)
         {
             this.column = column;
         }

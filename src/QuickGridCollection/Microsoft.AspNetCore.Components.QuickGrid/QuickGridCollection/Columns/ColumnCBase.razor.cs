@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.QuickGrid.QuickGridCollection;
+using Microsoft.AspNetCore.Components.QuickGrid.QuickGridCollection.GridCss;
 using Microsoft.AspNetCore.Components.QuickGrid.QuickGridCollection.Infrastructure;
 using Microsoft.AspNetCore.Components.Rendering;
 using System.Linq.Expressions;
@@ -17,12 +18,12 @@ namespace Microsoft.AspNetCore.Components.QuickGrid.QuickGridCollection.Columns
     /// </summary>
     /// <typeparam name="TGridItem">Le type des éléments de données affichés dans la grille.</typeparam>
     [CascadingTypeParameter(nameof(TGridItem))]
-    public abstract partial class Column<TGridItem> : ComponentBase
+    public abstract partial class ColumnCBase<TGridItem> : ComponentBase
     {
         /// <summary>
-        /// Référence à la dernière instance de <see cref="Column{TGridItem}"/> assignée à cette variable.
+        /// Référence à la  dernière instance de <see cref="ColumnCBase{TGridItem}"/> assignée à cette variable.
         /// </summary>
-        private Column<TGridItem>? _lastAssignedColumn;
+        private ColumnCBase<TGridItem>? _lastAssignedColumn;
         /// <summary>
         /// Indique si les options de colonne sont affichées ou masquées.
         /// </summary>
@@ -31,7 +32,7 @@ namespace Microsoft.AspNetCore.Components.QuickGrid.QuickGridCollection.Columns
         /// Indique si la colonne est triable. 
         /// </summary>
         /// <remarks>
-        /// si <see cref="isSortable"/> est définir sur <c>true</c> la <see cref="Column{TGridItem}.PropertyExpression"/> ne doit pas être <c>null</c>
+        /// si <see cref="isSortable"/> est définir sur <c>true</c> la <see cref="ColumnCBase{TGridItem}.PropertyExpression"/> ne doit pas être <c>null</c>
         /// </remarks>
         protected bool isSortable = false;
         /// <summary>
@@ -42,14 +43,14 @@ namespace Microsoft.AspNetCore.Components.QuickGrid.QuickGridCollection.Columns
         /// Indique si la colonne a des options de filtre avancé.
         /// </summary>
         /// <remarks>
-        /// si <see cref="hasAdvancedFilterOptions"/> est définir sur <c>true</c> la <see cref="Column{TGridItem}.PropertyExpression"/> ne doit pas être <c>null</c>
+        /// si <see cref="hasAdvancedFilterOptions"/> est définir sur <c>true</c> la <see cref="ColumnCBase{TGridItem}.PropertyExpression"/> ne doit pas être <c>null</c>
         /// </remarks>
         protected bool hasAdvancedFilterOptions;
         /// <summary>
         /// Indique si la colonne a des options de filtre.        
         /// </summary>
         /// /// <remarks>
-        /// si <see cref="hasFilterOptions"/> est définir sur <c>true</c> la <see cref="Column{TGridItem}.PropertyExpression"/> ne doit pas être <c>null</c>
+        /// si <see cref="hasFilterOptions"/> est définir sur <c>true</c> la <see cref="ColumnCBase{TGridItem}.PropertyExpression"/> ne doit pas être <c>null</c>
         /// </remarks>
         protected bool hasFilterOptions;
         /// <summary>
@@ -65,7 +66,7 @@ namespace Microsoft.AspNetCore.Components.QuickGrid.QuickGridCollection.Columns
         /// </summary>
         protected Expression<Func<TGridItem, object>>? propertyExpression;
 
-        protected Column()
+        protected ColumnCBase()
         {
             HeaderContent = RenderDefaultHeaderContent;
         }
@@ -101,13 +102,13 @@ namespace Microsoft.AspNetCore.Components.QuickGrid.QuickGridCollection.Columns
         /// Indique si la colonne est triable.        
         /// </summary>
         /// /// <remarks>
-        /// si <see cref="IsSortable"/> est définir sur <c>true</c> la <see cref="Column{TGridItem}.PropertyExpression"/> ne doit pas être <c>null</c>
+        /// si <see cref="IsSortable"/> est définir sur <c>true</c> la <see cref="ColumnCBase{TGridItem}.PropertyExpression"/> ne doit pas être <c>null</c>
         /// </remarks>
         internal bool IsSortable { get => isSortable; set => isSortable = value; }
         /// <summary>
-        /// instance de <see cref="Grid{TGridItem}"/>
+        /// instance de <see cref="QuickGridC{TGridItem}"/>
         /// </summary>
-        internal Grid<TGridItem> Grid => InternalGridContext.Grid;
+        internal QuickGridC<TGridItem> Grid => InternalGridContext.Grid;
         /// <summary>
         /// Objet permettant de gérer les classes CSS et les styles des éléments HTML de la grille.
         /// </summary>
@@ -120,7 +121,7 @@ namespace Microsoft.AspNetCore.Components.QuickGrid.QuickGridCollection.Columns
         /// Nombre maximum de filtres à applique pour cette colonne. La valeur par défaut est 5, La valeur minimal est 2
         /// </summary>
         /// <remarks>
-        /// Cette propriété est utilise par <see cref="ColumnFilterAdvenced{TGridItem}"/>
+        /// Cette propriété est utilise par <see cref="MenuAdvancedFilter{TGridItem}"/>
         /// </remarks>
         internal int MaxFilters
         {
@@ -197,13 +198,13 @@ namespace Microsoft.AspNetCore.Components.QuickGrid.QuickGridCollection.Columns
             }
             else if (hasAdvancedFilterOptions)
             {
-                return optionApplied ? ClassAndStyle[ClassHtml.Column_i_i_ColumnFilterAdvenceActive] :
-                    ClassAndStyle[ClassHtml.Column_i_i_ColumnFilterAdvenceNotActive];
+                return optionApplied ? ClassAndStyle[ClassHtml.Column_i_i_MenuAdvancedFilterActive] :
+                    ClassAndStyle[ClassHtml.Column_i_i_MenuAdvancedFilterNotActive];
             }
             else if (hasFilterOptions)
             {
-                return optionApplied ? ClassAndStyle[ClassHtml.Column_i_i_ColumnFilterActive] :
-                    ClassAndStyle[ClassHtml.Column_i_i_ColumnFilterNotActive];
+                return optionApplied ? ClassAndStyle[ClassHtml.Column_i_i_MenuFiltreActive] :
+                    ClassAndStyle[ClassHtml.Column_i_i_MenuFiltreNotActive];
             }
             else
                 return "";
@@ -220,8 +221,8 @@ namespace Microsoft.AspNetCore.Components.QuickGrid.QuickGridCollection.Columns
             }
             else if (hasAdvancedFilterOptions)
             {
-                return optionApplied ? ClassAndStyle[StyleCss.Column_i_i_ColumnFilterAdvenceActive] :
-                    ClassAndStyle[StyleCss.Column_i_i_ColumnFilterAdvenceNotActive];
+                return optionApplied ? ClassAndStyle[StyleCss.Column_i_i_MenuAdvancedFilterActive] :
+                    ClassAndStyle[StyleCss.Column_i_i_MenuAdvancedFilterNotActive];
             }
             else if (hasFilterOptions)
             {

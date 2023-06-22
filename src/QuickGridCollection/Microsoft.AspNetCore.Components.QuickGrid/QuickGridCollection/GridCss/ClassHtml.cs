@@ -1,6 +1,6 @@
-﻿namespace Microsoft.AspNetCore.Components.QuickGrid.QuickGridCollection.Infrastructure
+﻿namespace Microsoft.AspNetCore.Components.QuickGrid.QuickGridCollection.GridCss
 {
-    public enum StyleCss
+    public enum ClassHtml
     {
         /// <summary>
         /// La div qui enveloppe table
@@ -41,29 +41,29 @@
         /// <summary>
         /// Si les options de la colonne sont applique.
         /// </summary>
-        Column_i_i_ColumnFilterActive,
+        Column_i_i_MenuFiltreActive,
         /// <summary>
         /// Si les options de la colonne ne sont pas applique.
         /// </summary>
-        Column_i_i_ColumnFilterNotActive,
+        Column_i_i_MenuFiltreNotActive,
         /// <summary>
         /// Si les options de la colonne sont applique.
         /// </summary>
-        Column_i_i_ColumnFilterAdvenceActive,
+        Column_i_i_MenuAdvancedFilterActive,
         /// <summary>
         /// Si les options de la colonne ne sont pas applique.
         /// </summary>
-        Column_i_i_ColumnFilterAdvenceNotActive,
-        ColumnFiltre_from,
-        ColumnFiltre_from_divInput,
-        ColumnFiltre_from_divInput_selectInputOption,
-        ColumnFiltre_from_divInput_selectInputEnumValue,
-        ColumnFiltre_from_divInput_inputInputValue,
-        ColumnFiltre_from_divAction,
-        ColumnFiltre_from_divAction_buttonOk,
-        ColumnFiltre_from_divAction_buttonReset,
-        ColumnFiltreAdenced_div,
-        ColumnFiltreAdenced_div_button_Operator,
-        ColumnFiltreAdenced_div_button_Add,
+        Column_i_i_MenuAdvancedFilterNotActive,
+        MenuFiltre_from,
+        MenuFiltre_from_divInput,
+        MenuFiltre_from_divInput_selectInputOption,
+        MenuFiltre_from_divInput_selectInputEnumValue,
+        MenuFiltre_from_divInput_inputInputValue,
+        MenuFiltre_from_divAction,
+        MenuFiltre_from_divAction_buttonOk,
+        MenuFiltre_from_divAction_buttonReset,
+        MenuAdvancedFilter_div,
+        MenuAdvancedFilter_div_button_Operator,
+        MenuAdvancedFilter_div_button_Add,
     }
 }

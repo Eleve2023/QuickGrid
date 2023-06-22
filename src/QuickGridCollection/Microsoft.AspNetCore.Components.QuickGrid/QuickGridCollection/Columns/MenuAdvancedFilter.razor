@@ -2,10 +2,11 @@
 @using Microsoft.AspNetCore.Components.Web
 @using System.Linq.Expressions;
 @using Microsoft.AspNetCore.Components.QuickGrid.QuickGridCollection.Infrastructure;
+@using Microsoft.AspNetCore.Components.QuickGrid.QuickGridCollection.GridCss;
 
 @namespace Microsoft.AspNetCore.Components.QuickGrid.QuickGridCollection.Columns
 @typeparam TGridItem
-@inherits ColumnFiltre<TGridItem>
+@inherits MenuFiltre<TGridItem>
 
 @RenderFragment
 
@@ -15,14 +16,14 @@
     {
         this.index = index;
 
-        <div class="@ClassAndStyle[ClassHtml.ColumnFiltreAdenced_div]" style="@ClassAndStyle[StyleCss.ColumnFiltreAdenced_div]">
+        <div class="@ClassAndStyle[ClassHtml.MenuAdvancedFilter_div]" style="@ClassAndStyle[StyleCss.MenuAdvancedFilter_div]">
 
             @if (index < MaxFilters - 1)
             {
                 bool disabled = !showButtonAdd[index];
 
-                <button class="@ClassAndStyle[ClassHtml.ColumnFiltreAdenced_div_button_Operator]"
-                        style="@ClassAndStyle[StyleCss.ColumnFiltreAdenced_div_button_Operator]"
+                <button class="@ClassAndStyle[ClassHtml.MenuAdvancedFilter_div_button_Operator]"
+                        style="@ClassAndStyle[StyleCss.MenuAdvancedFilter_div_button_Operator]"
                         @onclick="ToggleOperatorFilter">
                     @if (operatorFilter == OperatorFilter.And)
                     {
@@ -33,8 +34,8 @@
                         <strong>Or</strong> <text> -> And</text>
                     }
                 </button>
-                <button class="@ClassAndStyle[ClassHtml.ColumnFiltreAdenced_div_button_Add]"
-                        style="@ClassAndStyle[StyleCss.ColumnFiltreAdenced_div_button_Add]"
+                <button class="@ClassAndStyle[ClassHtml.MenuAdvancedFilter_div_button_Add]"
+                        style="@ClassAndStyle[StyleCss.MenuAdvancedFilter_div_button_Add]"
                         disabled="@disabled" @onclick="AddOptionFilter">
                     ADD
                 </button>

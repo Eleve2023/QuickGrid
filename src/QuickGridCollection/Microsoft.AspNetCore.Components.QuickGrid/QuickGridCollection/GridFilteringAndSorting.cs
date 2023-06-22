@@ -4,8 +4,8 @@ using System.Linq.Expressions;
 namespace Microsoft.AspNetCore.Components.QuickGrid.QuickGridCollection
 {
     /// <summary>
-    /// La structure <see cref="GridFilteringAndSorting{TGridItem}"/> est un type générique qui prend un paramètre de type <c>TGridItem</c> est le même typeparam que <see cref="Grid{TGridItem}"/>.
-    /// Elle est utilisée par un composant <see cref="Grid{TGridItem}"/> via la propriété <see cref="Grid{TGridItem}.FilterSortChanged"/>.
+    /// La structure <see cref="GridFilteringAndSorting{TGridItem}"/> est un type générique qui prend un paramètre de type <c>TGridItem</c> est le même typeparam que <see cref="QuickGridC{TGridItem}"/>.
+    /// Elle est utilisée par un composant <see cref="QuickGridC{TGridItem}"/> via la propriété <see cref="QuickGridC{TGridItem}.FilterSortChanged"/>.
     /// Cette propriété est de type <see cref="EventCallback{GridFilteringAndSorting{TGridItem}}"/>,
     /// ce qui signifie qu'elle peut être utilisée pour déclencher un événement lorsque les filtres ou l'ordre de la grille changent.
     /// <para>

@@ -7,18 +7,18 @@ using System.Reflection;
 namespace Microsoft.AspNetCore.Components.QuickGrid.QuickGridCollection.Columns
 {
     ///<summary>
-    /// La classe <see cref="PropertyColumn{TGridItem, TProp}"/> hérite de la classe <see cref="Column{TGridItem}"/> et représente une colonne de propriété dans un tableau.
+    /// La classe <see cref="PropertyColumnC{TGridItem, TProp}"/> hérite de la classe <see cref="ColumnCBase{TGridItem}"/> et représente une colonne de propriété dans un tableau.
     ///</summary>
     ///<typeparam name="TGridItem">Le type des éléments de données affichés dans la grille.</typeparam>
     ///<typeparam name="TProp">Le type de la propriété.</typeparam>
-    public partial class PropertyColumn<TGridItem, TProp> : Column<TGridItem>
+    public partial class PropertyColumnC<TGridItem, TProp> : ColumnCBase<TGridItem>
     {
         ///<summary>
         /// Fonction pour obtenir le texte de la cellule.
         ///</summary>
         private Func<TGridItem, string?>? _cellTextFunc;
 
-        public PropertyColumn()
+        public PropertyColumnC()
         {
             isSortable = true;
             hasFilterOptions = true;
@@ -43,21 +43,21 @@ namespace Microsoft.AspNetCore.Components.QuickGrid.QuickGridCollection.Columns
         /// </para> 
         ///</summary>
         ///<remarks>
-        /// Remarque: si <see cref="PropertyColumn{TGridItem, TProp}.HasAdvancedFilterOptions"/> est défini sur <c>true</c>, <see cref="PropertyColumn{TGridItem, TProp}.HasFilterOptions"/> sera défini sur <c>false</c>.
+        /// Remarque: si <see cref="PropertyColumnC{TGridItem, TProp}.HasAdvancedFilterOptions"/> est défini sur <c>true</c>, <see cref="PropertyColumnC{TGridItem, TProp}.HasFilterOptions"/> sera défini sur <c>false</c>.
         ///</remarks>
         [Parameter] public bool HasFilterOptions { get => hasFilterOptions; set => hasFilterOptions = value; }
         ///<summary>
         /// Indique si la colonne a des options de filtre avancées.
         ///</summary>
         ///<remarks>
-        /// Remarque: si <see cref="PropertyColumn{TGridItem, TProp}.HasAdvancedFilterOptions"/> est défini sur <c>true</c>, <see cref="PropertyColumn{TGridItem, TProp}.HasFilterOptions"/> sera défini sur <c>false</c>.
+        /// Remarque: si <see cref="PropertyColumnC{TGridItem, TProp}.HasAdvancedFilterOptions"/> est défini sur <c>true</c>, <see cref="PropertyColumnC{TGridItem, TProp}.HasFilterOptions"/> sera défini sur <c>false</c>.
         ///</remarks>
         [Parameter] public bool HasAdvancedFilterOptions { get => hasAdvancedFilterOptions; set => hasAdvancedFilterOptions = value; }
         /// <summary>
         /// Nombre maximum de filtres à applique pour cette colonne. La valeur par défaut est 5 et La valeur minimal est 2.
         /// </summary>
         /// <remarks>
-        /// Cette propriété est utilise si <see cref="PropertyColumn{TGridItem, TProp}.HasAdvancedFilterOptions"/> est définir sur <c>True</c>
+        /// Cette propriété est utilise si <see cref="PropertyColumnC{TGridItem, TProp}.HasAdvancedFilterOptions"/> est définir sur <c>True</c>
         /// </remarks>
         [Parameter]
         public new int MaxFilters

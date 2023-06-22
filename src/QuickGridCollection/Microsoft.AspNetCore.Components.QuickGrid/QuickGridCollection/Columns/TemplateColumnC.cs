@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Components.Rendering;
 
 namespace Microsoft.AspNetCore.Components.QuickGrid.QuickGridCollection.Columns
 {
-    public class TemplateColumn<TGridItem> : Column<TGridItem>
+    public class TemplateColumnC<TGridItem> : ColumnCBase<TGridItem>
     {
         private static readonly RenderFragment<TGridItem> EmptyChildContent = _ => builder => { };
 

@@ -16,12 +16,12 @@
 }
 else
 {
-    <Grid TGridItem="WeatherForecast" Items="@forecasts" FilterSortChanged="FilterSortChanged">
-        <PropertyColumn Property="@(e => e.Date)" />
-        <PropertyColumn Property="@(e => e.TemperatureC)" Title="Temp. (C)" />
-        <PropertyColumn Property="@(e => e.TemperatureF)" Title="Temp. (F)" />
-        <PropertyColumn Property="@(e => e.Summary)" />
-    </Grid>
+    <QuickGridC TGridItem="WeatherForecast" Items="@forecasts" FilterSortChanged="FilterSortChanged">
+        <PropertyColumnC Property="@(e => e.Date)" />
+        <PropertyColumnC Property="@(e => e.TemperatureC)" Title="Temp. (C)" />
+        <PropertyColumnC Property="@(e => e.TemperatureF)" Title="Temp. (F)" />
+        <PropertyColumnC Property="@(e => e.Summary)" />
+    </QuickGridC>
 }
 
 @code {
@@ -34,14 +34,15 @@ else
     }
     private void FilterSortChanged(GridFilteringAndSorting<WeatherForecast> filteringAndSorting)
     {
+        IQueryable<WeatherForecast> queryable = Originalforecasts.AsQueryable();
         if(filteringAndSorting.WhereIsNotNullAndEmpty())
         {
-            forecasts =  Originalforecasts.AsQueryable().Where(filteringAndSorting.Where[0]).ToArray();
+            queryable =  Originalforecasts.AsQueryable().Where(filteringAndSorting.Where[0]);
         }
-        else
+        if(filteringAndSorting.ValuesIsNotNullAndEmpty())
         {
-            forecasts = Originalforecasts.ToArray();
+            queryable = filteringAndSorting.GetQueryableSorting(queryable);
         }
-
+        forecasts = queryable.ToArray();
     }
 }

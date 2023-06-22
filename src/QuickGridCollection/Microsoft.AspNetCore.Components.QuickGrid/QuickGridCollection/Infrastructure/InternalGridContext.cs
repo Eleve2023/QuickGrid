@@ -6,11 +6,11 @@ namespace Microsoft.AspNetCore.Components.QuickGrid.QuickGridCollection.Infrastr
     {
         internal bool IsFirstRender { get; set; } = true;
 
-        public InternalGridContext(Grid<TGridItem> grid)
+        public InternalGridContext(QuickGridC<TGridItem> grid)
         {
             Grid = grid;
         }
 
-        public Grid<TGridItem> Grid { get; }
+        public QuickGridC<TGridItem> Grid { get; }
     }
 }

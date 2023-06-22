@@ -1,6 +1,6 @@
-﻿namespace Microsoft.AspNetCore.Components.QuickGrid.QuickGridCollection.Infrastructure
+﻿namespace Microsoft.AspNetCore.Components.QuickGrid.QuickGridCollection.GridCss
 {
-    public enum ClassHtml
+    public enum StyleCss
     {
         /// <summary>
         /// La div qui enveloppe table
@@ -49,11 +49,11 @@
         /// <summary>
         /// Si les options de la colonne sont applique.
         /// </summary>
-        Column_i_i_ColumnFilterAdvenceActive,
+        Column_i_i_MenuAdvancedFilterActive,
         /// <summary>
         /// Si les options de la colonne ne sont pas applique.
         /// </summary>
-        Column_i_i_ColumnFilterAdvenceNotActive,
+        Column_i_i_MenuAdvancedFilterNotActive,
         ColumnFiltre_from,
         ColumnFiltre_from_divInput,
         ColumnFiltre_from_divInput_selectInputOption,
@@ -62,8 +62,8 @@
         ColumnFiltre_from_divAction,
         ColumnFiltre_from_divAction_buttonOk,
         ColumnFiltre_from_divAction_buttonReset,
-        ColumnFiltreAdenced_div,
-        ColumnFiltreAdenced_div_button_Operator,
-        ColumnFiltreAdenced_div_button_Add,
+        MenuAdvancedFilter_div,
+        MenuAdvancedFilter_div_button_Operator,
+        MenuAdvancedFilter_div_button_Add,
     }
 }

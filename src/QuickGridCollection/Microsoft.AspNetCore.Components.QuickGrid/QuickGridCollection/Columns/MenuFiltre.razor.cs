@@ -1,11 +1,11 @@
 ﻿using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.QuickGrid.QuickGridCollection;
-using Microsoft.AspNetCore.Components.QuickGrid.QuickGridCollection.Infrastructure;
+using Microsoft.AspNetCore.Components.QuickGrid.QuickGridCollection.GridCss;
 using System.Linq.Expressions;
 
 namespace Microsoft.AspNetCore.Components.QuickGrid.QuickGridCollection.Columns
 {
-    public partial class ColumnFiltre<TGridItem> : ComponentBase
+    public partial class MenuFiltre<TGridItem> : ComponentBase
     {
         /// <summary>
         /// Cette chaîne de caractères contient le type d'entrée HTML à utiliser pour les champs de saisie du formulaire de recherche.
@@ -15,16 +15,16 @@ namespace Microsoft.AspNetCore.Components.QuickGrid.QuickGridCollection.Columns
         private string htmlInputType = string.Empty;
         /// <summary>
         /// Obtient ou définit une valeur indiquant si le filtre est appliqué.
-        /// Cette propriété est utilisée pour empêcher le déclenchement de l'événement <see cref="Grid{TGridItem}.FilterSortChanged"/> dans la méthode <see cref="ResetColumnFilters"/> si la méthode <see cref="ApplyFilters"/> n'a pas été appelée auparavant.
+        /// Cette propriété est utilisée pour empêcher le déclenchement de l'événement <see cref="QuickGridC{TGridItem}.FilterSortChanged"/> dans la méthode <see cref="ResetColumnFilters"/> si la méthode <see cref="ApplyFilters"/> n'a pas été appelée auparavant.
         /// </summary>
         private bool filterApplied;
         /// <summary>
-        /// Ce champ est utilisé par la classe <see cref="ColumnFilterAdvenced{TGridItem}"/> pour indiquer le nombre de filtres ajoutés dans la colonne.
+        /// Ce champ est utilisé par la classe <see cref="MenuAdvancedFilter{TGridItem}"/> pour indiquer le nombre de filtres ajoutés dans la colonne.
         /// </summary>
         protected int columnFilterAdditions;
         /// <summary>
         /// Cette liste contient les objets qui correspondent aux champs de saisie du formulaire de recherche.
-        /// Elle est utilisée par la classe <see cref="ColumnFilterAdvenced{TGridItem}"/> pour gérer le nombre d'ajouts de filtres dans la colonne.
+        /// Elle est utilisée par la classe <see cref="MenuAdvancedFilter{TGridItem}"/> pour gérer le nombre d'ajouts de filtres dans la colonne.
         /// </summary>
         protected List<object> filterValues = new() { string.Empty };
         /// <summary>
@@ -48,17 +48,17 @@ namespace Microsoft.AspNetCore.Components.QuickGrid.QuickGridCollection.Columns
         /// <summary>
         /// Cette liste contient les expressions lambda générées à partir des options de filtre sélectionnées dans le formulaire de recherche.
         /// Les expressions sont créées en utilisant les valeurs contenues dans la propriété <see cref="filterValues"/> et les options de filtre sélectionnées.
-        /// la List est utilisée par la classe <see cref="ColumnFilterAdvenced{TGridItem}"/> pour gérer le nombre d'ajouts de filtres dans la colonne.
+        /// la List est utilisée par la classe <see cref="MenuAdvancedFilter{TGridItem}"/> pour gérer le nombre d'ajouts de filtres dans la colonne.
         /// </summary>
         protected List<Expression<Func<TGridItem, bool>>>? columnFilterExpressions;
 
-        [CascadingParameter] public Column<TGridItem> Column { get; set; } = default!;
+        [CascadingParameter] public ColumnCBase<TGridItem> Column { get; set; } = default!;
 
         protected RenderFragment RenderFragment => FromRender;
         /// <summary>
-        /// Une instance de la grille <see cref="Grid{TGridItem}"/>
+        /// Une instance de la grille <see cref="QuickGridC{TGridItem}"/>
         /// </summary>
-        protected Grid<TGridItem> Grid => Column.Grid;
+        protected QuickGridC<TGridItem> Grid => Column.Grid;
         /// <summary>
         /// Type de la propriété de la colonne.
         /// </summary>        
@@ -70,7 +70,7 @@ namespace Microsoft.AspNetCore.Components.QuickGrid.QuickGridCollection.Columns
         protected GridHtmlCssManager ClassAndStyle => Column.ClassAndStyle;
         /// <summary>
         /// Obtient ou définit une valeur indiquant si le filtre est appliqué.
-        /// Cette propriété est utilisée pour empêcher le déclenchement de l'événement <see cref="Grid{TGridItem}.FilterSortChanged"/> dans la méthode <see cref="ResetColumnFilters"/> si la méthode <see cref="ApplyFilters"/> n'a pas été appelée auparavant.
+        /// Cette propriété est utilisée pour empêcher le déclenchement de l'événement <see cref="QuickGridC{TGridItem}.FilterSortChanged"/> dans la méthode <see cref="ResetColumnFilters"/> si la méthode <see cref="ApplyFilters"/> n'a pas été appelée auparavant.
         /// </summary>
         private bool FilterApplied { get => filterApplied; set => Column.OptionApplied = filterApplied = value; }
 
@@ -194,7 +194,7 @@ namespace Microsoft.AspNetCore.Components.QuickGrid.QuickGridCollection.Columns
         }
         /// <summary>
         /// Cette méthode réinitialise les options de filtre sélectionnées dans le formulaire de recherche et supprime les expressions de filtre de la colonne.
-        /// Si un filtre a été appliqué précédemment, il est supprimé de la grille <see cref="Grid{TGridItem}.columnFilters"/>.
+        /// Si un filtre a été appliqué précédemment, il est supprimé de la grille <see cref="QuickGridC{TGridItem}.columnFilters"/>.
         /// </summary>
         protected void ResetColumnFilters()
         {
