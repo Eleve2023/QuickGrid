@@ -129,21 +129,6 @@ namespace Microsoft.AspNetCore.Components.QuickGrid.QuickGridCollection
                 _ => throw new NotImplementedException(),
             };
             return Expression.Lambda<Func<TGridItem, T>>(expression, parameter);
-            //var parameter = Expression.Parameter(typeof(TGridItem), "x");
-            //List<ParameterExpression> parameters = new();
-            //foreach (var item in expressions)
-            //{
-            //    parameters.AddRange(item.Parameters);
-            //}
-            //Expression expression = expressionType switch
-            //{
-            //    ExpressionType.AndAlso => expressions.Select(e => e.Body).Aggregate(Expression.AndAlso),
-            //    ExpressionType.OrElse => expressions.Select(e => e.Body).Aggregate(Expression.OrElse),
-            //    ExpressionType.And => expressions.Select(e => e.Body).Aggregate(Expression.And),
-            //    ExpressionType.AndAssign => expressions.Select(e => e.Body).Aggregate(Expression.AndAssign),
-            //    _ => throw new NotImplementedException(),
-            //};
-            //return Expression.Lambda<Func<TGridItem, T>>(expression, expressions.First().Parameters);
         }
     }
 }
