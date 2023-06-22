@@ -81,8 +81,10 @@ namespace Microsoft.AspNetCore.Components.QuickGrid.QuickGridCollection.Columns
             {
                 Type t when t == typeof(string) =>
                             (typeof(OptionFiltreString), new List<Enum>() { OptionFiltreString.Contains }, "text"),
-                Type t when t == typeof(DateTime) || t == typeof(DateTimeOffset) || t == typeof(DateOnly) =>
+                Type t when t == typeof(DateTime) || t == typeof(DateTimeOffset) =>
                             (typeof(OptionFiltreData), new() { OptionFiltreData.Equal }, "datetime-local"),
+                Type t when t == typeof(DateOnly) =>
+                            (typeof(OptionFiltreData), new() { OptionFiltreData.Equal }, "date"),
                 Type t when t == typeof(TimeOnly) || t == typeof(TimeSpan) =>
                             (typeof(OptionFiltreData), new() { OptionFiltreData.Equal }, "time"),
                 Type t when t == typeof(bool) =>
@@ -269,8 +271,11 @@ namespace Microsoft.AspNetCore.Components.QuickGrid.QuickGridCollection.Columns
                 object? objectConverted;
                 if (TypeOfProperty.IsEnum)
                     objectConverted = Enum.Parse(TypeOfProperty, (string)objValue);
+                else if (TypeOfProperty == typeof(DateOnly))
+                    objectConverted = DateOnly.Parse((string)objValue);
                 else
                     objectConverted = Convert.ChangeType(objValue, TypeOfProperty);
+
                 var parameter = Expression.Parameter(typeof(TGridItem), "x");
                 var property = Expression.Property(parameter, memberExp.Member.Name);
 
