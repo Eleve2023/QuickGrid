@@ -1,0 +1,47 @@
+﻿@page "/fetchdata"
+@using Microsoft.AspNetCore.Components.QuickGrid.QuickGridCollection
+@using Microsoft.AspNetCore.Components.QuickGrid.QuickGridCollection.Columns
+@using SimpeQuickGrid.Data
+@inject WeatherForecastService ForecastService
+
+<PageTitle>Weather forecast</PageTitle>
+
+<h1>Weather forecast</h1>
+
+<p>This component demonstrates fetching data from a service.</p>
+
+@if (forecasts == null)
+{
+    <p><em>Loading...</em></p>
+}
+else
+{
+    <Grid TGridItem="WeatherForecast" Items="@forecasts" FilterSortChanged="FilterSortChanged">
+        <PropertyColumn Property="@(e => e.Date)" />
+        <PropertyColumn Property="@(e => e.TemperatureC)" Title="Temp. (C)" />
+        <PropertyColumn Property="@(e => e.TemperatureF)" Title="Temp. (F)" />
+        <PropertyColumn Property="@(e => e.Summary)" />
+    </Grid>
+}
+
+@code {
+    private WeatherForecast[]? forecasts;    
+    private WeatherForecast[]? Originalforecasts;
+    protected override async Task OnInitializedAsync()
+    {
+        forecasts = await ForecastService.GetForecastAsync(DateOnly.FromDateTime(DateTime.Now));
+        Originalforecasts = forecasts.ToArray();
+    }
+    private void FilterSortChanged(GridFilteringAndSorting<WeatherForecast> filteringAndSorting)
+    {
+        if(filteringAndSorting.WhereIsNotNullAndEmpty())
+        {
+            forecasts =  Originalforecasts.AsQueryable().Where(filteringAndSorting.Where[0]).ToArray();
+        }
+        else
+        {
+            forecasts = Originalforecasts.ToArray();
+        }
+
+    }
+}

@@ -64,14 +64,14 @@ namespace Microsoft.AspNetCore.Components.QuickGrid.QuickGridCollection
                 return true;
             else return false;
         }
-        public readonly IQueryable<TGridItem> GetQueryableWhithWere(IQueryable<TGridItem> queryable)
+        public readonly IQueryable<TGridItem>? GetQueryableWhithWere(IQueryable<TGridItem> queryable)
         {
             var expression = GetWhereAggregateAnd();
             if (expression != null)
-                queryable.Where(expression);
-            return queryable;
+                return queryable.Where(expression);
+            return null;
         }
-        public readonly IOrderedQueryable<TGridItem> GetQueryableSorting(IQueryable<TGridItem> queryable)
+        public readonly IOrderedQueryable<TGridItem>? GetQueryableSorting(IQueryable<TGridItem> queryable)
         {
             IOrderedQueryable<TGridItem> query = queryable.Order();
             if (ValuesIsNotNullAndEmpty())
@@ -88,13 +88,19 @@ namespace Microsoft.AspNetCore.Components.QuickGrid.QuickGridCollection
                     if (sort == SortedLinq.ThenByDescending)
                         query = query.ThenByDescending(exp);
                 }
+                return query;
             }
-            return query;
+            return null;
         }
         public IQueryable<TGridItem> GetQuerable(IQueryable<TGridItem> queryable)
         {
-            queryable = GetQueryableWhithWere(queryable);
-            return GetQueryableSorting(queryable);
+            var q = GetQueryableWhithWere(queryable);
+            if (q != null)
+                queryable = q;
+            var oq = GetQueryableSorting(queryable);
+            if (oq != null)
+                queryable = oq;
+            return queryable;
         }
         public readonly Expression<Func<TGridItem, bool>>? GetWhereAggregateAnd()
         {

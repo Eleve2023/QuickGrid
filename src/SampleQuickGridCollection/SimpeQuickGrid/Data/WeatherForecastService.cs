@@ -1,4 +1,4 @@
-namespace Microsoft.AspNetCore.Components.QuickGrid.Data
+namespace SimpeQuickGrid.Data
 {
     public class WeatherForecastService
     {

@@ -1,6 +1,6 @@
 using Microsoft.AspNetCore.Components;
-using Microsoft.AspNetCore.Components.QuickGrid.Data;
 using Microsoft.AspNetCore.Components.Web;
+using SimpeQuickGrid.Data;
 
 var builder = WebApplication.CreateBuilder(args);
 
