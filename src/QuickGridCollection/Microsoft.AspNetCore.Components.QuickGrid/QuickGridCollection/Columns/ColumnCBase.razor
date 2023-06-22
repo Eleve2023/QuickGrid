@@ -33,11 +33,11 @@
                             <CascadingValue TValue="ColumnCBase<TGridItem>" Value="_lastAssignedColumn" IsFixed=true>
                                 @if (hasAdvancedFilterOptions)
                                 {                                   
-                                    <ColumnFilterAdvenced TGridItem="TGridItem" />
+                                    <MenuAdvancedFilter TGridItem="TGridItem" />
                                 }
                                 else if (hasFilterOptions)
                                 {
-                                    <ColumnFiltre TGridItem="TGridItem" />
+                                    <MenuFiltre TGridItem="TGridItem" />
                                 }
                             </CascadingValue>
                         }
