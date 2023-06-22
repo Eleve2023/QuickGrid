@@ -235,7 +235,7 @@ namespace Microsoft.AspNetCore.Components.QuickGrid.QuickGridCollection.Columns
                 return "";
         }
         /// <summary>
-        /// Résout la Style CSS pour les options de colonne.
+        /// Résout le Style CSS pour les options de colonne.
         /// </summary>
         private string GetColumnOptionCssStyle()
         {
@@ -257,10 +257,18 @@ namespace Microsoft.AspNetCore.Components.QuickGrid.QuickGridCollection.Columns
             else
                 return "";
         }
+        /// <summary>
+        /// Obtient la classe CSS correspondant à la direction de tri du cette colonne.
+        /// Utilise le dictionnaire <see cref="QuickGridC{TGridItem}.sortDirectionCssClasses"/> pour associer chaque direction de tri à sa classe CSS correspondante.
+        /// </summary>
         private string GetSortClass()
         {
             return Grid.GetSortClass(_lastAssignedColumn!);
         }
+        /// <summary>
+        /// Obtient la Style CSS correspondant à la direction de tri du cette colonne.
+        /// Utilise le dictionnaire <see cref="QuickGridC{TGridItem}.sortDirectionCssClasses"/> pour associer chaque direction de tri à sa classe CSS correspondante.
+        /// </summary>
         private string GetSortStyle()
         {
             return Grid.GetSortStyle(_lastAssignedColumn!);
