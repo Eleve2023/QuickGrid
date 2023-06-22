@@ -3,7 +3,7 @@ using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.Reflection;
 
-namespace RazorClassLibrary.DataGrid.Columns
+namespace Microsoft.AspNetCore.Components.QuickGrid.QuickGridCollection.Columns
 {
     // doit être déplace verre un autre Project d'extension, si le développeur veux utilise DataAnnotation il devrai téléchargé extension
     public partial class PropertyColumn<TGridItem, TProp>

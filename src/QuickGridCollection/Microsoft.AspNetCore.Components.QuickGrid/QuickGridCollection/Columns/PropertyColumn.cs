@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Components.Rendering;
 using System.Linq.Expressions;
 using System.Reflection;
 
-namespace RazorClassLibrary.DataGrid.Columns
+namespace Microsoft.AspNetCore.Components.QuickGrid.QuickGridCollection.Columns
 {
     ///<summary>
     /// La classe <see cref="PropertyColumn{TGridItem, TProp}"/> hérite de la classe <see cref="Column{TGridItem}"/> et représente une colonne de propriété dans un tableau.
