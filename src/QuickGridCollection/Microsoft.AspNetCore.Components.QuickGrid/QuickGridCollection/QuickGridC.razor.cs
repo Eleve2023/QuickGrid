@@ -166,7 +166,7 @@ namespace Microsoft.AspNetCore.Components.QuickGrid.QuickGridCollection
         }
         /// <summary>
         /// Trie les données de la grille en fonction de la colonne spécifiée.
-        /// Met à jour les listes orderBy <see cref="QuickGridC{TGridItem}.columnsSortedAscending"/> et orderByDesc <see cref="QuickGridC{TGridItem}.columnsSortedDescending"/> en fonction de la nouvelle direction de tri.
+        /// Met à jour la liste <see cref="QuickGridC{TGridItem}.columnsSorted"/> en fonction de la nouvelle direction de tri.
         /// Met également à jour la direction de tri dans le dictionnaire <see cref="QuickGridC{TGridItem}.columnSortDirections"/>.
         /// </summary>
         internal async void ApplySort(ColumnCBase<TGridItem> column)
@@ -229,7 +229,7 @@ namespace Microsoft.AspNetCore.Components.QuickGrid.QuickGridCollection
         }
         /// <summary>
         /// Obtient la classe CSS correspondant à la direction de tri d'une colonne.
-        /// Utilise le dictionnaire sortClassValues <see cref="QuickGridC{TGridItem}.sortDirectionCssClasses"/> pour associer chaque direction de tri à sa classe CSS correspondante.
+        /// Utilise le dictionnaire <see cref="QuickGridC{TGridItem}.sortDirectionCssClasses"/> pour associer chaque direction de tri à sa classe CSS correspondante.
         /// </summary>
         internal string GetSortClass(ColumnCBase<TGridItem> column)
         {
@@ -241,7 +241,7 @@ namespace Microsoft.AspNetCore.Components.QuickGrid.QuickGridCollection
         }
         /// <summary>
         /// Obtient la Style CSS correspondant à la direction de tri d'une colonne.
-        /// Utilise le dictionnaire sortClassValues <see cref="QuickGridC{TGridItem}.sortDirectionCssClasses"/> pour associer chaque direction de tri à sa classe CSS correspondante.
+        /// Utilise le dictionnaire <see cref="QuickGridC{TGridItem}.sortDirectionCssClasses"/> pour associer chaque direction de tri à sa classe CSS correspondante.
         /// </summary>
         internal string GetSortStyle(ColumnCBase<TGridItem> column)
         {

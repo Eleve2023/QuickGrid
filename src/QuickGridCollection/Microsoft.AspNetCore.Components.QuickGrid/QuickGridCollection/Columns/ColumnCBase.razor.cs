@@ -161,6 +161,16 @@ namespace Microsoft.AspNetCore.Components.QuickGrid.QuickGridCollection.Columns
         {
             Grid.AddColumn(_lastAssignedColumn = this);
         }
+
+        /// <summary>
+        /// Trie les données de la grille.
+        /// Met à jour la liste <see cref="QuickGridC{TGridItem}.columnsSorted"/> en fonction de la nouvelle direction de tri.
+        /// Met également à jour la direction de tri dans le dictionnaire <see cref="QuickGridC{TGridItem}.columnSortDirections"/>.
+        /// </summary>
+        internal void ApplySort()
+        {
+            Grid.ApplySort(_lastAssignedColumn!);
+        }
         /// <summary>
         /// Définit l'expression de propriété et le type de propriété pour la colonne.
         /// </summary>
@@ -247,18 +257,13 @@ namespace Microsoft.AspNetCore.Components.QuickGrid.QuickGridCollection.Columns
             else
                 return "";
         }
-        internal void ApplySort()
-        {
-            Grid.ApplySort(_lastAssignedColumn!);
-        }
-        internal string GetSortClass()
+        private string GetSortClass()
         {
             return Grid.GetSortClass(_lastAssignedColumn!);
         }
-        internal string GetSortStyle()
+        private string GetSortStyle()
         {
             return Grid.GetSortStyle(_lastAssignedColumn!);
         }
-
     }
 }
