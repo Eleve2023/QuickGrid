@@ -17,6 +17,9 @@
         }
         else
         {
+            <i id="sort" class="@ClassAndStyle[ClassHtml.Column_iSort]" style="@ClassAndStyle[StyleCss.Column_iSort]">
+                <i class="@( GetSortClass())" style="@( GetSortStyle())" @onclick="@( () => ApplySort())"></i>
+            </i>
             @Title
             if (ColumnOptions != null || hasFilterOptions || hasAdvancedFilterOptions)
             {

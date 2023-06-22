@@ -39,9 +39,7 @@
                 <th class="@ClassAndStyle[ClassHtml.Grid_div_table_thead_tr_th]"
                     style="@ClassAndStyle[StyleCss.Grid_div_table_thead_tr_th]"
                     aria-sort="@AriaSortValue(column)">
-                    <i class="@ClassAndStyle[ClassHtml.Grid_div_table_thead_tr_th_i]" style="@ClassAndStyle[StyleCss.Grid_div_table_thead_tr_th_i]">
-                        <i class="@( GetSortClass(column))" style="@( GetSortStyle(column))" @onclick="@( () => ApplySort(column))"></i>
-                    </i>
+                    
                     @column.HeaderContent
                 </th>
             }

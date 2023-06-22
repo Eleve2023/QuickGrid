@@ -226,11 +226,24 @@ namespace Microsoft.AspNetCore.Components.QuickGrid.QuickGridCollection.Columns
             }
             else if (hasFilterOptions)
             {
-                return optionApplied ? ClassAndStyle[StyleCss.Column_i_i_ColumnFilterActive] :
-                    ClassAndStyle[StyleCss.Column_i_i_ColumnFilterNotActive];
+                return optionApplied ? ClassAndStyle[StyleCss.Column_i_i_MenuFiltreActive] :
+                    ClassAndStyle[StyleCss.Column_i_i_MenuFiltreNotActive];
             }
             else
                 return "";
         }
+        internal void ApplySort()
+        {
+            Grid.ApplySort(_lastAssignedColumn!);
+        }
+        internal string GetSortClass()
+        {
+            return Grid.GetSortClass(_lastAssignedColumn!);
+        }
+        internal string GetSortStyle()
+        {
+            return Grid.GetSortStyle(_lastAssignedColumn!);
+        }
+
     }
 }

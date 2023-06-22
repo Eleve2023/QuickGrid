@@ -10,17 +10,17 @@
         Grid_div_table_thead,
         Grid_div_table_thead_tr,
         Grid_div_table_thead_tr_th,
-        Grid_div_table_thead_tr_th_i,
-        Grid_div_table_thead_tr_th_i_i_SortAsc,
-        Grid_div_table_thead_tr_th_i_i_SortDesc,
-        Grid_div_table_thead_tr_th_i_i_Sortdefault,
-        /// <summary>
-        /// La colonne n'est pas triable
-        /// </summary>
-        Grid_div_table_thead_tr_th_i_i_SortNot,
         Grid_div_table_tbody,
         Grid_div_table_tbody_tr,
         Grid_div_table_tbody_tr_td,
+        Column_iSort,
+        Column_iSort_i_SortAsc,
+        Column_iSort_i_SortDesc,
+        Column_iSort_i_Sortdefault,
+        /// <summary>
+        /// La colonne n'est pas triable
+        /// </summary>
+        Column_iSort_i_SortNot,
         Column_i,
         /// <summary>
         /// Ne pas affiche le menu options
