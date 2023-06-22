@@ -23,7 +23,13 @@ namespace Microsoft.AspNetCore.Components.QuickGrid.QuickGridCollection.Columns
         /// si <see cref="IsSortable"/> est définir sur <c>true</c> vous devait utilise la méthode <see cref="SetPropertyExpressionAndType{TPro}(Expression{Func{TGridItem, TPro}})"/>.
         /// </remarks>
         public bool IsSortable { get => column.IsSortable; set => column.IsSortable = value; }
-
+        /// <summary>
+        /// Obtient ou définit une valeur indiquant si cette colonne peut être triée avec d'autres colonnes triables.
+        /// </summary>
+        /// <remarks>
+        /// Si cette propriété est définie sur <c>true</c> et que la propriété <see cref="IsSortable"/> est également définie sur <c>true</c>, cette colonne peut être triée avec d'autres colonnes triables.
+        /// </remarks>
+        internal bool MultipleSortingAllowed { get => column.MultipleSortingAllowed; set => column.MultipleSortingAllowed = value; }
         /// <summary>
         /// Définit l'expression de propriété et le type de propriété pour la colonne en utilisant une expression lambda.
         /// </summary>
@@ -43,6 +49,11 @@ namespace Microsoft.AspNetCore.Components.QuickGrid.QuickGridCollection.Columns
         {
             column.Grid.ApplyColumnFilter(expression, column);
         }
-
+        public void ApplySort()
+        {
+            if (column.PropertyExpression != null)
+                column.ApplySort();
+            else throw new Exception();
+        }
     }
 }
