@@ -1,5 +1,6 @@
 ﻿@page "/fetchdata"
 @using Microsoft.AspNetCore.Components.QuickGrid.Data
+
 @inject WeatherForecastService ForecastService
 
 <PageTitle>Weather forecast</PageTitle>
@@ -35,7 +36,13 @@ else
             }
         </tbody>
     </table>
-}
+    @* <Grid Items="forecasts">
+        <PropertyColumn Property="@(e => e.Date)" />
+        <PropertyColumn Property="@(e => e.TemperatureC)" Title="Temp. (C)" />
+        <PropertyColumn Property="@(e => e.TemperatureF)" Title="Temp. (F)" />
+        <PropertyColumn Property="@(e => e.Summary)" />
+    </Grid>*@
+} 
 
 @code {
     private WeatherForecast[]? forecasts;

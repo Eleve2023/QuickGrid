@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.7.33808.371
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Microsoft.AspNetCore.Components.QuickGrid", "src\QuickGridCollection\Microsoft.AspNetCore.Components.QuickGrid\Microsoft.AspNetCore.Components.QuickGrid.csproj", "{8CDBF19B-58CB-47A8-9AF8-F2D7B7415D89}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Microsoft.AspNetCore.Components.QuickGrid", "src\QuickGridCollection\Microsoft.AspNetCore.Components.QuickGrid\Microsoft.AspNetCore.Components.QuickGrid.csproj", "{8CDBF19B-58CB-47A8-9AF8-F2D7B7415D89}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{F1BB2F41-FB31-463C-8570-46C2B4AB6BDC}"
 EndProject
@@ -11,7 +11,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "QuickGrid", "QuickGrid", "{
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "SimpleQuickGrid", "SimpleQuickGrid", "{29B27503-BF1C-4152-890C-08DFF960EA42}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Microsoft.AspNetCore.Components.QuickGrid", "src\SampleQuickGridCollection\Microsoft.AspNetCore.Components.QuickGrid\Microsoft.AspNetCore.Components.QuickGrid.csproj", "{EDEAD748-5803-48F9-AAC1-194A04ECED2B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SimpleQuickGrid", "src\SampleQuickGridCollection\Microsoft.AspNetCore.Components.QuickGrid\SimpleQuickGrid.csproj", "{EDEAD748-5803-48F9-AAC1-194A04ECED2B}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
