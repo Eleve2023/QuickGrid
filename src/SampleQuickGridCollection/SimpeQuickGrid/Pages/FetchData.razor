@@ -26,16 +26,17 @@ else
 
 @code {
     private WeatherForecast[]? forecasts;
-    private WeatherForecast[]? Originalforecasts;
+    private WeatherForecast[] Originalforecasts = default!;
     protected override async Task OnInitializedAsync()
     {
         forecasts = await ForecastService.GetForecastAsync(DateOnly.FromDateTime(DateTime.Now));
         Originalforecasts = forecasts.ToArray();
     }
     private void FilterSortChanged(GridFilteringAndSorting<WeatherForecast> filteringAndSorting)
-    {
-        IQueryable<WeatherForecast> queryable = Originalforecasts.AsQueryable();
-        var q = filteringAndSorting.GetQuerable(queryable);
+    {        
+        var queryable = Originalforecasts.AsQueryable();
+        
+        var q = filteringAndSorting.ApplyFilterAndSortExpressions(queryable);
         if (q != null)
             queryable = q;
         forecasts = queryable.ToArray();

@@ -161,7 +161,7 @@ namespace Microsoft.AspNetCore.Components.QuickGrid.QuickGridCollection
             columnFilters.RemoveAll(e => e.Key == column);
             if (expression != null)
                 columnFilters.Add(new(column, expression));
-            _gridFilteringSorting.Where = columnFilters.Select(e => e.Value).ToArray();
+            _gridFilteringSorting.FilterExpressions = columnFilters.Select(e => e.Value).ToArray();
             await FilterSortChanged.InvokeAsync(_gridFilteringSorting);
         }
         /// <summary>
@@ -205,7 +205,7 @@ namespace Microsoft.AspNetCore.Components.QuickGrid.QuickGridCollection
                 columnSortDirections[column] = newSortDirection;
             }
             else throw new Exception();
-            _gridFilteringSorting.Values = columnsSorted.Select((e, index) =>
+            _gridFilteringSorting.SortExpressions = columnsSorted.Select((e, index) =>
             {
                 (var sort, Expression<Func<TGridItem, object>> exp) = e.Value;
                 if (index == 0)
