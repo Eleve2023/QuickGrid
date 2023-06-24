@@ -14,29 +14,29 @@
 
     protected sealed override void OptionRender(RenderTreeBuilder __builder, int index)
     {
-        this.index = index;
+        this.filterIndex = index;
 
         <div class="@ClassAndStyle[ClassHtml.MenuAdvancedFilter_div]" style="@ClassAndStyle[StyleCss.MenuAdvancedFilter_div]">
 
-            @if (index < MaxFilters - 1)
+            @if (index < maxColumnFilters - 1)
             {
-                bool disabled = !showButtonAdd[index];
+                bool disabled = !showAddFilterButton[index];
 
                 <button class="@ClassAndStyle[ClassHtml.MenuAdvancedFilter_div_button_Operator]"
                         style="@ClassAndStyle[StyleCss.MenuAdvancedFilter_div_button_Operator]"
-                        @onclick="ToggleOperatorFilter">
-                    @if (operatorFilter == OperatorFilter.And)
+                        @onclick="ToggleFilterOperator">
+                    @if (filterOperator == FilterOperator.And)
                     {
                         <strong>And</strong> <text> -> Or</text>
                     }
-                    else if (operatorFilter == OperatorFilter.Or)
+                    else if (filterOperator == FilterOperator.Or)
                     {
                         <strong>Or</strong> <text> -> And</text>
                     }
                 </button>
                 <button class="@ClassAndStyle[ClassHtml.MenuAdvancedFilter_div_button_Add]"
                         style="@ClassAndStyle[StyleCss.MenuAdvancedFilter_div_button_Add]"
-                        disabled="@disabled" @onclick="AddOptionFilter">
+                        disabled="@disabled" @onclick="AddColumnFilter">
                     ADD
                 </button>
             }

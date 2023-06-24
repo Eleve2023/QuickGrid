@@ -80,19 +80,19 @@ namespace Microsoft.AspNetCore.Components.QuickGrid.QuickGridCollection.Columns
             (optionsType, selectedFilterOptions, htmlInputType) = TypeOfProperty switch
             {
                 Type t when t == typeof(string) =>
-                            (typeof(OptionFiltreString), new List<Enum>() { OptionFiltreString.Contains }, "text"),
+                            (typeof(StringFilterOptions), new List<Enum>() { StringFilterOptions.Contains }, "text"),
                 Type t when t == typeof(DateTime) || t == typeof(DateTimeOffset) =>
-                            (typeof(OptionFiltreData), new() { OptionFiltreData.Equal }, "datetime-local"),
+                            (typeof(DataFilterOptions), new() { DataFilterOptions.Equal }, "datetime-local"),
                 Type t when t == typeof(DateOnly) =>
-                            (typeof(OptionFiltreData), new() { OptionFiltreData.Equal }, "date"),
+                            (typeof(DataFilterOptions), new() { DataFilterOptions.Equal }, "date"),
                 Type t when t == typeof(TimeOnly) || t == typeof(TimeSpan) =>
-                            (typeof(OptionFiltreData), new() { OptionFiltreData.Equal }, "time"),
+                            (typeof(DataFilterOptions), new() { DataFilterOptions.Equal }, "time"),
                 Type t when t == typeof(bool) =>
-                            (typeof(OptionFiltreData), new() { OptionFiltreData.Equal }, "checkbox"),
+                            (typeof(DataFilterOptions), new() { DataFilterOptions.Equal }, "checkbox"),
                 Type t when IsNumber(t) =>
-                            (typeof(OptionFiltreData), new() { OptionFiltreData.Equal }, "number"),
+                            (typeof(DataFilterOptions), new() { DataFilterOptions.Equal }, "number"),
                 Type t when t.IsEnum =>
-                            (typeof(OptionFiltreEnum), new() { OptionFiltreEnum.Equal }, string.Empty),
+                            (typeof(EnumFilterOptions), new() { EnumFilterOptions.Equal }, string.Empty),
                 _ => throw new NotSupportedException($"type {TypeOfProperty} not supported")
             };
             selectedFilterOptionsDefault = selectedFilterOptions.ToList();
@@ -123,37 +123,37 @@ namespace Microsoft.AspNetCore.Components.QuickGrid.QuickGridCollection.Columns
             {
                 Func<Expression<Func<TGridItem, bool>>> action;
 
-                if (selectedFilterOptions[i] is OptionFiltreString optionFiltreString)
+                if (selectedFilterOptions[i] is StringFilterOptions optionFiltreString)
                 {
                     action = optionFiltreString switch
                     {
-                        OptionFiltreString.Contains => new(() => CreateStringFilterExpression("Contains", filterValues[i])),
-                        OptionFiltreString.StartsWith => new(() => CreateStringFilterExpression("StartsWith", filterValues[i])),
-                        OptionFiltreString.EndsWith => new(() => CreateStringFilterExpression("EndsWith", filterValues[i])),
-                        OptionFiltreString.Equal => new(() => CreateDataFilterExpression(ExpressionType.Equal, filterValues[i])),
-                        OptionFiltreString.NotEqual => new(() => CreateDataFilterExpression(ExpressionType.NotEqual, filterValues[i])),
+                        StringFilterOptions.Contains => new(() => CreateStringFilterExpression("Contains", filterValues[i])),
+                        StringFilterOptions.StartsWith => new(() => CreateStringFilterExpression("StartsWith", filterValues[i])),
+                        StringFilterOptions.EndsWith => new(() => CreateStringFilterExpression("EndsWith", filterValues[i])),
+                        StringFilterOptions.Equal => new(() => CreateDataFilterExpression(ExpressionType.Equal, filterValues[i])),
+                        StringFilterOptions.NotEqual => new(() => CreateDataFilterExpression(ExpressionType.NotEqual, filterValues[i])),
                         _ => throw new NotSupportedException()
                     };
                 }
-                else if (selectedFilterOptions[i] is OptionFiltreData optionFiltreData)
+                else if (selectedFilterOptions[i] is DataFilterOptions optionFiltreData)
                 {
                     action = optionFiltreData switch
                     {
-                        OptionFiltreData.Equal => new(() => CreateDataFilterExpression(ExpressionType.Equal, filterValues[i])),
-                        OptionFiltreData.GreaterThan => new(() => CreateDataFilterExpression(ExpressionType.GreaterThan, filterValues[i])),
-                        OptionFiltreData.GreaterThanOrEqual => new(() => CreateDataFilterExpression(ExpressionType.GreaterThanOrEqual, filterValues[i])),
-                        OptionFiltreData.LessThan => new(() => CreateDataFilterExpression(ExpressionType.LessThan, filterValues[i])),
-                        OptionFiltreData.LessThanOrEqual => new(() => CreateDataFilterExpression(ExpressionType.LessThanOrEqual, filterValues[i])),
-                        OptionFiltreData.NotEqual => new(() => CreateDataFilterExpression(ExpressionType.NotEqual, filterValues[i])),
+                        DataFilterOptions.Equal => new(() => CreateDataFilterExpression(ExpressionType.Equal, filterValues[i])),
+                        DataFilterOptions.GreaterThan => new(() => CreateDataFilterExpression(ExpressionType.GreaterThan, filterValues[i])),
+                        DataFilterOptions.GreaterThanOrEqual => new(() => CreateDataFilterExpression(ExpressionType.GreaterThanOrEqual, filterValues[i])),
+                        DataFilterOptions.LessThan => new(() => CreateDataFilterExpression(ExpressionType.LessThan, filterValues[i])),
+                        DataFilterOptions.LessThanOrEqual => new(() => CreateDataFilterExpression(ExpressionType.LessThanOrEqual, filterValues[i])),
+                        DataFilterOptions.NotEqual => new(() => CreateDataFilterExpression(ExpressionType.NotEqual, filterValues[i])),
                         _ => throw new NotSupportedException()
                     };
                 }
-                else if (selectedFilterOptions[i] is OptionFiltreEnum optionFiltreEnum)
+                else if (selectedFilterOptions[i] is EnumFilterOptions optionFiltreEnum)
                 {
                     action = optionFiltreEnum switch
                     {
-                        OptionFiltreEnum.Equal => new(() => CreateDataFilterExpression(ExpressionType.Equal, filterValues[i])),
-                        OptionFiltreEnum.NotEqual => new(() => CreateDataFilterExpression(ExpressionType.NotEqual, filterValues[i])),
+                        EnumFilterOptions.Equal => new(() => CreateDataFilterExpression(ExpressionType.Equal, filterValues[i])),
+                        EnumFilterOptions.NotEqual => new(() => CreateDataFilterExpression(ExpressionType.NotEqual, filterValues[i])),
                         _ => throw new NotSupportedException()
                     };
                 }
@@ -179,7 +179,7 @@ namespace Microsoft.AspNetCore.Components.QuickGrid.QuickGridCollection.Columns
                 }
 
             }
-            if (columnFilterExpressions != null && columnFilterExpressions.Any())
+            if (columnFilterExpressions != null && columnFilterExpressions.Count != 0)
             {
                 ApplyColumnFilterFromGrid();
                 FilterApplied = true;
@@ -191,7 +191,7 @@ namespace Microsoft.AspNetCore.Components.QuickGrid.QuickGridCollection.Columns
         /// </summary>
         protected virtual void ApplyColumnFilterFromGrid()
         {
-            if (columnFilterExpressions != null && columnFilterExpressions.Any())
+            if (columnFilterExpressions != null && columnFilterExpressions.Count != 0)
                 Grid.ApplyColumnFilter(columnFilterExpressions.First(), Column);
         }
         /// <summary>

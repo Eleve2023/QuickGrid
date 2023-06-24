@@ -7,28 +7,30 @@ namespace Microsoft.AspNetCore.Components.QuickGrid.QuickGridCollection.Columns
     public partial class MenuAdvancedFilter<TGridItem> : MenuFiltre<TGridItem>
     {
         /// <summary>
-        /// représente l'index des filtres de la colonne
+        /// Représente l'index des filtres de la colonne.
         /// </summary>
-        private int index;
+        private int filterIndex;
         /// <summary>
-        /// Affiche ou masque le bouton ajoute des filtre 
+        /// Affiche ou masque le bouton d'ajout de filtre pour chaque filtre de la colonne.
         /// </summary>
-        private readonly List<bool> showButtonAdd = new() { false };
+        private readonly List<bool> showAddFilterButton = new() { false };
         /// <summary>
-        /// Quelle opérateur a utilise pour aggregation des filtres de la colonne <see cref="MenuFiltre{TGridItem}.columnFilterExpressions"/>.
+        /// Opérateur utilisé pour agréger les filtres de la colonne <see cref="MenuFiltre{TGridItem}.columnFilterExpressions"/>.
         /// </summary>
-        private OperatorFilter operatorFilter = OperatorFilter.And;
+        private FilterOperator filterOperator = FilterOperator.And;
         /// <summary>
-        /// Nombre maximum de filtres à applique pour cette colonne.
+        /// Obtient le nombre maximum de filtres à appliquer pour cette colonne.
         /// </summary>
-        private int MaxFilters => Column.MaxFilters;
-
-        private void AddOptionFilter()
+        private int maxColumnFilters => Column.MaxFilters;
+        /// <summary>
+        /// Ajoute un filtre à la liste des filtres de la colonne.
+        /// </summary>
+        private void AddColumnFilter()
         {
-            if (index < MaxFilters - 1)
+            if (filterIndex < maxColumnFilters - 1)
             {
                 columnFilterAdditions++;
-                if (true) showButtonAdd.Add(true);
+                if (true) showAddFilterButton.Add(true);
                 filterValues.Add(string.Empty);
             }
         }
@@ -42,9 +44,9 @@ namespace Microsoft.AspNetCore.Components.QuickGrid.QuickGridCollection.Columns
             {
                 var optionfiltervalue = optionsType.Name switch
                 {
-                    nameof(OptionFiltreData) => OptionFiltreData.NotEqual,
-                    nameof(OptionFiltreEnum) => enumlist.FirstOrDefault()!,
-                    nameof(OptionFiltreString) => OptionFiltreString.Contains,
+                    nameof(DataFilterOptions) => DataFilterOptions.NotEqual,
+                    nameof(EnumFilterOptions) => enumlist.FirstOrDefault()!,
+                    nameof(StringFilterOptions) => StringFilterOptions.Contains,
                     _ => throw new NotImplementedException(),
                 };
                 selectedFilterOptions.Add(optionfiltervalue);
@@ -56,89 +58,103 @@ namespace Microsoft.AspNetCore.Components.QuickGrid.QuickGridCollection.Columns
             if (filterOptions.Count < columnFilterAdditions + 1)
                 filterOptions.Add(enumlist);
 
-            if (operatorFilter == OperatorFilter.And)
+            if (filterOperator == FilterOperator.And)
             {
-                if (optionsType.Name == typeof(OptionFiltreData).Name)
-                    ResouvedListDataoptions(enumlist, optionSelecteds);
-                else if (optionsType.Name == typeof(OptionFiltreEnum).Name)
-                    ResouvedListEnumoptions(enumlist, optionSelecteds);
-                else if (optionsType.Name == typeof(OptionFiltreString).Name)
-                    ResouvedListStringoptions(enumlist, optionSelecteds);
+                if (optionsType.Name == typeof(DataFilterOptions).Name)
+                    ResolveDataFilterOptions(enumlist, optionSelecteds);
+                else if (optionsType.Name == typeof(EnumFilterOptions).Name)
+                    ResolveEnumFilterOptions(enumlist, optionSelecteds);
+                else if (optionsType.Name == typeof(StringFilterOptions).Name)
+                    ResolveStringFilterOptions(enumlist, optionSelecteds);
                 else
                     throw new NotImplementedException();
 
                 if (selectedFilterOptions[index].ToString() == "Equal")
-                    showButtonAdd[index] = false;
+                    showAddFilterButton[index] = false;
                 else
-                    showButtonAdd[index] = true;
+                    showAddFilterButton[index] = true;
             }
             else
-                showButtonAdd[index] = true;
+                showAddFilterButton[index] = true;
 
             return filterOptions[index] = enumlist;
         }
-
-        private void ResouvedListStringoptions<TOption>(List<TOption> enumlist, List<Enum> optionSelecteds)
+        /// <summary>
+        /// Résout la liste des options de filtre pour les champs de type chaîne en fonction des options de filtre sélectionnées.
+        /// </summary>
+        /// <typeparam name="TOption">Le type des options de filtre.</typeparam>
+        /// <param name="enumlist">La liste des options de filtre à résoudre.</param>
+        /// <param name="optionSelecteds">La liste des options de filtre sélectionnées.</param>
+        private void ResolveStringFilterOptions<TOption>(List<TOption> enumlist, List<Enum> optionSelecteds)
         {
-            if (optionSelecteds.Contains(OptionFiltreString.StartsWith))
-                enumlist.RemoveAll(x => x is OptionFiltreString.StartsWith or OptionFiltreString.Equal);
+            if (optionSelecteds.Contains(StringFilterOptions.StartsWith))
+                enumlist.RemoveAll(x => x is StringFilterOptions.StartsWith or StringFilterOptions.Equal);
 
-            if (optionSelecteds.Contains(OptionFiltreString.EndsWith))
-                enumlist.RemoveAll(x => x is OptionFiltreString.EndsWith or OptionFiltreString.Equal);
+            if (optionSelecteds.Contains(StringFilterOptions.EndsWith))
+                enumlist.RemoveAll(x => x is StringFilterOptions.EndsWith or StringFilterOptions.Equal);
 
-            if (optionSelecteds.Any(e => e is OptionFiltreString.Contains or OptionFiltreString.NotEqual))
-                enumlist.RemoveAll(x => x is OptionFiltreString.Equal);
+            if (optionSelecteds.Any(e => e is StringFilterOptions.Contains or StringFilterOptions.NotEqual))
+                enumlist.RemoveAll(x => x is StringFilterOptions.Equal);
 
-            if (optionSelecteds.Contains(OptionFiltreString.Equal))
+            if (optionSelecteds.Contains(StringFilterOptions.Equal))
                 enumlist.RemoveAll(x =>
-                    x is OptionFiltreString.Contains
-                    or OptionFiltreString.StartsWith
-                    or OptionFiltreString.EndsWith
-                    or OptionFiltreString.Equal
-                    or OptionFiltreString.NotEqual);
+                    x is StringFilterOptions.Contains
+                    or StringFilterOptions.StartsWith
+                    or StringFilterOptions.EndsWith
+                    or StringFilterOptions.Equal
+                    or StringFilterOptions.NotEqual);
         }
-
-        private void ResouvedListEnumoptions<TOption>(List<TOption> enumlist, List<Enum> optionSelecteds)
+        /// <summary>
+        /// Résout la liste des options de filtre pour les champs de type énumération en fonction des options de filtre sélectionnées.
+        /// </summary>
+        /// <typeparam name="TOption">Le type des options de filtre.</typeparam>
+        /// <param name="enumlist">La liste des options de filtre à résoudre.</param>
+        /// <param name="optionSelecteds">La liste des options de filtre sélectionnées.</param>
+        private void ResolveEnumFilterOptions<TOption>(List<TOption> enumlist, List<Enum> optionSelecteds)
         {
-            if (optionSelecteds.Contains(OptionFiltreEnum.Equal))
-                enumlist.RemoveAll(x => x is OptionFiltreEnum.NotEqual);
+            if (optionSelecteds.Contains(EnumFilterOptions.Equal))
+                enumlist.RemoveAll(x => x is EnumFilterOptions.NotEqual);
 
-            if (optionSelecteds.Contains(OptionFiltreEnum.NotEqual))
-                enumlist.RemoveAll(x => x is OptionFiltreEnum.Equal);
+            if (optionSelecteds.Contains(EnumFilterOptions.NotEqual))
+                enumlist.RemoveAll(x => x is EnumFilterOptions.Equal);
         }
-
-        private void ResouvedListDataoptions(List<Enum> enumlist, List<Enum> optionSelecteds)
+        /// <summary>
+        /// Résout la liste des options de filtre pour les champs de type données en fonction des options de filtre sélectionnées.
+        /// </summary>
+        /// <param name="enumlist">La liste des options de filtre à résoudre.</param>
+        /// <param name="optionSelecteds">La liste des options de filtre sélectionnées.</param>
+        private void ResolveDataFilterOptions(List<Enum> enumlist, List<Enum> optionSelecteds)
         {
-            if (optionSelecteds.Contains(OptionFiltreData.Equal))
+            if (optionSelecteds.Contains(DataFilterOptions.Equal))
                 enumlist.RemoveAll(x =>
-                x is OptionFiltreData.NotEqual
-                or OptionFiltreData.GreaterThan
-                or OptionFiltreData.GreaterThanOrEqual
-                or OptionFiltreData.LessThan
-                or OptionFiltreData.LessThanOrEqual
+                x is DataFilterOptions.NotEqual
+                or DataFilterOptions.GreaterThan
+                or DataFilterOptions.GreaterThanOrEqual
+                or DataFilterOptions.LessThan
+                or DataFilterOptions.LessThanOrEqual
                 );
-            if (optionSelecteds.Contains(OptionFiltreData.GreaterThan))
-                enumlist.RemoveAll(x => x is OptionFiltreData.GreaterThanOrEqual
-                                        or OptionFiltreData.Equal
-                                        or OptionFiltreData.GreaterThan
+            if (optionSelecteds.Contains(DataFilterOptions.GreaterThan))
+                enumlist.RemoveAll(x => x is DataFilterOptions.GreaterThanOrEqual
+                                        or DataFilterOptions.Equal
+                                        or DataFilterOptions.GreaterThan
                 );
-            if (optionSelecteds.Contains(OptionFiltreData.GreaterThanOrEqual))
-                enumlist.RemoveAll(x => x is OptionFiltreData.GreaterThan
-                                        or OptionFiltreData.Equal
-                                        or OptionFiltreData.GreaterThanOrEqual
+            if (optionSelecteds.Contains(DataFilterOptions.GreaterThanOrEqual))
+                enumlist.RemoveAll(x => x is DataFilterOptions.GreaterThan
+                                        or DataFilterOptions.Equal
+                                        or DataFilterOptions.GreaterThanOrEqual
                 );
-            if (optionSelecteds.Contains(OptionFiltreData.LessThan))
-                enumlist.RemoveAll(x => x is OptionFiltreData.LessThanOrEqual
-                                        or OptionFiltreData.Equal
-                                        or OptionFiltreData.LessThan
+            if (optionSelecteds.Contains(DataFilterOptions.LessThan))
+                enumlist.RemoveAll(x => x is DataFilterOptions.LessThanOrEqual
+                                        or DataFilterOptions.Equal
+                                        or DataFilterOptions.LessThan
                 );
-            if (optionSelecteds.Contains(OptionFiltreData.LessThanOrEqual))
-                enumlist.RemoveAll(x => x is OptionFiltreData.LessThan
-                                        or OptionFiltreData.Equal
-                                        or OptionFiltreData.LessThanOrEqual
+            if (optionSelecteds.Contains(DataFilterOptions.LessThanOrEqual))
+                enumlist.RemoveAll(x => x is DataFilterOptions.LessThan
+                                        or DataFilterOptions.Equal
+                                        or DataFilterOptions.LessThanOrEqual
                 );
-            if (optionSelecteds.Contains(OptionFiltreData.NotEqual))
-                enumlist.RemoveAll(x => x is OptionFiltreData.Equal);
+            if (optionSelecteds.Contains(DataFilterOptions.NotEqual))
+                enumlist.RemoveAll(x => x is DataFilterOptions.Equal);
         }
 
         protected override void ApplyColumnFilterFromGrid()
@@ -148,11 +164,11 @@ namespace Microsoft.AspNetCore.Components.QuickGrid.QuickGridCollection.Columns
                 var parameter = Expression.Parameter(typeof(TGridItem), "x");
                 var replacedExpressions = columnFilterExpressions.Select(e => ((Expression<Func<TGridItem, bool>>)ParameterReplacer.Replace(e, e.Parameters[0], parameter)).Body);
                 Expression expression;
-                if (operatorFilter == OperatorFilter.And)
+                if (filterOperator == FilterOperator.And)
                 {
                     expression = replacedExpressions.Aggregate(Expression.AndAlso);
                 }
-                else if (operatorFilter == OperatorFilter.Or)
+                else if (filterOperator == FilterOperator.Or)
                     expression = replacedExpressions.Aggregate(Expression.Or);
                 else throw new Exception();
 
@@ -163,16 +179,16 @@ namespace Microsoft.AspNetCore.Components.QuickGrid.QuickGridCollection.Columns
         }
         // todo : remplace le bouton par select
         /// <summary>
-        /// Bascule entre les valeurs de <see cref="OperatorFilter"/>  pour assigne <see cref="operatorFilter"/>
+        /// Bascule entre les valeurs de l'opérateur de filtre pour assigner la propriété <see cref="MenuAdvancedFilter{TGridItem}.filterOperator"/>.
         /// </summary>
-        /// <exception cref="NotImplementedException"></exception>
-        private void ToggleOperatorFilter()
+        /// <exception cref="NotImplementedException">Lancée si la valeur de l'opérateur de filtre n'est pas gérée.</exception>
+        private void ToggleFilterOperator()
         {
             bool reset;
-            (operatorFilter, reset) = operatorFilter switch
+            (filterOperator, reset) = filterOperator switch
             {
-                OperatorFilter.And => (OperatorFilter.Or, false),
-                OperatorFilter.Or => (OperatorFilter.And, true),
+                FilterOperator.And => (FilterOperator.Or, false),
+                FilterOperator.Or => (FilterOperator.And, true),
                 _ => throw new NotImplementedException()
             };
             if (reset)
