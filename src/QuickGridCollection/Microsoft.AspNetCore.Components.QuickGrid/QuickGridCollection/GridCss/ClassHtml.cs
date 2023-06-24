@@ -58,6 +58,7 @@
         MenuFiltre_from_divInput,
         MenuFiltre_from_divInput_selectInputOption,
         MenuFiltre_from_divInput_selectInputEnumValue,
+        MenuFiltre_from_divInput_selectInputBoolValue,
         MenuFiltre_from_divInput_inputInputValue,
         MenuFiltre_from_divAction,
         MenuFiltre_from_divAction_buttonOk,
