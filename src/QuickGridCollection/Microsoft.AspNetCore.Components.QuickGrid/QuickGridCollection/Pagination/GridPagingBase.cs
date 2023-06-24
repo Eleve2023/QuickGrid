@@ -5,7 +5,7 @@
         /// <summary>
         /// Obtient ou définit l'état de la pagination.
         /// </summary>
-        [Parameter]
+        [Parameter, EditorRequired]
         public required GridPagingState PaginationState { get; set; }
         /// <summary>
         /// Obtient ou définit le nombre total d'éléments.

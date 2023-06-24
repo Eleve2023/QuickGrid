@@ -20,6 +20,10 @@
         /// </summary>
         public int Skip => pagingState.Skip;
         /// <summary>
+        /// Obtient le nombre d'éléments par page.
+        /// </summary>
+        public int ItemsPerPage => pagingState.ItemsPerPage;
+        /// <summary>
         /// Obtient ou définit le nombre total d'éléments.
         /// </summary>
         public int TotalItems { get => pagingState.TotalItems; set => pagingState.TotalItems = value; }

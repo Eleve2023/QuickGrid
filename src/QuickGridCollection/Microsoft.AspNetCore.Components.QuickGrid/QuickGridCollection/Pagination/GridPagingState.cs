@@ -8,9 +8,9 @@
         private int pageIndex = 1;
         private int itemsPerPage = 20;
 
-        public GridPagingState()
+        public GridPagingState(int itemsPerPage = 20)
         {
-
+            this.itemsPerPage = itemsPerPage;
         }
         /// <summary>
         /// Obtient ou définit le nombre total d'éléments.

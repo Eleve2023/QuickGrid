@@ -1,6 +1,7 @@
 ﻿@page "/fetchdata"
 @using Microsoft.AspNetCore.Components.QuickGrid.QuickGridCollection
 @using Microsoft.AspNetCore.Components.QuickGrid.QuickGridCollection.Columns
+@using Microsoft.AspNetCore.Components.QuickGrid.QuickGridCollection.Pagination
 @using SimpeQuickGrid.Data
 @inject WeatherForecastService ForecastService
 
@@ -10,35 +11,53 @@
 
 <p>This component demonstrates fetching data from a service.</p>
 
-@if (forecasts == null)
+@if (forecastsGrid == null)
 {
     <p><em>Loading...</em></p>
 }
 else
 {
-    <QuickGridC TGridItem="WeatherForecast" Items="@forecasts" FilterSortChanged="FilterSortChanged">
+    <QuickGridC TGridItem="WeatherForecast" Items="@forecastsGrid" FilterSortChanged="FilterSortChanged">
         <PropertyColumnC Property="@(e => e.Date)" />
         <PropertyColumnC Property="@(e => e.TemperatureC)" Title="Temp. (C)" HasAdvancedFilterOptions="true" />
         <PropertyColumnC Property="@(e => e.TemperatureF)" Title="Temp. (F)" />
         <PropertyColumnC Property="@(e => e.Summary)" />
     </QuickGridC>
+    <GridPaging PaginationState="gridPagingState"/>
 }
 
 @code {
-    private WeatherForecast[]? forecasts;
-    private WeatherForecast[] Originalforecasts = default!;
+    private WeatherForecast[]? forecastsGrid;
+    private IQueryable<WeatherForecast> forecasts = default!;
+    private IQueryable<WeatherForecast> queryForecastsGrid = default!;
+    private GridPagingState gridPagingState = new(5);
+
     protected override async Task OnInitializedAsync()
-    {
-        forecasts = await ForecastService.GetForecastAsync(DateOnly.FromDateTime(DateTime.Now));
-        Originalforecasts = forecasts.ToArray();
-    }
-    private void FilterSortChanged(GridFilteringAndSorting<WeatherForecast> filteringAndSorting)
     {        
-        var queryable = Originalforecasts.AsQueryable();
+        forecasts = (await ForecastService.GetForecastAsync(DateOnly.FromDateTime(DateTime.Now))).AsQueryable();
+        queryForecastsGrid = forecasts;
+        gridPagingState.PageChanged += HandlePageChange;
+        gridPagingState.CurrentPage = 1;
+    }
+
+    private void FilterSortChanged(GridFilteringAndSorting<WeatherForecast> filteringAndSorting)
+    { 
+        queryForecastsGrid = filteringAndSorting.ApplyFilterAndSortExpressions(forecasts);
+        gridPagingState.CurrentPage = 1;
+    }
+
+    private void HandlePageChange(object? sender, GridPageChangedEventArgs e)
+    {
+        e.TotalItems = queryForecastsGrid.Count();
         
-        var q = filteringAndSorting.ApplyFilterAndSortExpressions(queryable);
-        if (q != null)
-            queryable = q;
-        forecasts = queryable.ToArray();
+        var queryable = queryForecastsGrid;
+
+        if (e.Skip > 0)
+            queryable = queryable.Skip(e.Skip);
+
+        queryable = queryable.Take(e.ItemsPerPage);
+
+        forecastsGrid = queryable.ToArray();
+        StateHasChanged();
     }
 }
