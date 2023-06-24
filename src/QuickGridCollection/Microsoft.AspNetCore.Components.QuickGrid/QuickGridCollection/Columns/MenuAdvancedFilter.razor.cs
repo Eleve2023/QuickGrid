@@ -36,10 +36,17 @@ namespace Microsoft.AspNetCore.Components.QuickGrid.QuickGridCollection.Columns
         }
         protected override List<Enum> GetListOptionFiltre(int index)
         {
+            // Récupère la liste des options de filtre pour le type d'options spécifié
+            var enumlist = Enum.GetValues(optionsType).Cast<Enum>().ToList();
+
+            // Initialise la liste des options de filtre si elle est nulle
             filterOptions ??= new() { Enum.GetValues(optionsType).Cast<Enum>().ToList() };
 
-            var enumlist = Enum.GetValues(optionsType).Cast<Enum>().ToList();
-            //Ajoute option sélectionne par défaut
+            // Ajoute une nouvelle liste d'options de filtre si il y a une nouveau filtre
+            if (filterOptions.Count < columnFilterAdditions + 1)
+                filterOptions.Add(enumlist);
+
+            // Ajoute l'option de filtre sélectionnée par défaut si il y a une nouveau filtre
             if (selectedFilterOptions.Count != columnFilterAdditions + 1)
             {
                 var optionfiltervalue = optionsType.Name switch
@@ -51,13 +58,13 @@ namespace Microsoft.AspNetCore.Components.QuickGrid.QuickGridCollection.Columns
                 };
                 selectedFilterOptions.Add(optionfiltervalue);
             }
-            List<Enum> optionSelecteds;
-            optionSelecteds = selectedFilterOptions.ToList();
-            //
-            optionSelecteds!.RemoveAt(index);
-            if (filterOptions.Count < columnFilterAdditions + 1)
-                filterOptions.Add(enumlist);
 
+            // Récupère la liste des options de filtre sélectionnées sauf celle actuel
+            List<Enum> optionSelecteds;
+            optionSelecteds = selectedFilterOptions.ToList();            
+            optionSelecteds!.RemoveAt(index);          
+
+            // Résout la liste des options de filtre en fonction de l'opérateur de filtre et du type d'options
             if (filterOperator == FilterOperator.And)
             {
                 if (optionsType.Name == typeof(DataFilterOptions).Name)
@@ -69,6 +76,7 @@ namespace Microsoft.AspNetCore.Components.QuickGrid.QuickGridCollection.Columns
                 else
                     throw new NotImplementedException();
 
+                // Met à jour l'affichage du bouton d'ajout de filtre en fonction de l'option sélectionnée
                 if (selectedFilterOptions[index].ToString() == "Equal")
                     showAddFilterButton[index] = false;
                 else
@@ -77,6 +85,7 @@ namespace Microsoft.AspNetCore.Components.QuickGrid.QuickGridCollection.Columns
             else
                 showAddFilterButton[index] = true;
 
+            // Met à jour et renvoie la liste des options de filtre à l'index spécifié
             return filterOptions[index] = enumlist;
         }
         /// <summary>

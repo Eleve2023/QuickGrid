@@ -294,8 +294,8 @@ namespace Microsoft.AspNetCore.Components.QuickGrid.QuickGridCollection.Columns
         }
 
         /// <summary>
-        /// Cette méthode renvoie la liste des options de filtre pour les différents types de champs dans le formulaire de recherche.
-        /// Elle est utilisée pour générer les menus déroulants permettant à l’utilisateur de sélectionner les options de filtre dans le formulaire.
+        /// Renvoie la liste des options de filtre pour les différents types de champs dans le formulaire de recherche.
+        /// Cette méthode est utilisée pour générer les menus déroulants permettant à l'utilisateur de sélectionner les options de filtre dans le formulaire.
         /// </summary>
         /// <param name="index">L'index de la liste des options de filtre à renvoyer.</param>
         /// <returns>La liste des options de filtre <see cref="filterOptions"/> à l'index spécifié.</returns>
