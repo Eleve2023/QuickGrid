@@ -1,0 +1,65 @@
+﻿@page "/fetchpeople"
+@using Microsoft.AspNetCore.Components.QuickGrid.QuickGridCollection
+@using Microsoft.AspNetCore.Components.QuickGrid.QuickGridCollection.Columns
+@using Microsoft.AspNetCore.Components.QuickGrid.QuickGridCollection.Pagination
+@using SimpeQuickGrid.Data
+@inject PersonService PersonService
+
+<PageTitle>People Liste</PageTitle>
+
+<h1>People Liste</h1>
+
+<p>This component demonstrates people list from a service.</p>
+
+@if (peopleGrid == null)
+{
+    <p><em>Loading...</em></p>
+}
+else
+{
+    <QuickGridC TGridItem="Person" Items="@peopleGrid" FilterSortChanged="FilterSortChanged">
+        <PropertyColumnC Property="@(e => e.FirstName)" />
+        <PropertyColumnC Property="@(e => e.LastName)"   HasAdvancedFilterOptions="true" />
+        <PropertyColumnC Property="@(e => e.BirthDate)" />
+        <PropertyColumnC Property="@(e => e.Gender)" />
+        <PropertyColumnC Property="@(e => e.Sold)" />
+        <PropertyColumnC Property="@(e => e.Active)" />
+    </QuickGridC>
+    <GridPaging PaginationState="gridPagingState" />
+}
+
+@code {
+    private List<Person>? peopleGrid;
+    private IQueryable<Person> people = default!;
+    private IQueryable<Person> queryPeopleGrid = default!;
+    private GridPagingState gridPagingState = new(5);
+
+    protected override async Task OnInitializedAsync()
+    {
+        people = (await PersonService.GetPeopleAsync()).AsQueryable();
+        queryPeopleGrid = people;
+        gridPagingState.PageChanged += HandlePageChange;
+        gridPagingState.CurrentPage = 1;
+    }
+
+    private void FilterSortChanged(GridFilteringAndSorting<Person> filteringAndSorting)
+    {
+        queryPeopleGrid = filteringAndSorting.ApplyFilterAndSortExpressions(people);
+        gridPagingState.CurrentPage = 1;
+    }
+
+    private void HandlePageChange(object? sender, GridPageChangedEventArgs e)
+    {
+        e.TotalItems = queryPeopleGrid.Count();
+
+        var queryable = queryPeopleGrid;
+
+        if (e.Skip > 0)
+            queryable = queryable.Skip(e.Skip);
+
+        queryable = queryable.Take(e.ItemsPerPage);
+
+        peopleGrid = queryable.ToList();
+        StateHasChanged();
+    }
+}

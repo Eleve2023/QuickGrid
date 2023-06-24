@@ -11,7 +11,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "QuickGrid", "QuickGrid", "{
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "SimpleQuickGrid", "SimpleQuickGrid", "{29B27503-BF1C-4152-890C-08DFF960EA42}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SimpeQuickGrid", "src\SampleQuickGridCollection\SimpeQuickGrid\SimpeQuickGrid.csproj", "{7783E896-524A-4F2D-97EF-9CA6C6F00E14}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SimpeQuickGrid", "src\SampleQuickGridCollection\SimpeQuickGrid\SimpeQuickGrid.csproj", "{7783E896-524A-4F2D-97EF-9CA6C6F00E14}"
 	ProjectSection(ProjectDependencies) = postProject
 		{8CDBF19B-58CB-47A8-9AF8-F2D7B7415D89} = {8CDBF19B-58CB-47A8-9AF8-F2D7B7415D89}
 	EndProjectSection
