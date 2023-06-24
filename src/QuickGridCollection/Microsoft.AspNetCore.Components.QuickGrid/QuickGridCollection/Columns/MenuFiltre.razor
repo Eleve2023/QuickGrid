@@ -48,12 +48,28 @@
             }
             <select name="inputEnumValue" class="@ClassAndStyle[ClassHtml.MenuFiltre_from_divInput_selectInputEnumValue]"
                     style="@ClassAndStyle[StyleCss.ColumnFiltre_from_divInput_selectInputEnumValue]"
-                    @bind:get="@filterValues[index].ToString()" @bind:set=@((arg) => filterValues[index] = arg)>
+            @bind:get="@filterValues[index].ToString()" @bind:set=@((arg) => filterValues[index] = arg)>
                 @foreach (var opt in Enum.GetValues(TypeOfProperty))
                 {
                     <option value="@opt.ToString()">@opt</option>
                 }
             </select>
+        }
+        else if (htmlInputType == "select")
+        {
+            if (String.IsNullOrEmpty(filterValues[index].ToString()))
+            {
+                
+                    filterValues[index] = true.ToString();
+                
+            }
+            <select name="inputBoolValue" class="@ClassAndStyle[ClassHtml.MenuFiltre_from_divInput_selectInputEnumValue]"
+                    style="@ClassAndStyle[StyleCss.ColumnFiltre_from_divInput_selectInputEnumValue]"
+            @bind:get="@filterValues[index].ToString()" @bind:set=@((arg) => filterValues[index] = arg)>
+                <option value="@true.ToString()" selected="@true">True</option>
+                <option value="@false.ToString()">False</option>
+            </select>
+
         }
         else
         {
@@ -66,8 +82,8 @@
     {
         <select name="inputOption" class="@ClassAndStyle[ClassHtml.MenuFiltre_from_divInput_selectInputOption]"
                 style="@ClassAndStyle[StyleCss.ColumnFiltre_from_divInput_selectInputOption]"
-                @bind:get="@selectedFilterOptions[index].ToString()"
-                @bind:set=@((arg) => selectedFilterOptions[index] = (Enum) Enum.Parse(optionsType, arg.ToString()))>
+        @bind:get="@selectedFilterOptions[index].ToString()"
+        @bind:set=@((arg) => selectedFilterOptions[index] = (Enum) Enum.Parse(optionsType, arg.ToString()))>
             @foreach (var opt in GetListOptionFiltre(index))
             {
                 <option value="@opt" selected="@(selectedFilterOptions[index].Equals(opt))">@opt</option>

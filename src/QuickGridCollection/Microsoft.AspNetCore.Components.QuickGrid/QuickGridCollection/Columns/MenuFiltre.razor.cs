@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.QuickGrid.QuickGridCollection;
 using Microsoft.AspNetCore.Components.QuickGrid.QuickGridCollection.GridCss;
+using System.Globalization;
 using System.Linq.Expressions;
 
 namespace Microsoft.AspNetCore.Components.QuickGrid.QuickGridCollection.Columns
@@ -88,7 +89,7 @@ namespace Microsoft.AspNetCore.Components.QuickGrid.QuickGridCollection.Columns
                 Type t when t == typeof(TimeOnly) || t == typeof(TimeSpan) =>
                             (typeof(DataFilterOptions), new() { DataFilterOptions.Equal }, "time"),
                 Type t when t == typeof(bool) =>
-                            (typeof(DataFilterOptions), new() { DataFilterOptions.Equal }, "checkbox"),
+                            (typeof(BoolFilterOptions), new() { DataFilterOptions.Equal }, "select"),
                 Type t when IsNumber(t) =>
                             (typeof(DataFilterOptions), new() { DataFilterOptions.Equal }, "number"),
                 Type t when t.IsEnum =>
@@ -273,6 +274,10 @@ namespace Microsoft.AspNetCore.Components.QuickGrid.QuickGridCollection.Columns
                     objectConverted = Enum.Parse(TypeOfProperty, (string)objValue);
                 else if (TypeOfProperty == typeof(DateOnly))
                     objectConverted = DateOnly.Parse((string)objValue);
+                else if (TypeOfProperty == typeof(decimal))
+                {
+                    objectConverted = decimal.Parse((string)objValue, CultureInfo.InvariantCulture);
+                }
                 else
                     objectConverted = Convert.ChangeType(objValue, TypeOfProperty);
 
