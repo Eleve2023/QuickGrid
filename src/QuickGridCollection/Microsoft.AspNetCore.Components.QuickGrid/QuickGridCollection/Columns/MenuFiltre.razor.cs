@@ -63,7 +63,7 @@ namespace Microsoft.AspNetCore.Components.QuickGrid.QuickGridCollection.Columns
         /// <summary>
         /// Type de la propriété de la colonne.
         /// </summary>        
-        protected Type TypeOfProperty => Column.TypeOfProperty ?? throw new NullReferenceException("Column.TypeOfProperty is null");
+        protected Type TypeOfProperty => Column.TypeOfProperty is not null ? Nullable.GetUnderlyingType(Column.TypeOfProperty) ?? Column.TypeOfProperty : throw new NullReferenceException("Column.TypeOfProperty is null");
         /// <summary>
         /// Expression de propriété pour la colonne.
         /// </summary>
@@ -78,13 +78,14 @@ namespace Microsoft.AspNetCore.Components.QuickGrid.QuickGridCollection.Columns
 
         protected override void OnParametersSet()
         {
+            var underlyingType = Nullable.GetUnderlyingType(TypeOfProperty) ?? TypeOfProperty;
             (optionsType, selectedFilterOptions, htmlInputType) = TypeOfProperty switch
             {
                 Type t when t == typeof(string) =>
                             (typeof(StringFilterOptions), new List<Enum>() { StringFilterOptions.Contains }, "text"),
                 Type t when t == typeof(DateTime) || t == typeof(DateTimeOffset) =>
                             (typeof(DataFilterOptions), new() { DataFilterOptions.Equal }, "datetime-local"),
-                Type t when t == typeof(DateOnly) =>
+                Type t when t == typeof(DateOnly)  =>
                             (typeof(DataFilterOptions), new() { DataFilterOptions.Equal }, "date"),
                 Type t when t == typeof(TimeOnly) || t == typeof(TimeSpan) =>
                             (typeof(DataFilterOptions), new() { DataFilterOptions.Equal }, "time"),
@@ -270,9 +271,10 @@ namespace Microsoft.AspNetCore.Components.QuickGrid.QuickGridCollection.Columns
             if (memberExp != null)
             {
                 object? objectConverted;
+
                 if (TypeOfProperty.IsEnum)
                     objectConverted = Enum.Parse(TypeOfProperty, (string)objValue);
-                else if (TypeOfProperty == typeof(DateOnly))
+                else if (TypeOfProperty == typeof(DateOnly) || Nullable.GetUnderlyingType(TypeOfProperty) == typeof(DateOnly))
                     objectConverted = DateOnly.Parse((string)objValue);
                 else if (TypeOfProperty == typeof(decimal))
                 {
