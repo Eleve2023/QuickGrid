@@ -1,6 +1,7 @@
 ﻿@page "/fetchpeople"
 @using Microsoft.AspNetCore.Components.QuickGrid.QuickGridCollection
 @using Microsoft.AspNetCore.Components.QuickGrid.QuickGridCollection.Columns
+@using Microsoft.AspNetCore.Components.QuickGrid.QuickGridCollection.GridCss;
 @using Microsoft.AspNetCore.Components.QuickGrid.QuickGridCollection.Pagination
 @using SimpeQuickGrid.Data
 @inject PersonService PersonService
@@ -19,6 +20,7 @@
 else
 {
     <p> les parametre PropertyColumnC</p>
+    <button class="btn btn-sm btn-primary" @onclick=@(()=> cssManagerDefault = !cssManagerDefault)> Cahnge Css</button>
     <div class="form-control">
 
         <select class="form-select form-select-sm" @bind="@column" @bind:event="oninput">
@@ -104,7 +106,7 @@ else
             </div>
         </div>
     </div>
-    <QuickGridC TGridItem="Person" Items="@peopleGrid" FilterSortChanged="FilterSortChanged">
+    <QuickGridC TGridItem="Person" Items="@peopleGrid" FilterSortChanged="FilterSortChanged" ClassAndStyle="@(cssManagerDefault?new():gridHtmlCssManager)">
 
 
         <PropertyColumnC Property="@(e => e.FirstName)"
@@ -163,8 +165,11 @@ else
     private Dictionary<string, Dictionary<string, string?>> optionsString = new();
     private List<string> columns;
     private string column;
+    private GridHtmlCssManager gridHtmlCssManager;
+    private bool cssManagerDefault = true;
     public FetchPeople()
     {
+        gridHtmlCssManager = new MyGridCssManager();
         columns = new() { nameof(Person.FirstName), nameof(Person.LastName), nameof(Person.BirthDate), nameof(Person.Gender), nameof(Person.Sold), nameof(Person.Active) };
         column = columns.First();
         Dictionary<string, string?> os = new();
