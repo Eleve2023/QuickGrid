@@ -55,7 +55,8 @@ else
                         @bind-value:set="@((value) =>{ optionsBool[column]["DisplayFormat"] = value; optionsString[column]["DisplayFormat"] = optionsBool[column]["DisplayFormat"]?  optionsString[column]["DisplayFormat"]: null;  })">
                     </div>
                     <span class="input-group-text">DisplayFormat</span>
-                    <input type="text" aria-label="DisplayFormat" class="form-control">
+                    <input type="text" aria-label="DisplayFormat" class="form-control"
+                    @bind-value:get="@optionsString[column]["DisplayFormat"]" @bind-value:set="@((value) => {optionsString[column]["DisplayFormat"] = optionsBool[column]["DisplayFormat"] ? value : null;})">
                 </div>
             </div>
             <div class="form-control form-control-sm">
@@ -117,35 +118,35 @@ else
                          IsSortable="@optionsBool["FirstName"]["IsSortable"]"
                          MultipleSortingAllowed="@optionsBool["FirstName"]["MultipleSortingAllowed"]"/>
 
-        <PropertyColumnC Property="@(e => e.LastName)" DisplayFormat="@optionsString["FirstName"]["DisplayFormat"]"
+        <PropertyColumnC Property="@(e => e.LastName)" DisplayFormat="@optionsString["LastName"]["DisplayFormat"]"
                          HasFilterOptions="@optionsBool["LastName"]["HasFilterOptions"]"
                          HasAdvancedFilterOptions="@optionsBool["LastName"]["HasAdvancedFilterOptions"]"
                          MaxFilters="@optionsInt["LastName"]["MaxFilters"]" Title="@optionsString["LastName"]["Title"]"
                          IsSortable="@optionsBool["LastName"]["IsSortable"]"
                          MultipleSortingAllowed="@optionsBool["LastName"]["MultipleSortingAllowed"]" />
 
-        <PropertyColumnC Property="@(e => e.BirthDate)" DisplayFormat="@optionsString["FirstName"]["DisplayFormat"]"
+        <PropertyColumnC Property="@(e => e.BirthDate)" DisplayFormat="@optionsString["BirthDate"]["DisplayFormat"]"
                          HasFilterOptions="@optionsBool["BirthDate"]["HasFilterOptions"]"
                          HasAdvancedFilterOptions="@optionsBool["BirthDate"]["HasAdvancedFilterOptions"]"
                          MaxFilters="@optionsInt["BirthDate"]["MaxFilters"]" Title="@optionsString["BirthDate"]["Title"]"
                          IsSortable="@optionsBool["BirthDate"]["IsSortable"]"
                          MultipleSortingAllowed="@optionsBool["BirthDate"]["MultipleSortingAllowed"]" />
 
-        <PropertyColumnC Property="@(e => e.Gender)" DisplayFormat="@optionsString["FirstName"]["DisplayFormat"]"
+        <PropertyColumnC Property="@(e => e.Gender)" DisplayFormat="@optionsString["Gender"]["DisplayFormat"]"
                          HasFilterOptions="@optionsBool["Gender"]["HasFilterOptions"]"
                          HasAdvancedFilterOptions="@optionsBool["Gender"]["HasAdvancedFilterOptions"]"
                          MaxFilters="@optionsInt["Gender"]["MaxFilters"]" Title="@optionsString["Gender"]["Title"]"
                          IsSortable="@optionsBool["Gender"]["IsSortable"]"
                          MultipleSortingAllowed="@optionsBool["Gender"]["MultipleSortingAllowed"]" />
 
-        <PropertyColumnC Property="@(e => e.Sold)" DisplayFormat="@optionsString["FirstName"]["DisplayFormat"]"
+        <PropertyColumnC Property="@(e => e.Sold)" DisplayFormat="@optionsString["Sold"]["DisplayFormat"]"
                          HasFilterOptions="@optionsBool["Sold"]["HasFilterOptions"]"
                          HasAdvancedFilterOptions="@optionsBool["Sold"]["HasAdvancedFilterOptions"]"
                          MaxFilters="@optionsInt["Sold"]["MaxFilters"]" Title="@optionsString["Sold"]["Title"]"
                          IsSortable="@optionsBool["Sold"]["IsSortable"]"
                          MultipleSortingAllowed="@optionsBool["Sold"]["MultipleSortingAllowed"]" />
 
-        <PropertyColumnC Property="@(e => e.Active)" DisplayFormat="@optionsString["FirstName"]["DisplayFormat"]"
+        <PropertyColumnC Property="@(e => e.Active)" DisplayFormat="@optionsString["Active"]["DisplayFormat"]"
                          HasFilterOptions="@optionsBool["Active"]["HasFilterOptions"]"
                          HasAdvancedFilterOptions="@optionsBool["Active"]["HasAdvancedFilterOptions"]"
                          MaxFilters="@optionsInt["Active"]["MaxFilters"]" Title="@optionsString["Active"]["Title"]"
@@ -234,5 +235,5 @@ else
 
         peopleGrid = queryable.ToList();
         StateHasChanged();
-    }
+    }    
 }

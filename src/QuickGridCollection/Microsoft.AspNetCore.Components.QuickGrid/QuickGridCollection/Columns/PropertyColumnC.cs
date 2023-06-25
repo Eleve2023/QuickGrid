@@ -17,7 +17,10 @@ namespace Microsoft.AspNetCore.Components.QuickGrid.QuickGridCollection.Columns
         /// Fonction pour obtenir le texte de la cellule.
         ///</summary>
         private Func<TGridItem, string?>? _cellTextFunc;
-
+        /// <summary>
+        /// Référence à la  dernière instance de <see cref="PropertyColumnC{TGridItem, TProp}.DisplayFormat"/> assignée à cette variable.
+        /// </summary>
+        private string? lastDisplayForma;
         public PropertyColumnC()
         {
             isSortable = true;
@@ -92,7 +95,11 @@ namespace Microsoft.AspNetCore.Components.QuickGrid.QuickGridCollection.Columns
                 if (memberExpression != null)
                 {
                     SetPropertyExpressionAndTypet(memberExpression);
-                }
+                }                
+            }
+            if(IsNewProperty || lastDisplayForma != DisplayFormat)
+            {
+                lastDisplayForma = DisplayFormat;
                 var compiledPropertyExpression = Property.Compile() ?? throw new ArgumentNullException();
 
                 if (string.IsNullOrEmpty(DisplayFormat) && memberExpression is not null)
