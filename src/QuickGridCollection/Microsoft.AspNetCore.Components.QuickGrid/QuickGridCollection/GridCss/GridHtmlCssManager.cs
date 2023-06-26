@@ -43,7 +43,7 @@
                 { ClassHtml.Column_i_div_Show, "dropdown-content show" },
                 { ClassHtml.Column_i_i_ColumnOptionActive, "grid-option-Acteved" },
                 { ClassHtml.Column_i_i_ColumnOptionNotActive, "grid-option" },
-                { ClassHtml.Column_i_i_MenuFiltreActive, "grid-filter" },
+                { ClassHtml.Column_i_i_MenuFiltreActive, "grid-filter-Actived" },
                 { ClassHtml.Column_i_i_MenuFiltreNotActive, "grid-filter" },
                 { ClassHtml.Column_i_i_MenuAdvancedFilterActive, "grid-filter-advanced-Active" },
                 { ClassHtml.Column_i_i_MenuAdvancedFilterNotActive, "grid-filter-advanced" },
