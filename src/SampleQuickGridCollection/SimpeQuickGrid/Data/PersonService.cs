@@ -7,6 +7,7 @@
             var e = 1450.5;
             List<Person> people = new()
             {
+                new() { FirstName = "Morris", LastName = null, BirthDate = null, Gender = null , Sold = null, Active = null },
                 new() { FirstName = "Morris", LastName = "Hannah", BirthDate = new(1964,05,17), Gender = Gender.Female , Sold = 1799.20m, Active = false },
                 new() { FirstName = "Foster", LastName = "Christian", BirthDate = new(2001,11,28), Gender = Gender.Male , Sold = 1786.30m, Active = false },
                 new() { FirstName = "Williams", LastName = "George", BirthDate = new(1967,08,14), Gender = Gender.Male , Sold = 2441.86m, Active = false },
