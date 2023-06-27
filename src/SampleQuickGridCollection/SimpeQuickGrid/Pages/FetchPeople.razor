@@ -225,7 +225,8 @@ else
     private void HandlePageChange(object? sender, GridPageChangedEventArgs e)
     {
         e.TotalItems = queryPeopleGrid.Count();
-
+        //e.TotalItems = people.Where(x => IFF((x.LastName != null), x.LastName.Contains("a"), false)).Count();
+        
         var queryable = queryPeopleGrid;
 
         if (e.Skip > 0)

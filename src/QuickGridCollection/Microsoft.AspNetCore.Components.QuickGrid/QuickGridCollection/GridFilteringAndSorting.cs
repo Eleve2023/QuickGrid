@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.QuickGrid.QuickGridCollection.Infrastructure;
+using System;
 using System.Linq.Expressions;
 
 namespace Microsoft.AspNetCore.Components.QuickGrid.QuickGridCollection
@@ -106,7 +107,7 @@ namespace Microsoft.AspNetCore.Components.QuickGrid.QuickGridCollection
         /// <returns>Retourne un <see cref="IQueryable"/> filtré ou <c>null</c> si aucune expression de filtrage n'est définie.</returns>
         public readonly IQueryable<TGridItem>? ApplyFilterExpressions(IQueryable<TGridItem> queryable)
         {
-            var expression = CombineFilterExpressionsWithAnd();
+            var expression = CombineFilterExpressionsWithAndForLinq();
             if (expression != null)
                 return queryable.Where(expression);
             return null;
@@ -160,6 +161,20 @@ namespace Microsoft.AspNetCore.Components.QuickGrid.QuickGridCollection
         {
             if (HasFilterExpressions())
                 return CombineExpressions(ExpressionType.AndAlso, FilterExpressions!);
+            else return null;
+        }
+        /// <summary>
+        /// Combine les expressions de filtrage <see cref="GridFilteringAndSorting{TGridItem}.FilterExpressions"/> en utilisant l'opérateur AndAlso (ET logique).
+        /// Ajoute un contre valeur null pour les type nullable
+        /// </summary>
+        /// <returns>Retourne une expression combinée ou <c>null</c> si aucune expression de filtrage n'est définie.</returns>
+        public readonly Expression<Func<TGridItem, bool>>? CombineFilterExpressionsWithAndForLinq()
+        {
+            if (HasFilterExpressions())
+            {
+                var expressions = FilterExpressions!.Select(e => (Expression<Func<TGridItem, bool>>)NullableCheck.AddNullCheck(e, true));
+                return CombineExpressions(ExpressionType.AndAlso, expressions!);
+            }
             else return null;
         }
         /// <summary>
