@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Microsoft.AspNetCore.Components.QuickGrid.QuickGridCollection.Infrastructure
 {
-    internal class NullableCheck :ExpressionVisitor
+    internal class NullableCheck : ExpressionVisitor
     {
         /// <summary>
         /// considère le type string nullable si il est null comme string vide
@@ -27,6 +27,12 @@ namespace Microsoft.AspNetCore.Components.QuickGrid.QuickGridCollection.Infrastr
         /// <returns></returns>
         public static Expression AddNullCheck(Expression expression, bool stringNullIsStrngEmplty = false)
         {
+            if (expression is LambdaExpression lambda && lambda.Body is BinaryExpression binaryExpression && binaryExpression.Right is ConstantExpression constant && constant.Value == null)
+            {
+                var type_ = lambda.Body.GetType();
+                var _ = lambda.Body as BinaryExpression;
+                return expression;
+            }
             return new NullableCheck(stringNullIsStrngEmplty).Visit(expression);
         }
         protected override Expression VisitMember(MemberExpression node)
@@ -41,6 +47,10 @@ namespace Microsoft.AspNetCore.Components.QuickGrid.QuickGridCollection.Infrastr
 
         protected override Expression VisitUnary(UnaryExpression node)
         {
+            if (node.Operand is ConstantExpression constant && constant.Value == null)
+            {
+                return base.VisitUnary(node);
+            }
             if (node.NodeType == ExpressionType.Convert && node.Operand.Type.IsGenericType && node.Operand.Type.GetGenericTypeDefinition() == typeof(Nullable<>))
             {
                 var getValueOrDefaultMethod = node.Operand.Type.GetMethod("GetValueOrDefault", Type.EmptyTypes);
@@ -53,12 +63,12 @@ namespace Microsoft.AspNetCore.Components.QuickGrid.QuickGridCollection.Infrastr
         {
             if (node.Object != null && node.Object.Type == typeof(string))
             {
-                if(stringNullIsStrngEmplty)
+                if (stringNullIsStrngEmplty)
                 {
                     return Expression.Call(
                     Expression.Coalesce(node.Object, Expression.Constant(string.Empty)),
                     node.Method,
-                    node.Arguments);                    
+                    node.Arguments);
                 }
                 else
                 {

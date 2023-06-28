@@ -39,7 +39,7 @@
     {
         if (TypeOfProperty.IsEnum)
         {
-            if (String.IsNullOrEmpty(filterValues[index].ToString()))
+            if (String.IsNullOrEmpty((string?)filterValues[index]))
             {
                 if (Enum.GetValues(TypeOfProperty).Length > 0)
                 {
@@ -57,7 +57,7 @@
         }
         else if (htmlInputType == "select")
         {
-            if (String.IsNullOrEmpty(filterValues[index].ToString()))
+            if (String.IsNullOrEmpty((string?)filterValues[index]))
             {
                 filterValues[index] = true.ToString();
             }
@@ -73,8 +73,18 @@
         {
             <input name="inputValue" type="@htmlInputType" class="@ClassAndStyle[ClassHtml.MenuFiltre_from_divInput_inputInputValue]"
                    style="@ClassAndStyle[StyleCss.MenuFiltre_from_divInput_inputInputValue]"
-                   value="@filterValues[index]" @onchange="@((arg) => filterValues[index] = arg.Value!)" />
+            value="@filterValues[index]" @onchange="@((arg) => filterValues[index] = arg.Value)" />
         }
+    }
+    private void ChandedInput(int index, object? obj)
+    {
+        if (htmlInputType != "text")
+        {
+            if (obj is string e && e == string.Empty)
+                filterValues[index] = null;
+        }
+        else
+            filterValues[index] = obj;
     }
     private void FindOptionRender(RenderTreeBuilder __builder, int index)
     {

@@ -27,7 +27,7 @@ namespace Microsoft.AspNetCore.Components.QuickGrid.QuickGridCollection.Columns
         /// Cette liste contient les objets qui correspondent aux champs de saisie du formulaire de recherche.
         /// Elle est utilisée par la classe <see cref="MenuAdvancedFilter{TGridItem}"/> pour gérer le nombre d'ajouts de filtres dans la colonne.
         /// </summary>
-        protected List<object> filterValues = new() { string.Empty };
+        protected List<object?> filterValues = new() { null };
         /// <summary>
         /// Cette liste contient les options de filtre dans le formulaire de recherche.
         /// La première liste gère le nombre d'ajouts de filtres dans la colonne, tandis que la seconde liste permet de choisir le type de recherche à effectuer.
@@ -202,7 +202,7 @@ namespace Microsoft.AspNetCore.Components.QuickGrid.QuickGridCollection.Columns
         /// </summary>
         protected void ResetColumnFilters()
         {
-            filterValues = new() { string.Empty };
+            filterValues = new() { null };
             selectedFilterOptions = selectedFilterOptionsDefault.ToList();
             filterOptions = default!;
             columnFilterExpressions = null!;
@@ -223,6 +223,8 @@ namespace Microsoft.AspNetCore.Components.QuickGrid.QuickGridCollection.Columns
         private Expression<Func<TGridItem, bool>> CreateStringFilterExpression(string methode, object objValue)
         {
             MemberExpression memberExp = null!;
+            if (objValue == null)
+                return CreateDataFilterExpression(ExpressionType.Equal, objValue);
             if (PropertyExpression.Body is MemberExpression memberExpression)
             {
                 memberExp = memberExpression;
@@ -256,7 +258,7 @@ namespace Microsoft.AspNetCore.Components.QuickGrid.QuickGridCollection.Columns
         /// <param name="comparisonType">Le type de comparaison à utiliser pour créer l'expression lambda.</param>
         /// <param name="objValue">La valeur à utiliser dans l'expression lambda.</param>
         /// <returns>Une expression lambda représentant le filtre pour un champ de type numérique, date, enum ou bool.</returns>
-        private Expression<Func<TGridItem, bool>> CreateDataFilterExpression(ExpressionType comparisonType, object objValue)
+        private Expression<Func<TGridItem, bool>> CreateDataFilterExpression(ExpressionType comparisonType, object? objValue)
         {
             MemberExpression memberExp = null!;
             if (PropertyExpression.Body is MemberExpression memberExpression)
@@ -271,8 +273,9 @@ namespace Microsoft.AspNetCore.Components.QuickGrid.QuickGridCollection.Columns
             if (memberExp != null)
             {
                 object? objectConverted;
-
-                if (TypeOfProperty.IsEnum)
+                if (objValue == null)
+                    objectConverted = null;
+                else if (TypeOfProperty.IsEnum)
                     objectConverted = Enum.Parse(TypeOfProperty, (string)objValue);
                 else if (TypeOfProperty == typeof(DateOnly) || Nullable.GetUnderlyingType(TypeOfProperty) == typeof(DateOnly))
                     objectConverted = DateOnly.Parse((string)objValue);
@@ -287,11 +290,20 @@ namespace Microsoft.AspNetCore.Components.QuickGrid.QuickGridCollection.Columns
                 var property = Expression.Property(parameter, memberExp.Member.Name);
 
                 var unaryExpression = Expression.Convert(property, TypeOfProperty);
-
-                var constant = Expression.Constant(objectConverted);
-                var constantConverted = Expression.Convert(constant, TypeOfProperty);
-                var comparison = Expression.MakeBinary(comparisonType, unaryExpression, constantConverted);
-                return Expression.Lambda<Func<TGridItem, bool>>(comparison, parameter);
+                if (objectConverted != null)
+                {
+                    var constant = Expression.Constant(objectConverted);
+                    var constantConverted = Expression.Convert(constant, TypeOfProperty);
+                    var comparison = Expression.MakeBinary(comparisonType, unaryExpression, constantConverted);
+                    return Expression.Lambda<Func<TGridItem, bool>>(comparison, parameter);
+                }
+                else
+                {
+                    var constant = Expression.Constant(null);
+                    //var constantConverted = Expression.Convert(constant, TypeOfProperty);
+                    var comparison = Expression.MakeBinary(comparisonType, property, constant);
+                    return Expression.Lambda<Func<TGridItem, bool>>(comparison, parameter);
+                }
             }
             else
             {

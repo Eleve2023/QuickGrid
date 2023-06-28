@@ -12,7 +12,7 @@ namespace Microsoft.AspNetCore.Components.QuickGrid.QuickGridCollection.Infrastr
         private readonly ParameterExpression _oldParameter;
         private readonly ParameterExpression _newParameter;
 
-        public ParameterReplacer(ParameterExpression oldParameter, ParameterExpression newParameter)
+        private ParameterReplacer(ParameterExpression oldParameter, ParameterExpression newParameter)
         {
             _oldParameter = oldParameter;
             _newParameter = newParameter;

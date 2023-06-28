@@ -7,6 +7,9 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 builder.Services.AddRazorPages();
 builder.Services.AddServerSideBlazor();
+
+builder.Services.AddHttpClient("TpGestionEcole.ServerAPI", client => client.BaseAddress = new Uri(builder.HostEnvironment.BaseAddress));
+
 builder.Services.AddSingleton<WeatherForecastService>();
 builder.Services.AddSingleton<PersonService>();
 
