@@ -81,17 +81,19 @@
         Equal
     }
     /// <summary>
-    /// Énumération des opérateurs de filtre utilisés pour agréger les filtres de la colonne.
+    /// Énumération des opérateurs de filtre utilisés pour agréger les filtres.
     /// </summary>
     public enum FilterOperator
     {
         /// <summary>
         /// Opérateur ET logique.
         /// </summary>
+        AndAlso,
         And,
         /// <summary>
         /// Opérateur OU logique.
         /// </summary>
-        Or
+        Or,
+        OrElse
     }
 }

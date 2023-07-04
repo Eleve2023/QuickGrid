@@ -67,7 +67,7 @@ namespace Microsoft.AspNetCore.Components.QuickGrid.QuickGridCollection.Columns
         /// <summary>
         /// Expression de propriété pour la colonne.
         /// </summary>
-        protected Expression<Func<TGridItem, object>> PropertyExpression => Column.PropertyExpression ?? throw new NullReferenceException("Column.PropertyExpression is null");
+        protected Expression<Func<TGridItem, object?>> PropertyExpression => Column.PropertyExpression ?? throw new NullReferenceException("Column.PropertyExpression is null");
         protected GridHtmlCssManager ClassAndStyle => Column.ClassAndStyle;
         /// <summary>
         /// Obtient ou définit une valeur indiquant si le filtre est appliqué.
@@ -279,6 +279,8 @@ namespace Microsoft.AspNetCore.Components.QuickGrid.QuickGridCollection.Columns
                     objectConverted = Enum.Parse(TypeOfProperty, (string)objValue);
                 else if (TypeOfProperty == typeof(DateOnly) || Nullable.GetUnderlyingType(TypeOfProperty) == typeof(DateOnly))
                     objectConverted = DateOnly.Parse((string)objValue);
+                else if (TypeOfProperty == typeof(DateTimeOffset))
+                    objectConverted = (DateTimeOffset?) DateTimeOffset.Parse((string)objValue).ToUniversalTime();
                 else if (TypeOfProperty == typeof(decimal))
                 {
                     objectConverted = decimal.Parse((string)objValue, CultureInfo.InvariantCulture);
@@ -301,7 +303,13 @@ namespace Microsoft.AspNetCore.Components.QuickGrid.QuickGridCollection.Columns
                 {
                     var constant = Expression.Constant(null);
                     //var constantConverted = Expression.Convert(constant, TypeOfProperty);
-                    var comparison = Expression.MakeBinary(comparisonType, property, constant);
+                    //todo ajoute un controle pour comparisonType
+                    var salfeComparisonType = comparisonType switch
+                    {
+                        ExpressionType.Equal => ExpressionType.Equal,
+                        _ => ExpressionType.NotEqual
+                    };
+                    var comparison = Expression.MakeBinary(salfeComparisonType, property, constant);
                     return Expression.Lambda<Func<TGridItem, bool>>(comparison, parameter);
                 }
             }

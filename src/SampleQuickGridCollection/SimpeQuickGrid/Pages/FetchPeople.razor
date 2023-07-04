@@ -4,237 +4,181 @@
 @using Microsoft.AspNetCore.Components.QuickGrid.QuickGridCollection.GridCss;
 @using Microsoft.AspNetCore.Components.QuickGrid.QuickGridCollection.Pagination
 @using SimpeQuickGrid.Data
+@using Simple.OData.Client;
+@using System.Linq.Expressions;
 @inject PersonService PersonService
-
+@inject PeopleDbContext DbContext
+@inject NavigationManager NavigationManager
 <PageTitle>People Liste</PageTitle>
 
 <h1>People Liste</h1>
 
 <p>This component demonstrates people list from a QickGridC.</p>
-
-
-@if (peopleGrid == null)
+@if (isEgualEF != null && !(bool)isEgualEF)
 {
-    <p><em>Loading...</em></p>
-}
-else
-{
-    <p> les parametre PropertyColumnC</p>
-    <button class="btn btn-sm btn-primary" @onclick=@(()=> cssManagerDefault = !cssManagerDefault)> Cahnge Css</button>
-    <div class="form-control">
-
-        <select class="form-select form-select-sm" @bind="@column" @bind:event="oninput">
-            @foreach (var item in columns)
-            {
-                <option value="@item">@item</option>
-            }
-        </select>
-        @* <div class="form-check form-check-inline form-switch">
-            <input class="form-check-input" type="checkbox" role="switch" id="checkHeaderTemplate"
-                   checked="@optionsBool[column]["HeaderTemplate"]"
-            @bind-value="@optionsBool[column]["HeaderTemplate"]">
-            <label class="form-check-label" for="checkHeaderTemplate">HeaderTemplate</label>
-        </div> *@
-        <div hidden="@optionsBool[column]["HeaderTemplate"]">
-            <div>
-                <div class="input-group input-group-sm">
-                    <div class="input-group-text">
-                        <input class="form-check-input mt-0" type="checkbox" aria-label="Checkbox for following Title input"
-                               checked="@optionsBool[column]["Title"]"
-                        @bind-value:get="@optionsBool[column]["Title"]"
-                        @bind-value:set="@((value) =>{ optionsBool[column]["Title"] = value; optionsString[column]["Title"] = optionsBool[column]["Title"]?  optionsString[column]["Title"]: null;  })">
-                    </div>
-                    <span class="input-group-text">Title</span>
-                    <input type="text" aria-label="Title" class="form-control"
-                    @bind-value:get="@optionsString[column]["Title"]" @bind-value:set="@((value) => {optionsString[column]["Title"]= optionsBool[column]["Title"]? value:null;})">
-
-                    <div class="input-group-text">
-                        <input class="form-check-input mt-0" type="checkbox" aria-label="Checkbox for following DisplayFormat input"
-                               checked="@optionsBool[column]["DisplayFormat"]"
-                        @bind-value:get="@optionsBool[column]["DisplayFormat"]"
-                        @bind-value:set="@((value) =>{ optionsBool[column]["DisplayFormat"] = value; optionsString[column]["DisplayFormat"] = optionsBool[column]["DisplayFormat"]?  optionsString[column]["DisplayFormat"]: null;  })">
-                    </div>
-                    <span class="input-group-text">DisplayFormat</span>
-                    <input type="text" aria-label="DisplayFormat" class="form-control"
-                    @bind-value:get="@optionsString[column]["DisplayFormat"]" @bind-value:set="@((value) => {optionsString[column]["DisplayFormat"] = optionsBool[column]["DisplayFormat"] ? value : null;})">
-                </div>
-            </div>
-            <div class="form-control form-control-sm">
-                <div class="form-check form-check-inline">
-                    <input class="form-check-input" type="radio" name="inlineRadioOptions" id="hasOption1"
-                           checked="@optionsBool[column]["HasFilterOptions"]"
-                    @onchange="@(()=> {@optionsBool[column]["HasFilterOptions"] = true;@optionsBool[column]["HasAdvancedFilterOptions"] = false;} )">
-                    <label class="form-check-label" for="hasOption1">HasFilterOptions</label>
-                </div>
-                <div class="form-check form-check-inline">
-                    <input class="form-check-input" type="radio" name="inlineRadioOptions" id="hasOption2"
-                           checked="@optionsBool[column]["HasAdvancedFilterOptions"]"
-                    @onchange="@(()=> {@optionsBool[column]["HasFilterOptions"] = false;@optionsBool[column]["HasAdvancedFilterOptions"] = true;} )">
-                    <label class="form-check-label" for="hasOption2">HasAdvancedFilterOptions</label>
-                </div>
-                <div class="form-check form-check-inline">
-                    <input class="form-check-input" type="radio" name="inlineRadioOptions" id="hasOption3"
-                           checked="@(!optionsBool[column]["HasFilterOptions"] && !optionsBool[column]["HasAdvancedFilterOptions"])"
-                    @onchange="@(()=> {@optionsBool[column]["HasFilterOptions"] = false;@optionsBool[column]["HasAdvancedFilterOptions"] = false;} )">
-                    <label class="form-check-label" for="hasOption3">Not</label>
-                </div>
-               @*  <div class="form-check form-check-inline form-switch">
-                    <input class="form-check-input" type="checkbox" role="switch" id="checkColumnOptions"
-                           checked="@optionsBool[column]["ColumnOptions"]"
-                    @bind-value="@optionsBool[column]["ColumnOptions"]">
-                    <label class="form-check-label" for="checkColumnOptions">ColumnOptions</label>
-                </div> *@
-                <div class="input-group input-group-sm mb-3">
-                    <label class="input-group-text" for="inputGroupFile01">MaxFilters</label>
-                    <input type="number" class="form-control" id="inputGroupFile01"
-                           disabled="@(!optionsBool[column]["HasAdvancedFilterOptions"])"
-                    @bind-value="@optionsInt[column]["MaxFilters"]">
-                </div>
-            </div>
-            <div class="form-control form-control-sm">
-                <div class="form-check form-check-inline form-switch">
-                    <input class="form-check-input" type="checkbox" role="switch" id="checkIsSortable"
-                           checked="@optionsBool[column]["IsSortable"]"
-                    @bind-value="@optionsBool[column]["IsSortable"]">
-                    <label class="form-check-label" for="checkIsSortable">IsSortable</label>
-                </div>
-                <div class="form-check form-check-inline form-switch">
-                    <input class="form-check-input" type="checkbox" role="switch" id="checkMultipleSortingAllowed"
-                           checked="@optionsBool[column]["MultipleSortingAllowed"]"
-                    @bind-value="@optionsBool[column]["MultipleSortingAllowed"]" disabled="@(!optionsBool[column]["IsSortable"])">
-                    <label class="form-check-label" for="checkMultipleSortingAllowed">MultipleSortingAllowed</label>
-                </div>
-            </div>
-        </div>
+    <div class="alert alert-danger" role="alert">
+        Not equql of EF
     </div>
-    <QuickGridC TGridItem="Person" Items="@peopleGrid" FilterSortChanged="FilterSortChanged" ClassAndStyle="@(cssManagerDefault?new():gridHtmlCssManager)">
-
-
-        <PropertyColumnC Property="@(e => e.FirstName)"
-                         DisplayFormat="@optionsString["FirstName"]["DisplayFormat"]"
-                         HasFilterOptions="@optionsBool["FirstName"]["HasFilterOptions"]"
-                         HasAdvancedFilterOptions="@optionsBool["FirstName"]["HasAdvancedFilterOptions"]"
-                         MaxFilters="@optionsInt["FirstName"]["MaxFilters"]" Title="@optionsString["FirstName"]["Title"]"
-                         IsSortable="@optionsBool["FirstName"]["IsSortable"]"
-                         MultipleSortingAllowed="@optionsBool["FirstName"]["MultipleSortingAllowed"]"/>
-
-        <PropertyColumnC Property="@(e => e.LastName)" DisplayFormat="@optionsString["LastName"]["DisplayFormat"]"
-                         HasFilterOptions="@optionsBool["LastName"]["HasFilterOptions"]"
-                         HasAdvancedFilterOptions="@optionsBool["LastName"]["HasAdvancedFilterOptions"]"
-                         MaxFilters="@optionsInt["LastName"]["MaxFilters"]" Title="@optionsString["LastName"]["Title"]"
-                         IsSortable="@optionsBool["LastName"]["IsSortable"]"
-                         MultipleSortingAllowed="@optionsBool["LastName"]["MultipleSortingAllowed"]" />
-
-        <PropertyColumnC Property="@(e => e.BirthDate)" DisplayFormat="@optionsString["BirthDate"]["DisplayFormat"]"
-                         HasFilterOptions="@optionsBool["BirthDate"]["HasFilterOptions"]"
-                         HasAdvancedFilterOptions="@optionsBool["BirthDate"]["HasAdvancedFilterOptions"]"
-                         MaxFilters="@optionsInt["BirthDate"]["MaxFilters"]" Title="@optionsString["BirthDate"]["Title"]"
-                         IsSortable="@optionsBool["BirthDate"]["IsSortable"]"
-                         MultipleSortingAllowed="@optionsBool["BirthDate"]["MultipleSortingAllowed"]" />
-
-        <PropertyColumnC Property="@(e => e.Gender)" DisplayFormat="@optionsString["Gender"]["DisplayFormat"]"
-                         HasFilterOptions="@optionsBool["Gender"]["HasFilterOptions"]"
-                         HasAdvancedFilterOptions="@optionsBool["Gender"]["HasAdvancedFilterOptions"]"
-                         MaxFilters="@optionsInt["Gender"]["MaxFilters"]" Title="@optionsString["Gender"]["Title"]"
-                         IsSortable="@optionsBool["Gender"]["IsSortable"]"
-                         MultipleSortingAllowed="@optionsBool["Gender"]["MultipleSortingAllowed"]" />
-
-        <PropertyColumnC Property="@(e => e.Sold)" DisplayFormat="@optionsString["Sold"]["DisplayFormat"]"
-                         HasFilterOptions="@optionsBool["Sold"]["HasFilterOptions"]"
-                         HasAdvancedFilterOptions="@optionsBool["Sold"]["HasAdvancedFilterOptions"]"
-                         MaxFilters="@optionsInt["Sold"]["MaxFilters"]" Title="@optionsString["Sold"]["Title"]"
-                         IsSortable="@optionsBool["Sold"]["IsSortable"]"
-                         MultipleSortingAllowed="@optionsBool["Sold"]["MultipleSortingAllowed"]" />
-
-        <PropertyColumnC Property="@(e => e.Active)" DisplayFormat="@optionsString["Active"]["DisplayFormat"]"
-                         HasFilterOptions="@optionsBool["Active"]["HasFilterOptions"]"
-                         HasAdvancedFilterOptions="@optionsBool["Active"]["HasAdvancedFilterOptions"]"
-                         MaxFilters="@optionsInt["Active"]["MaxFilters"]" Title="@optionsString["Active"]["Title"]"
-                         IsSortable="@optionsBool["Active"]["IsSortable"]"
-                         MultipleSortingAllowed="@optionsBool["Active"]["MultipleSortingAllowed"]" />
-    </QuickGridC>
-    <GridPaging PaginationState="gridPagingState" />
 }
+@if (message != null)
+{
+    <div class="alert alert-danger" role="alert">
+        <span> Erreur:</span>
+        <p>@message</p>
+    </div>
+}
+@if (messageEF != null)
+{
+    <div class="alert alert-danger" role="alert">
+        <span>Erreur EF:</span>
+        <p>@messageEF</p>
+    </div>
+}
+@if (messageOdata != null)
+{
+    <div class="alert alert-danger" role="alert">
+        <span>Erreur Odata:</span>
+        <p>@messageOdata</p>
+    </div>
+}
+@if (isEgualOdata != null && !(bool)isEgualOdata)
+{
+    <div class="alert alert-danger" role="alert">
+        Not equql of Odata
+    </div>
+}
+<PeopleGrid People="peopleGrid" FilterSortChanged="FilterSortChanged" GridPagingState="gridPagingState" />
 
 @code {
     private List<Person>? peopleGrid;
     private IQueryable<Person> people = default!;
+    private IQueryable<Person> peopleEF = default!;
     private IQueryable<Person> queryPeopleGrid = default!;
+    private IQueryable<Person> queryEFPeopleGrid = default!;
+    private GridFilteringAndSorting<Person> filteringAndSorting = default!;
     private GridPagingState gridPagingState = new(5);
-    private Dictionary<string, Dictionary<string, bool>> optionsBool = new();
-    private Dictionary<string, Dictionary<string, int>> optionsInt = new();
-    private Dictionary<string, Dictionary<string, string?>> optionsString = new();
-    private List<string> columns;
-    private string column;
-    private GridHtmlCssManager gridHtmlCssManager;
-    private bool cssManagerDefault = true;
-    public FetchPeople()
-    {
-        gridHtmlCssManager = new MyGridCssManager();
-        columns = new() { nameof(Person.FirstName), nameof(Person.LastName), nameof(Person.BirthDate), nameof(Person.Gender), nameof(Person.Sold), nameof(Person.Active) };
-        column = columns.First();
-        Dictionary<string, string?> os = new();
-        os.Add("Title", null);
-        os.Add("DisplayFormat", null);
-        optionsString.Add(nameof(Person.FirstName), os.ToDictionary());
-        optionsString.Add(nameof(Person.LastName), os.ToDictionary());
-        optionsString.Add(nameof(Person.BirthDate), os.ToDictionary());
-        optionsString.Add(nameof(Person.Gender), os.ToDictionary());
-        optionsString.Add(nameof(Person.Sold), os.ToDictionary());
-        optionsString.Add(nameof(Person.Active), os.ToDictionary());
-
-        Dictionary<string, int> oi = new();
-        oi.Add("MaxFilters", 5);
-        optionsInt.Add("FirstName", oi.ToDictionary());
-        optionsInt.Add(nameof(Person.LastName), oi.ToDictionary());
-        optionsInt.Add(nameof(Person.BirthDate), oi.ToDictionary());
-        optionsInt.Add(nameof(Person.Gender), oi.ToDictionary());
-        optionsInt.Add(nameof(Person.Sold), oi.ToDictionary());
-        optionsInt.Add(nameof(Person.Active), oi.ToDictionary());
-        Dictionary<string, bool> ob = new();
-        ob.Add("HasFilterOptions", true);
-        ob.Add("HasAdvancedFilterOptions", false);
-        ob.Add("IsSortable", true);
-        ob.Add("MultipleSortingAllowed", true);
-        ob.Add("Title", false);
-        ob.Add("DisplayFormat", false);
-        ob.Add("HeaderTemplate", false);
-        ob.Add("ColumnOptions", false);
-        optionsBool.Add(nameof(Person.FirstName), ob.ToDictionary());
-        optionsBool.Add(nameof(Person.LastName), ob.ToDictionary());
-        optionsBool.Add(nameof(Person.BirthDate), ob.ToDictionary());
-        optionsBool.Add(nameof(Person.Gender), ob.ToDictionary());
-        optionsBool.Add(nameof(Person.Sold), ob.ToDictionary());
-        optionsBool.Add(nameof(Person.Active), ob.ToDictionary());
-    }
+    private bool? isEgualEF = null;
+    private bool? isEgualOdata = null;
+    private string? message;
+    private string? messageEF;
+    private string? messageOdata;
 
     protected override async Task OnInitializedAsync()
     {
         people = (await PersonService.GetPeopleAsync()).AsQueryable();
+        peopleEF = DbContext.People;
+
         queryPeopleGrid = people;
+        queryEFPeopleGrid = peopleEF;
+
         gridPagingState.PageChanged += HandlePageChange;
         gridPagingState.CurrentPage = 1;
     }
 
     private void FilterSortChanged(GridFilteringAndSorting<Person> filteringAndSorting)
     {
-        queryPeopleGrid = filteringAndSorting.ApplyFilterAndSortExpressions(people);
+        // utilisation de Linq
+        queryPeopleGrid = filteringAndSorting.ApplyFilterAndSortExpressionsForLinq(people);
+
+        // utiliation de Entity Framework Core
+        queryEFPeopleGrid = filteringAndSorting.ApplyFilterAndSortExpressions(peopleEF);
+       
+        // Utilisation de Simple.Client.OData
+        this.filteringAndSorting = filteringAndSorting;
+
         gridPagingState.CurrentPage = 1;
     }
 
-    private void HandlePageChange(object? sender, GridPageChangedEventArgs e)
+    private async void HandlePageChange(object? sender, GridPageChangedEventArgs e)
     {
-        e.TotalItems = queryPeopleGrid.Count();
-        //e.TotalItems = people.Where(x => IFF((x.LastName != null), x.LastName.Contains("a"), false)).Count();
-        
-        var queryable = queryPeopleGrid;
+        // utilisation de Linq
+        try
+        {
+            message = null;
+            e.TotalItems = queryPeopleGrid.Count();
+            var queryable = queryPeopleGrid;
+            if (e.Skip > 0)
+                queryable = queryable.Skip(e.Skip);
+            queryable = queryable.Take(e.ItemsPerPage);
+            peopleGrid = queryable.ToList();
+        }
+        catch (Exception m)
+        {
+            message = m.Message;
+        }
 
-        if (e.Skip > 0)
-            queryable = queryable.Skip(e.Skip);
+        //utiliation de Entity Framework Core
+        List<Person>? listEf = new();
+        int countEF = 0;
+        try
+        {
+            messageEF = null;
+            countEF = queryEFPeopleGrid.Count();
+            var queryableEF = queryEFPeopleGrid;
+            if (e.Skip > 0)
+                queryableEF = queryableEF.Skip(e.Skip);
+            queryableEF = queryableEF.Take(e.ItemsPerPage);
+            listEf = queryableEF.ToList();
+        }
+        catch (Exception m)
+        {
+            messageEF = m.Message;
+        }
 
-        queryable = queryable.Take(e.ItemsPerPage);
+        // Utilisation de Simple.Client.OData
+        List<Person>? ListOdata = new();
+        int countOdata;
+        try
+        {
+            messageOdata = null;
+            (ListOdata, countOdata) = await GetListOdata(e);
+        }
+        catch (Exception m)
+        {
+            messageOdata = m.Message;
+        }
 
-        peopleGrid = queryable.ToList();
+
+        ComparList(peopleGrid, e.TotalItems, listEf, countEF, ListOdata);
         StateHasChanged();
-    }    
+    }
+    private async Task<(List<Person>, int)> GetListOdata(GridPageChangedEventArgs e)
+    {
+        var filteringAndSorting = new GridFilteringAndSorting<Person>();
+        filteringAndSorting = (GridFilteringAndSorting<Person>)this.filteringAndSorting;
+        var _ = NavigationManager;
+        
+        var client = new ODataClient($"{NavigationManager.BaseUri}odata");
+        var queryableOdata = client.For<Person>();
+        if (filteringAndSorting.HasFilterExpressions())
+            queryableOdata.Filter(filteringAndSorting.CombineFilterExpressions()!);
+        if (filteringAndSorting.HasSortExpressions())
+        {
+            foreach (var value in filteringAndSorting.SortExpressions!)
+            {
+                (var sort, var exp) = value;
+                if (sort == SortedLinq.OrderBy)
+                    queryableOdata.OrderBy(exp);
+                if (sort == SortedLinq.OrderByDescending)
+                    queryableOdata.OrderByDescending(exp);
+                if (sort == SortedLinq.ThenBy)
+                    queryableOdata.ThenBy(exp);
+                if (sort == SortedLinq.ThenByDescending)
+                    queryableOdata.ThenByDescending(exp);
+            }
+        }
+        if (e.Skip > 0)
+            queryableOdata.Skip(e.Skip);
+        queryableOdata.Top(e.ItemsPerPage);
+
+        var annotations = new ODataFeedAnnotations();        
+        var items = await queryableOdata.FindEntriesAsync(annotations);
+        var c = (int)annotations.Count;
+        return (items.ToList<Person>(), c);
+    }
+    private void ComparList(IEnumerable<Person> list1, int count1, IEnumerable<Person> list2, int count2, IEnumerable<Person> list3)
+    {
+        isEgualEF = list1.SequenceEqual(list2, new PersonComparer());
+        isEgualOdata = list1.SequenceEqual(list3, new PersonComparer());
+    }
 }

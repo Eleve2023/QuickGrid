@@ -56,7 +56,7 @@ namespace Microsoft.AspNetCore.Components.QuickGrid.QuickGridCollection
         /// <summary>
         /// Liste des colonnes à trier
         /// </summary>
-        private readonly List<KeyValuePair<ColumnCBase<TGridItem>, (SortDirection, Expression<Func<TGridItem, object>>)>> columnsSorted = new();
+        private readonly List<KeyValuePair<ColumnCBase<TGridItem>, (SortDirection, Expression<Func<TGridItem, object?>>)>> columnsSorted = new();
         /// <summary>
         /// Dictionnaire associant chaque direction de tri à la classe CSS correspondante.
         /// </summary>
@@ -207,7 +207,7 @@ namespace Microsoft.AspNetCore.Components.QuickGrid.QuickGridCollection
             else throw new Exception();
             _gridFilteringSorting.SortExpressions = columnsSorted.Select((e, index) =>
             {
-                (var sort, Expression<Func<TGridItem, object>> exp) = e.Value;
+                (var sort, Expression<Func<TGridItem, object?>> exp) = e.Value;
                 if (index == 0)
                 {
                     if (sort == SortDirection.Ascending)

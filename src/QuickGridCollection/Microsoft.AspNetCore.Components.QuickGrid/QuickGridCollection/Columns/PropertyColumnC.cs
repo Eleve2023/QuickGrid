@@ -94,7 +94,7 @@ namespace Microsoft.AspNetCore.Components.QuickGrid.QuickGridCollection.Columns
             {
                 if (memberExpression != null)
                 {
-                    SetPropertyExpressionAndTypet(memberExpression);
+                    SetPropertyExpressionAndTypet<TProp>(memberExpression);
                 }                
             }
             if(IsNewProperty || lastDisplayForma != DisplayFormat)

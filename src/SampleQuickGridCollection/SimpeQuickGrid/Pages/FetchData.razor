@@ -42,7 +42,7 @@ else
 
     private void FilterSortChanged(GridFilteringAndSorting<WeatherForecast> filteringAndSorting)
     { 
-        queryForecastsGrid = filteringAndSorting.ApplyFilterAndSortExpressions(forecasts);
+        queryForecastsGrid = filteringAndSorting.ApplyFilterAndSortExpressionsForLinq(forecasts, true);
         gridPagingState.CurrentPage = 1;
     }
 

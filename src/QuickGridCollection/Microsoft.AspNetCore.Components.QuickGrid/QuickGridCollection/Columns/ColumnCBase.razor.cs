@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Components.QuickGrid.QuickGridCollection;
 using Microsoft.AspNetCore.Components.QuickGrid.QuickGridCollection.GridCss;
 using Microsoft.AspNetCore.Components.QuickGrid.QuickGridCollection.Infrastructure;
 using Microsoft.AspNetCore.Components.Rendering;
+using System.Data.Common;
 using System.Linq.Expressions;
 using System.Reflection;
 
@@ -71,7 +72,7 @@ namespace Microsoft.AspNetCore.Components.QuickGrid.QuickGridCollection.Columns
         /// <summary>
         /// Expression de propriété pour la colonne.
         /// </summary>
-        protected Expression<Func<TGridItem, object>>? propertyExpression;
+        protected Expression<Func<TGridItem, object?>>? propertyExpression;
         
 
         protected ColumnCBase()
@@ -101,7 +102,7 @@ namespace Microsoft.AspNetCore.Components.QuickGrid.QuickGridCollection.Columns
         /// <summary>
         /// Expression de propriété pour la colonne.
         /// </summary>
-        internal Expression<Func<TGridItem, object>>? PropertyExpression => propertyExpression;
+        internal Expression<Func<TGridItem, object?>>? PropertyExpression => propertyExpression;
         /// <summary>
         /// Type de la propriété de la colonne.
         /// </summary>
@@ -175,23 +176,24 @@ namespace Microsoft.AspNetCore.Components.QuickGrid.QuickGridCollection.Columns
         /// Définit l'expression de propriété et le type de propriété pour la colonne.
         /// </summary>
         /// <param name="memberExp">Expression de membre à utiliser.</param>
-        internal void SetPropertyExpressionAndTypet(MemberExpression memberExp)
+        internal void SetPropertyExpressionAndTypet<T>(MemberExpression memberExp)
         {
-            Expression? finalExpression = null;
+            Expression<Func<TGridItem, object?>>? finalExpression = null;
             Type itemType = typeof(TGridItem);
             PropertyInfo? propertyInfo = itemType.GetProperty(memberExp.Member.Name);
-
+            object? test = "";
+            var _ = Nullable.GetUnderlyingType(test.GetType()) ?? test.GetType();
             if (propertyInfo != null)
             {
-                typeOfProperty = propertyInfo.PropertyType;
+                typeOfProperty = Nullable.GetUnderlyingType(propertyInfo.PropertyType) ?? propertyInfo.PropertyType;
                 var parameter = Expression.Parameter(itemType, "c");
                 Expression propertyExpression = Expression.Property(parameter, propertyInfo);
                 if (propertyInfo.PropertyType.IsValueType)
-                    propertyExpression = Expression.Convert(propertyExpression, typeof(object));
+                    propertyExpression = Expression.Convert(propertyExpression,typeof(object) );
 
-                finalExpression = Expression.Lambda<Func<TGridItem, object>>(propertyExpression, parameter);
+                finalExpression = Expression.Lambda<Func<TGridItem, object?>>(propertyExpression, parameter);
             }
-            propertyExpression = (Expression<Func<TGridItem, object>>?)finalExpression;
+            propertyExpression =finalExpression;
         }
         /// <summary>
         /// Définit l'expression de propriété et le type de propriété pour la colonne en utilisant une expression lambda.
@@ -200,8 +202,9 @@ namespace Microsoft.AspNetCore.Components.QuickGrid.QuickGridCollection.Columns
         /// <param name="expression">L'expression lambda représentant la propriété à utiliser.</param>
         internal void SetPropertyExpressionAndTypet<TPro>(Expression<Func<TGridItem, TPro>> expression)
         {
+
             if (expression.Body is MemberExpression memberExpression)
-                SetPropertyExpressionAndTypet(memberExpression);
+                SetPropertyExpressionAndTypet<TPro>(memberExpression);
         }
         /// <summary>
         /// Affiche ou masque les options de colonne.

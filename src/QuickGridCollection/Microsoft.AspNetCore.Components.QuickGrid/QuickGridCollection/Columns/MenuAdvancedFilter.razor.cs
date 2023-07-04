@@ -17,7 +17,7 @@ namespace Microsoft.AspNetCore.Components.QuickGrid.QuickGridCollection.Columns
         /// <summary>
         /// Opérateur utilisé pour agréger les filtres de la colonne <see cref="MenuFiltre{TGridItem}.columnFilterExpressions"/>.
         /// </summary>
-        private FilterOperator filterOperator = FilterOperator.And;
+        private FilterOperator filterOperator = FilterOperator.AndAlso;
         /// <summary>
         /// Obtient le nombre maximum de filtres à appliquer pour cette colonne.
         /// </summary>
@@ -65,7 +65,7 @@ namespace Microsoft.AspNetCore.Components.QuickGrid.QuickGridCollection.Columns
             optionSelecteds!.RemoveAt(index);          
 
             // Résout la liste des options de filtre en fonction de l'opérateur de filtre et du type d'options
-            if (filterOperator == FilterOperator.And)
+            if (filterOperator == FilterOperator.AndAlso)
             {
                 if (optionsType.Name == typeof(DataFilterOptions).Name)
                     ResolveDataFilterOptions(enumlist, optionSelecteds);
@@ -173,7 +173,7 @@ namespace Microsoft.AspNetCore.Components.QuickGrid.QuickGridCollection.Columns
                 var parameter = Expression.Parameter(typeof(TGridItem), "x");
                 var replacedExpressions = columnFilterExpressions.Select(e => ((Expression<Func<TGridItem, bool>>)ParameterReplacer.Replace(e, e.Parameters[0], parameter)).Body);
                 Expression expression;
-                if (filterOperator == FilterOperator.And)
+                if (filterOperator == FilterOperator.AndAlso)
                 {
                     expression = replacedExpressions.Aggregate(Expression.AndAlso);
                 }
@@ -196,8 +196,8 @@ namespace Microsoft.AspNetCore.Components.QuickGrid.QuickGridCollection.Columns
             bool reset;
             (filterOperator, reset) = filterOperator switch
             {
-                FilterOperator.And => (FilterOperator.Or, false),
-                FilterOperator.Or => (FilterOperator.And, true),
+                FilterOperator.AndAlso => (FilterOperator.Or, false),
+                FilterOperator.Or => (FilterOperator.AndAlso, true),
                 _ => throw new NotImplementedException()
             };
             if (reset)
