@@ -7,7 +7,7 @@
 @typeparam TGridItem
 
 @code {
-    
+
     private void RenderDefaultHeaderContent(RenderTreeBuilder __builder)
     {
         if (HeaderTemplate != null && _lastAssignedColumn != null)
@@ -27,22 +27,25 @@
                     <i class="@GetColumnOptionCssClass()" style="@GetColumnOptionCssStyle()" @onclick="( () =>  ToggleColumnOptionsVisibility() )"></i>
                     <div class="@(isOptionVisible?ClassAndStyle[ClassHtml.Column_i_div_Show]:ClassAndStyle[ClassHtml.Column_i_div_NoShow] )"
                          style="@(isOptionVisible?ClassAndStyle[StyleCss.Column_i_div_Show]:ClassAndStyle[StyleCss.Column_i_div_NoShow] )">
-                        @if (ColumnOptions != null && _lastAssignedColumn != null)
+                        @if (isOptionVisible)
                         {
-                            @ColumnOptions(new(_lastAssignedColumn))
-                        }
-                        else
-                        {
-                            <CascadingValue TValue="ColumnCBase<TGridItem>" Value="_lastAssignedColumn" IsFixed=true>
-                                @if (hasAdvancedFilterOptions)
-                                {                                   
-                                    <MenuAdvancedFilter TGridItem="TGridItem" />
-                                }
-                                else if (hasFilterOptions)
-                                {
-                                    <MenuFiltre TGridItem="TGridItem" />
-                                }
-                            </CascadingValue>
+                            @if (ColumnOptions != null && _lastAssignedColumn != null)
+                            {
+                                @ColumnOptions(new(_lastAssignedColumn))
+                            }
+                            else
+                            {
+                                <CascadingValue TValue="ColumnCBase<TGridItem>" Value="_lastAssignedColumn" IsFixed=true>
+                                    @if (hasAdvancedFilterOptions)
+                                    {
+                                        <MenuAdvancedFilter TGridItem="TGridItem" />
+                                    }
+                                    else if (hasFilterOptions)
+                                    {
+                                        <MenuFiltre TGridItem="TGridItem" />
+                                    }
+                                </CascadingValue>
+                            }
                         }
                     </div>
                 </i>
