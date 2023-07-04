@@ -173,12 +173,18 @@ namespace Microsoft.AspNetCore.Components.QuickGrid.QuickGridCollection.Columns
                 var parameter = Expression.Parameter(typeof(TGridItem), "x");
                 var replacedExpressions = columnFilterExpressions.Select(e => ((Expression<Func<TGridItem, bool>>)ParameterReplacer.Replace(e, e.Parameters[0], parameter)).Body);
                 Expression expression;
-                if (filterOperator == FilterOperator.AndAlso)
-                {
+                if (filterOperator == FilterOperator.And)                
+                    expression = replacedExpressions.Aggregate(Expression.And);
+                else if (filterOperator == FilterOperator.AndAlso)
                     expression = replacedExpressions.Aggregate(Expression.AndAlso);
-                }
+                else if (filterOperator == FilterOperator.AndAssign)
+                    expression = replacedExpressions.Aggregate(Expression.AndAssign);
                 else if (filterOperator == FilterOperator.Or)
                     expression = replacedExpressions.Aggregate(Expression.Or);
+                else if (filterOperator == FilterOperator.OrElse)
+                    expression = replacedExpressions.Aggregate(Expression.OrElse);
+                else if (filterOperator == FilterOperator.OrElse)
+                    expression = replacedExpressions.Aggregate(Expression.OrAssign);
                 else throw new Exception();
 
                 var lambda = Expression.Lambda<Func<TGridItem, bool>>(expression, parameter);

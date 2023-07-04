@@ -90,10 +90,12 @@
         /// </summary>
         AndAlso,
         And,
+        AndAssign,
         /// <summary>
         /// Opérateur OU logique.
         /// </summary>
         Or,
-        OrElse
+        OrElse,
+        OrAssign
     }
 }
