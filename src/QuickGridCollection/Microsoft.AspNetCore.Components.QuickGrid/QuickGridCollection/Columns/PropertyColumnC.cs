@@ -18,8 +18,7 @@ namespace Microsoft.AspNetCore.Components.QuickGrid.QuickGridCollection.Columns
         /// Référence à la  dernière instance de <see cref="PropertyColumnC{TGridItem, TProp}.DisplayFormat"/> assignée à cette variable.
         /// </summary>
         private string? lastDisplayForma;
-
-        
+                
         ///<summary>
         /// Expression pour obtenir la propriété à afficher dans la colonne.
         ///</summary>
@@ -29,7 +28,7 @@ namespace Microsoft.AspNetCore.Components.QuickGrid.QuickGridCollection.Columns
         ///</summary>
         [Parameter] public string? DisplayFormat { get; set; }
         ///<summary>
-        /// Indique si la colonne est triable. La valeur par défaut est <c>true</c>.
+        /// Indique si la colonne est triable.
         ///</summary>
         [Parameter] public new bool IsSortable { get => isSortable; set => isSortable = value; }
         /// <summary>
@@ -40,10 +39,7 @@ namespace Microsoft.AspNetCore.Components.QuickGrid.QuickGridCollection.Columns
         /// </remarks>
         [Parameter] public new bool MultipleSortingAllowed { get => multipleSortingAllowed; set => multipleSortingAllowed = value; }
         ///<summary>
-        /// Indique si la colonne a des options de filtre. 
-        /// <para>
-        /// La valeur par défaut est <c>true</c>.
-        /// </para> 
+        /// Indique si la colonne a des options de filtre.
         ///</summary>
         ///<remarks>
         /// Remarque: si <see cref="PropertyColumnC{TGridItem, TProp}.HasAdvancedFilterOptions"/> est défini sur <c>true</c>, <see cref="PropertyColumnC{TGridItem, TProp}.HasFilterOptions"/> sera défini sur <c>false</c>.
