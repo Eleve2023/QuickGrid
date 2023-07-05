@@ -1,9 +1,6 @@
-﻿using Microsoft.AspNetCore.Components;
-using Microsoft.AspNetCore.Components.QuickGrid.QuickGridCollection;
-using Microsoft.AspNetCore.Components.QuickGrid.QuickGridCollection.GridCss;
+﻿using Microsoft.AspNetCore.Components.QuickGrid.QuickGridCollection.GridCss;
 using Microsoft.AspNetCore.Components.QuickGrid.QuickGridCollection.Infrastructure;
 using Microsoft.AspNetCore.Components.Rendering;
-using System.Data.Common;
 using System.Linq.Expressions;
 using System.Reflection;
 
@@ -73,7 +70,6 @@ namespace Microsoft.AspNetCore.Components.QuickGrid.QuickGridCollection.Columns
         /// Expression de propriété pour la colonne.
         /// </summary>
         protected Expression<Func<TGridItem, object?>>? propertyExpression;
-        
 
         protected ColumnCBase()
         {
@@ -81,6 +77,7 @@ namespace Microsoft.AspNetCore.Components.QuickGrid.QuickGridCollection.Columns
             SortContent = RenderSortContent;
             OptionsContent = RenderOptionsContent;
         }
+
         /// <summary>
         /// Contexte interne de la grille.
         /// </summary>
@@ -109,6 +106,7 @@ namespace Microsoft.AspNetCore.Components.QuickGrid.QuickGridCollection.Columns
         /// Contenu menu option d'en-tête de la colonne.
         /// </summary>
         protected internal RenderFragment OptionsContent { get; protected set; }
+
         /// <summary>
         /// Expression de propriété pour la colonne.
         /// </summary>
@@ -117,6 +115,7 @@ namespace Microsoft.AspNetCore.Components.QuickGrid.QuickGridCollection.Columns
         /// Type de la propriété de la colonne.
         /// </summary>
         internal Type? TypeOfProperty => typeOfProperty;
+
         /// <summary>
         /// Indique si la colonne est triable.        
         /// </summary>
@@ -165,6 +164,7 @@ namespace Microsoft.AspNetCore.Components.QuickGrid.QuickGridCollection.Columns
         internal bool IsOptionVisible { get => isOptionVisible; set => isOptionVisible = value; }
 
         protected internal abstract void CellContent(RenderTreeBuilder builder, TGridItem item);
+
         /// <summary>
         /// Ajoute une colonne à la grille.
         /// </summary>
@@ -182,6 +182,7 @@ namespace Microsoft.AspNetCore.Components.QuickGrid.QuickGridCollection.Columns
         {
             Grid.ApplySort(_lastAssignedColumn!);
         }
+
         /// <summary>
         /// Définit l'expression de propriété et le type de propriété pour la colonne.
         /// </summary>
@@ -199,12 +200,13 @@ namespace Microsoft.AspNetCore.Components.QuickGrid.QuickGridCollection.Columns
                 var parameter = Expression.Parameter(itemType, "c");
                 Expression propertyExpression = Expression.Property(parameter, propertyInfo);
                 if (propertyInfo.PropertyType.IsValueType)
-                    propertyExpression = Expression.Convert(propertyExpression,typeof(object) );
+                    propertyExpression = Expression.Convert(propertyExpression, typeof(object));
 
                 finalExpression = Expression.Lambda<Func<TGridItem, object?>>(propertyExpression, parameter);
             }
-            propertyExpression =finalExpression;
+            propertyExpression = finalExpression;
         }
+
         /// <summary>
         /// Définit l'expression de propriété et le type de propriété pour la colonne en utilisant une expression lambda.
         /// </summary>
@@ -216,6 +218,7 @@ namespace Microsoft.AspNetCore.Components.QuickGrid.QuickGridCollection.Columns
             if (expression.Body is MemberExpression memberExpression)
                 SetPropertyExpressionAndTypet<TPro>(memberExpression);
         }
+
         /// <summary>
         /// Affiche ou masque les options de colonne.
         /// </summary>
@@ -224,6 +227,7 @@ namespace Microsoft.AspNetCore.Components.QuickGrid.QuickGridCollection.Columns
             isOptionVisible = !isOptionVisible;
             Grid.StateChanged();
         }
+
         /// <summary>
         /// Résout la classe CSS pour les options de colonne.
         /// </summary>
@@ -247,6 +251,7 @@ namespace Microsoft.AspNetCore.Components.QuickGrid.QuickGridCollection.Columns
             else
                 return "";
         }
+
         /// <summary>
         /// Résout le Style CSS pour les options de colonne.
         /// </summary>
@@ -270,6 +275,7 @@ namespace Microsoft.AspNetCore.Components.QuickGrid.QuickGridCollection.Columns
             else
                 return "";
         }
+
         /// <summary>
         /// Obtient la classe CSS correspondant à la direction de tri du cette colonne.
         /// Utilise le dictionnaire <see cref="QuickGridC{TGridItem}.sortDirectionCssClasses"/> pour associer chaque direction de tri à sa classe CSS correspondante.
@@ -278,6 +284,7 @@ namespace Microsoft.AspNetCore.Components.QuickGrid.QuickGridCollection.Columns
         {
             return Grid.GetSortClass(_lastAssignedColumn!);
         }
+
         /// <summary>
         /// Obtient la Style CSS correspondant à la direction de tri du cette colonne.
         /// Utilise le dictionnaire <see cref="QuickGridC{TGridItem}.sortDirectionCssClasses"/> pour associer chaque direction de tri à sa classe CSS correspondante.
