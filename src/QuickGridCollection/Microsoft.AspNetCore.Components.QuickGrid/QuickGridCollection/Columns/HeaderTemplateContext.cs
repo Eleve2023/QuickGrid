@@ -29,7 +29,7 @@ namespace Microsoft.AspNetCore.Components.QuickGrid.QuickGridCollection.Columns
         /// <remarks>
         /// Si cette propriété est définie sur <c>true</c> et que la propriété <see cref="IsSortable"/> est également définie sur <c>true</c>, cette colonne peut être triée avec d'autres colonnes triables.
         /// </remarks>
-        internal bool MultipleSortingAllowed { get => column.MultipleSortingAllowed; set => column.MultipleSortingAllowed = value; }
+        public bool MultipleSortingAllowed { get => column.MultipleSortingAllowed; set => column.MultipleSortingAllowed = value; }
         /// <summary>
         /// Définit l'expression de propriété et le type de propriété pour la colonne en utilisant une expression lambda.
         /// </summary>
@@ -51,9 +51,26 @@ namespace Microsoft.AspNetCore.Components.QuickGrid.QuickGridCollection.Columns
         }
         public void ApplySort()
         {
-            if (column.PropertyExpression != null)
+
+            if (CkeckSort())
                 column.ApplySort();
             else throw new Exception();
+        }
+        public SortDirection? GetSortDirection()
+        {
+            return column.Grid.GetSortDirection(column);
+        }
+
+        private bool isCkeckSort;
+
+        public bool CkeckSort()
+        {
+            if (!isCkeckSort && IsSortable && column.PropertyExpression != null)
+            {
+                column.Grid.columnSortDirectionsAdding(column);
+                isCkeckSort = true;
+            }
+            return isCkeckSort;
         }
     }
 }

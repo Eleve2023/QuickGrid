@@ -9,11 +9,12 @@
 @inject PersonService PersonService
 @inject PeopleDbContext DbContext
 @inject NavigationManager NavigationManager
-<PageTitle>People Liste</PageTitle>
+<PageTitle>QuickGridC Demonstration</PageTitle>
 
-<h1>People Liste</h1>
+<h1>QuickGridC Demonstration</h1>
 
-<p>This component demonstrates people list from a QickGridC.</p>
+<p>This is a demonstration of using the parameters of the QuickGridC component and its subcomponent PropertyColumnC</p>
+
 @if (isEgualEF != null && !(bool)isEgualEF)
 {
     <div class="alert alert-danger" role="alert">
@@ -127,7 +128,7 @@
 
         // Utilisation de Simple.Client.OData
         List<Person>? ListOdata = new();
-        int countOdata;
+        int countOdata = 0;
         try
         {
             messageOdata = null;
@@ -138,10 +139,10 @@
             messageOdata = m.Message;
         }
 
-
-        ComparList(peopleGrid, e.TotalItems, listEf, countEF, ListOdata);
+        ComparList(peopleGrid??new(), e.TotalItems, listEf, countEF, ListOdata, countOdata);
         StateHasChanged();
     }
+
     private async Task<(List<Person>, int)> GetListOdata(GridPageChangedEventArgs e)
     {
         var filteringAndSorting = new GridFilteringAndSorting<Person>();
@@ -158,13 +159,13 @@
             {
                 (var sort, var exp) = value;
                 if (sort == SortedLinq.OrderBy)
-                    queryableOdata.OrderBy(exp);
+                    queryableOdata.OrderBy(exp!);
                 if (sort == SortedLinq.OrderByDescending)
-                    queryableOdata.OrderByDescending(exp);
+                    queryableOdata.OrderByDescending(exp!);
                 if (sort == SortedLinq.ThenBy)
-                    queryableOdata.ThenBy(exp);
+                    queryableOdata.ThenBy(exp!);
                 if (sort == SortedLinq.ThenByDescending)
-                    queryableOdata.ThenByDescending(exp);
+                    queryableOdata.ThenByDescending(exp!);
             }
         }
         if (e.Skip > 0)
@@ -173,12 +174,12 @@
 
         var annotations = new ODataFeedAnnotations();        
         var items = await queryableOdata.FindEntriesAsync(annotations);
-        var c = (int)annotations.Count;
+        var c = (int)(annotations.Count??0);
         return (items.ToList<Person>(), c);
     }
-    private void ComparList(IEnumerable<Person> list1, int count1, IEnumerable<Person> list2, int count2, IEnumerable<Person> list3)
+    private void ComparList(IEnumerable<Person> list1, int count1, IEnumerable<Person> list2, int count2, IEnumerable<Person> list3, int count3)
     {
-        isEgualEF = list1.SequenceEqual(list2, new PersonComparer());
-        isEgualOdata = list1.SequenceEqual(list3, new PersonComparer());
+        isEgualEF = list1.SequenceEqual(list2, new PersonComparer()) && count1 == count2;
+        isEgualOdata = list1.SequenceEqual(list3, new PersonComparer()) && count1 == count3;
     }
 }

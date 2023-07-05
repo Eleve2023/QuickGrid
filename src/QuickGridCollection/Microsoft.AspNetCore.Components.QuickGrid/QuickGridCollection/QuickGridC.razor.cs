@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Components.QuickGrid.QuickGridCollection.Columns;
 using Microsoft.AspNetCore.Components.QuickGrid.QuickGridCollection.GridCss;
 using Microsoft.AspNetCore.Components.QuickGrid.QuickGridCollection.Infrastructure;
+using System.Data.Common;
 using System.Linq.Expressions;
 
 namespace Microsoft.AspNetCore.Components.QuickGrid.QuickGridCollection
@@ -132,10 +133,14 @@ namespace Microsoft.AspNetCore.Components.QuickGrid.QuickGridCollection
         {
             if (_collectingColumns)
             {
-                if (column.PropertyExpression != null && column.IsSortable)
-                    columnSortDirections.Add(column, SortDirection.Default);
+                columnSortDirectionsAdding(column);
                 _columns.Add(column);
             }
+        }
+        internal void columnSortDirectionsAdding(ColumnCBase<TGridItem> column)
+        {
+            if (column.PropertyExpression != null && column.IsSortable)
+                columnSortDirections.TryAdd(column, SortDirection.Default);
         }
         internal void StateChanged() => StateHasChanged();
         private void StartCollectingColumns()
@@ -164,6 +169,15 @@ namespace Microsoft.AspNetCore.Components.QuickGrid.QuickGridCollection
             _gridFilteringSorting.FilterExpressions = columnFilters.Select(e => e.Value).ToArray();
             await FilterSortChanged.InvokeAsync(_gridFilteringSorting);
         }
+
+        internal SortDirection? GetSortDirection(ColumnCBase<TGridItem> column)
+        {
+            var hasValue = columnSortDirections.TryGetValue(column, out SortDirection sortDirection);
+            if (hasValue)
+                return sortDirection;
+            return null;
+        }
+
         /// <summary>
         /// Trie les données de la grille en fonction de la colonne spécifiée.
         /// Met à jour la liste <see cref="QuickGridC{TGridItem}.columnsSorted"/> en fonction de la nouvelle direction de tri.

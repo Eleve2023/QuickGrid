@@ -15,8 +15,8 @@
 }
 
 .grid-option::before, .grid-option-Acteved::before {
-    cursor: pointer;
-    content: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M 2 3.25 L 12 20.75 L 22 3.25 L 12 10 z" /></svg>');
+    cursor: pointer;    
+    content: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' fill='currentColor' class='bi bi-filter' viewBox='0 0 16 16'%3E%3Cpath d='M6 10.5a.5.5 0 0 1 .5-.5h3a.5.5 0 0 1 0 1h-3a.5.5 0 0 1-.5-.5zm-2-3a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 0 1h-7a.5.5 0 0 1-.5-.5zm-2-3a.5.5 0 0 1 .5-.5h11a.5.5 0 0 1 0 1h-11a.5.5 0 0 1-.5-.5z'/%3E%3C/svg%3E");
     vertical-align: middle;
     opacity: 0.125;
 }
