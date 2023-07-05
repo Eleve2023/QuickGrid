@@ -19,13 +19,7 @@ namespace Microsoft.AspNetCore.Components.QuickGrid.QuickGridCollection.Columns
         /// </summary>
         private string? lastDisplayForma;
 
-        public PropertyColumnC()
-        {
-            isSortable = true;
-            hasFilterOptions = true;
-            hasAdvancedFilterOptions = false;
-        }
-
+        
         ///<summary>
         /// Expression pour obtenir la propriété à afficher dans la colonne.
         ///</summary>
