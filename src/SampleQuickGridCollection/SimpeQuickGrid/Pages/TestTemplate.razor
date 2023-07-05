@@ -32,7 +32,7 @@ else
             <HeaderTemplate>
                 Temp. (C)
                 @{
-                    context.SetPropertyExpressionAndType(e => e.TemperatureC); context.IsSortable = true; context.CkeckSort();
+                    context.SetPropertyExpressionAndType(e => e.TemperatureC); context.IsSortable = true; 
                 }
                 <button @onclick="() => context.ApplySort()">@context.GetSortDirection()?.ToString()</button>
             </HeaderTemplate>
@@ -44,7 +44,7 @@ else
             <HeaderTemplate>
                 Temp. (F)
                 @{
-                    context.SetPropertyExpressionAndType(e => e.TemperatureF); context.IsSortable = true; context.CkeckSort();
+                    context.SetPropertyExpressionAndType(e => e.TemperatureF); context.IsSortable = true; context.CheckSortability();
                 }
                 <button @onclick="() => context.ApplySort()">@context.GetSortDirection()?.ToString()</button>
                 <button @onclick="() => context.ApplyColumnFilter(e => e.TemperatureF > 50)">Filter</button>

@@ -22,7 +22,15 @@ namespace Microsoft.AspNetCore.Components.QuickGrid.QuickGridCollection.Columns
         /// /// <remarks>
         /// si <see cref="IsSortable"/> est définir sur <c>true</c> vous devait utilise la méthode <see cref="SetPropertyExpressionAndType{TPro}(Expression{Func{TGridItem, TPro}})"/>.
         /// </remarks>
-        public bool IsSortable { get => column.IsSortable; set => column.IsSortable = value; }
+        public bool IsSortable
+        {
+            get => column.IsSortable; 
+            set
+            {
+                column.IsSortable = value;
+                CheckSortability();
+            }
+        }
         /// <summary>
         /// Obtient ou définit une valeur indiquant si cette colonne peut être triée avec d'autres colonnes triables.
         /// </summary>
@@ -30,6 +38,7 @@ namespace Microsoft.AspNetCore.Components.QuickGrid.QuickGridCollection.Columns
         /// Si cette propriété est définie sur <c>true</c> et que la propriété <see cref="IsSortable"/> est également définie sur <c>true</c>, cette colonne peut être triée avec d'autres colonnes triables.
         /// </remarks>
         public bool MultipleSortingAllowed { get => column.MultipleSortingAllowed; set => column.MultipleSortingAllowed = value; }
+
         /// <summary>
         /// Définit l'expression de propriété et le type de propriété pour la colonne en utilisant une expression lambda.
         /// </summary>
@@ -49,28 +58,37 @@ namespace Microsoft.AspNetCore.Components.QuickGrid.QuickGridCollection.Columns
         {
             column.Grid.ApplyColumnFilter(expression, column);
         }
+        /// <summary>
+        /// Trie les données de la grille.
+        /// </summary>
         public void ApplySort()
         {
-
-            if (CkeckSort())
+            if (CheckSortability())
                 column.ApplySort();
             else throw new Exception();
         }
+        /// <summary> 
+        /// Obtenir la direction de tri de la colonne.
+        /// </summary>
+        /// <returns>La direction de tri ou null si la colonne n’est pas triable</returns>
         public SortDirection? GetSortDirection()
         {
             return column.Grid.GetSortDirection(column);
         }
-
-        private bool isCkeckSort;
-
-        public bool CkeckSort()
+                
+        /// <summary> 
+        /// Vérifie si la colonne est triable et met à jour son état de tri en conséquence.
+        /// </summary> 
+        /// <returns>Retourne true si la colonne est triable, false sinon.</returns>
+        public bool CheckSortability()
         {
-            if (!isCkeckSort && IsSortable && column.PropertyExpression != null)
+            if (IsSortable && column.PropertyExpression != null)
             {
                 column.Grid.columnSortDirectionsAdding(column);
-                isCkeckSort = true;
+                return true;
             }
-            return isCkeckSort;
+            else
+                return false;            
         }
     }
 }

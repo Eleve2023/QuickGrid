@@ -186,8 +186,8 @@ namespace Microsoft.AspNetCore.Components.QuickGrid.QuickGridCollection.Columns
         /// <param name="memberExp">Expression de membre à utiliser.</param>
         internal void SetPropertyExpressionAndTypet(MemberExpression memberExp)
         {
-            var parameter = Expression.Parameter(typeof(TGridItem), "c");
-            propertyExpression = Expression.Lambda<Func<TGridItem, object?>>(Expression.Convert(memberExp, typeof(object)), parameter);
+            var parameterExp = memberExp.Expression as ParameterExpression;            
+            propertyExpression = Expression.Lambda<Func<TGridItem, object?>>(Expression.Convert(memberExp, typeof(object)), parameterExp!);
             typeOfProperty = Nullable.GetUnderlyingType(memberExp.Type) ?? memberExp.Type;            
         }
 
