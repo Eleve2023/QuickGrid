@@ -1,5 +1,4 @@
-﻿using Microsoft.AspNetCore.Components.QuickGrid.QuickGridCollection.Columns;
-using System.ComponentModel;
+﻿using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.Linq.Expressions;
 using System.Reflection;

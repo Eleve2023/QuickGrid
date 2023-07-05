@@ -1,10 +1,6 @@
-﻿using Microsoft.AspNetCore.Components;
-using Microsoft.AspNetCore.Components.QuickGrid.QuickGridCollection.Columns;
+﻿using Microsoft.AspNetCore.Components.QuickGrid.QuickGridCollection.Columns;
 using Microsoft.AspNetCore.Components.QuickGrid.QuickGridCollection.Infrastructure;
-using System;
 using System.Linq.Expressions;
-using System.Reflection;
-using System.Xml.Linq;
 
 namespace Microsoft.AspNetCore.Components.QuickGrid.QuickGridCollection
 {
@@ -211,9 +207,7 @@ namespace Microsoft.AspNetCore.Components.QuickGrid.QuickGridCollection
         /// <param name="operatorType">L'opérateur à utiliser pour combiner les expressions.</param>
         /// <returns>Retourne un <see cref="IQueryable"/> filtré et trié.</returns>
         public readonly IQueryable<TGridItem> ApplyFilterAndSortExpressions(
-            IQueryable<TGridItem> queryable,
-            bool useDefaultValueForNull = false,
-            bool ignoreCaseInStringComparison = true,
+            IQueryable<TGridItem> queryable,            
             FilterOperator operatorType = FilterOperator.AndAlso)
         {
             var q = ApplyFilterExpressions(queryable, operatorType);
@@ -262,8 +256,7 @@ namespace Microsoft.AspNetCore.Components.QuickGrid.QuickGridCollection
         {
             if (HasFilterExpressions())
             {
-                var expressions = FilterExpressions!.Select(e => NullableCheckAndOptionStringCompare(e, useDefaultValueForNull, ignoreCaseInStringComparison));
-                var en = FilterOperator.AndAlso;
+                var expressions = FilterExpressions!.Select(e => NullableCheckAndOptionStringCompare(e, useDefaultValueForNull, ignoreCaseInStringComparison));                
                 var expressionTypet = Enum.Parse<ExpressionType>(operatorType.ToString(),true);
                 return CombineExpressions(expressionTypet, expressions!);
             }
@@ -292,7 +285,7 @@ namespace Microsoft.AspNetCore.Components.QuickGrid.QuickGridCollection
         /// <param name="expressionType">L'opérateur à utiliser pour combiner les expressions.</param>
         /// <param name="expressions">Les expressions à combiner.</param>
         /// <returns>Retourne une expression combinée.</returns>
-        private readonly Expression<Func<TGridItem, T>> CombineExpressions<T>(ExpressionType expressionType, IEnumerable<Expression<Func<TGridItem, T>>> expressions)
+        private static Expression<Func<TGridItem, T>> CombineExpressions<T>(ExpressionType expressionType, IEnumerable<Expression<Func<TGridItem, T>>> expressions)
         {
             var parameter = Expression.Parameter(typeof(TGridItem), "x");
             var replacedExpressions = expressions.Select(e => ((Expression<Func<TGridItem, T>>)ParameterReplacer.Replace(e, e.Parameters[0], parameter)).Body);
@@ -303,8 +296,7 @@ namespace Microsoft.AspNetCore.Components.QuickGrid.QuickGridCollection
                 ExpressionType.AndAssign => replacedExpressions.Aggregate(Expression.AndAssign),
                 ExpressionType.Or => replacedExpressions.Aggregate(Expression.Or),
                 ExpressionType.OrElse => replacedExpressions.Aggregate(Expression.OrElse),
-                ExpressionType.OrAssign => replacedExpressions.Aggregate(Expression.OrAssign),
-                
+                ExpressionType.OrAssign => replacedExpressions.Aggregate(Expression.OrAssign),                
                 _ => throw new NotImplementedException(),
             };
             return Expression.Lambda<Func<TGridItem, T>>(expression, parameter);

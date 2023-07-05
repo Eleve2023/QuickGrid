@@ -1,6 +1,4 @@
-﻿using Microsoft.AspNetCore.Components;
-using Microsoft.AspNetCore.Components.QuickGrid.QuickGridCollection;
-using Microsoft.AspNetCore.Components.QuickGrid.QuickGridCollection.GridCss;
+﻿using Microsoft.AspNetCore.Components.QuickGrid.QuickGridCollection.GridCss;
 using System.Globalization;
 using System.Linq.Expressions;
 
@@ -77,8 +75,7 @@ namespace Microsoft.AspNetCore.Components.QuickGrid.QuickGridCollection.Columns
 
 
         protected override void OnParametersSet()
-        {
-            var underlyingType = Nullable.GetUnderlyingType(TypeOfProperty) ?? TypeOfProperty;
+        {            
             (optionsType, selectedFilterOptions, htmlInputType) = TypeOfProperty switch
             {
                 Type t when t == typeof(string) =>
@@ -99,7 +96,7 @@ namespace Microsoft.AspNetCore.Components.QuickGrid.QuickGridCollection.Columns
             };
             selectedFilterOptionsDefault = selectedFilterOptions.ToList();
         }
-        private bool IsNumber(Type value)
+        private static bool IsNumber(Type value)
         {
             return value == typeof(sbyte)
                 || value == typeof(byte)
@@ -220,7 +217,7 @@ namespace Microsoft.AspNetCore.Components.QuickGrid.QuickGridCollection.Columns
         /// <param name="methode">La méthode à utiliser pour créer l'expression lambda.</param>
         /// <param name="objValue">La valeur à utiliser dans l'expression lambda.</param>
         /// <returns>Une expression lambda représentant le filtre pour un champ de type chaîne de caractères.</returns>
-        private Expression<Func<TGridItem, bool>> CreateStringFilterExpression(string methode, object objValue)
+        private Expression<Func<TGridItem, bool>> CreateStringFilterExpression(string methode, object? objValue)
         {
             MemberExpression memberExp = null!;
             if (objValue == null)

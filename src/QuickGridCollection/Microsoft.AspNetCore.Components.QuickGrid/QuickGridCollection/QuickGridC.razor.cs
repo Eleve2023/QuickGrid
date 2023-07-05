@@ -133,11 +133,11 @@ namespace Microsoft.AspNetCore.Components.QuickGrid.QuickGridCollection
         {
             if (_collectingColumns)
             {
-                columnSortDirectionsAdding(column);
+                ColumnSortDirectionsAdding(column);
                 _columns.Add(column);
             }
         }
-        internal void columnSortDirectionsAdding(ColumnCBase<TGridItem> column)
+        internal void ColumnSortDirectionsAdding(ColumnCBase<TGridItem> column)
         {
             if (column.PropertyExpression != null && column.IsSortable)
                 columnSortDirections.TryAdd(column, SortDirection.Default);

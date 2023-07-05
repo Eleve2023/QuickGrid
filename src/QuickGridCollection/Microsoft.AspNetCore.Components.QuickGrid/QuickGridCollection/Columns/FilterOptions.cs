@@ -3,7 +3,7 @@
     /// <summary>
     /// Énumération des options de filtre pour les champs de type chaîne.
     /// </summary>
-    public enum StringFilterOptions
+    internal enum StringFilterOptions
     {
         /// <summary>
         /// Option de filtre pour vérifier si la chaîne contient une sous-chaîne spécifiée.
@@ -29,7 +29,7 @@
     /// <summary>
     /// Énumération des options de filtre pour les champs de type données.
     /// </summary>
-    public enum DataFilterOptions
+    internal enum DataFilterOptions
     {
         /// <summary>
         /// Option de filtre pour vérifier si la donnée n'est pas égale à une donnée spécifiée.
@@ -59,7 +59,7 @@
     /// <summary>
     /// Énumération des options de filtre pour les champs de type énumération.
     /// </summary>
-    public enum EnumFilterOptions
+    internal enum EnumFilterOptions
     {
         /// <summary>
         /// Option de filtre pour vérifier si l'énumération n'est pas égale à une énumération spécifiée.
@@ -73,7 +73,7 @@
     /// <summary>
     /// Énumération des options de filtre pour les champs de type booléen.
     /// </summary>
-    public enum BoolFilterOptions
+    internal enum BoolFilterOptions
     {
         /// <summary>
         /// Option de filtre pour vérifier si le booléen est égal à un booléen spécifié.

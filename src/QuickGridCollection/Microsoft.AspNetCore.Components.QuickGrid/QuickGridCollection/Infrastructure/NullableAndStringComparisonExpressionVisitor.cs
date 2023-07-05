@@ -7,8 +7,8 @@ namespace Microsoft.AspNetCore.Components.QuickGrid.QuickGridCollection.Infrastr
     /// </summary>
     internal class NullableAndStringComparisonExpressionVisitor : ExpressionVisitor
     {
-        private bool useDefaultValueForNull;
-        private bool ignoreCaseInStringComparison;
+        private readonly bool useDefaultValueForNull;
+        private readonly bool ignoreCaseInStringComparison;
 
         /// <summary>
         /// Crée une nouvelle instance de la classe NullableAndStringComparisonExpressionVisitor.

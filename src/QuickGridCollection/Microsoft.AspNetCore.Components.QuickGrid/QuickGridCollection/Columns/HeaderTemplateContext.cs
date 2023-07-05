@@ -84,7 +84,7 @@ namespace Microsoft.AspNetCore.Components.QuickGrid.QuickGridCollection.Columns
         {
             if (IsSortable && column.PropertyExpression != null)
             {
-                column.Grid.columnSortDirectionsAdding(column);
+                column.Grid.ColumnSortDirectionsAdding(column);
                 return true;
             }
             else

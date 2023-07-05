@@ -1,6 +1,5 @@
 ﻿using Microsoft.AspNetCore.Components.QuickGrid.QuickGridCollection.Infrastructure;
 using System.Linq.Expressions;
-using System.Reflection.Metadata;
 
 namespace Microsoft.AspNetCore.Components.QuickGrid.QuickGridCollection.Columns
 {
@@ -18,16 +17,18 @@ namespace Microsoft.AspNetCore.Components.QuickGrid.QuickGridCollection.Columns
         /// Opérateur utilisé pour agréger les filtres de la colonne <see cref="MenuFiltre{TGridItem}.columnFilterExpressions"/>.
         /// </summary>
         private FilterOperator filterOperator = FilterOperator.AndAlso;
+        
         /// <summary>
         /// Obtient le nombre maximum de filtres à appliquer pour cette colonne.
         /// </summary>
-        private int maxColumnFilters => Column.MaxFilters;
+        private int MaxColumnFilters => Column.MaxFilters;
+        
         /// <summary>
         /// Ajoute un filtre à la liste des filtres de la colonne.
         /// </summary>
         private void AddColumnFilter()
         {
-            if (filterIndex < maxColumnFilters - 1)
+            if (filterIndex < MaxColumnFilters - 1)
             {
                 columnFilterAdditions++;
                 if (true) showAddFilterButton.Add(true);
@@ -88,13 +89,14 @@ namespace Microsoft.AspNetCore.Components.QuickGrid.QuickGridCollection.Columns
             // Met à jour et renvoie la liste des options de filtre à l'index spécifié
             return filterOptions[index] = enumlist;
         }
+
         /// <summary>
         /// Résout la liste des options de filtre pour les champs de type chaîne en fonction des options de filtre sélectionnées.
         /// </summary>
         /// <typeparam name="TOption">Le type des options de filtre.</typeparam>
         /// <param name="enumlist">La liste des options de filtre à résoudre.</param>
         /// <param name="optionSelecteds">La liste des options de filtre sélectionnées.</param>
-        private void ResolveStringFilterOptions<TOption>(List<TOption> enumlist, List<Enum> optionSelecteds)
+        private static void ResolveStringFilterOptions<TOption>(List<TOption> enumlist, List<Enum> optionSelecteds)
         {
             if (optionSelecteds.Contains(StringFilterOptions.StartsWith))
                 enumlist.RemoveAll(x => x is StringFilterOptions.StartsWith or StringFilterOptions.Equal);
@@ -113,13 +115,14 @@ namespace Microsoft.AspNetCore.Components.QuickGrid.QuickGridCollection.Columns
                     or StringFilterOptions.Equal
                     or StringFilterOptions.NotEqual);
         }
+
         /// <summary>
         /// Résout la liste des options de filtre pour les champs de type énumération en fonction des options de filtre sélectionnées.
         /// </summary>
         /// <typeparam name="TOption">Le type des options de filtre.</typeparam>
         /// <param name="enumlist">La liste des options de filtre à résoudre.</param>
         /// <param name="optionSelecteds">La liste des options de filtre sélectionnées.</param>
-        private void ResolveEnumFilterOptions<TOption>(List<TOption> enumlist, List<Enum> optionSelecteds)
+        private static void ResolveEnumFilterOptions<TOption>(List<TOption> enumlist, List<Enum> optionSelecteds)
         {
             if (optionSelecteds.Contains(EnumFilterOptions.Equal))
                 enumlist.RemoveAll(x => x is EnumFilterOptions.NotEqual);
@@ -127,12 +130,13 @@ namespace Microsoft.AspNetCore.Components.QuickGrid.QuickGridCollection.Columns
             if (optionSelecteds.Contains(EnumFilterOptions.NotEqual))
                 enumlist.RemoveAll(x => x is EnumFilterOptions.Equal);
         }
+
         /// <summary>
         /// Résout la liste des options de filtre pour les champs de type données en fonction des options de filtre sélectionnées.
         /// </summary>
         /// <param name="enumlist">La liste des options de filtre à résoudre.</param>
         /// <param name="optionSelecteds">La liste des options de filtre sélectionnées.</param>
-        private void ResolveDataFilterOptions(List<Enum> enumlist, List<Enum> optionSelecteds)
+        private static void ResolveDataFilterOptions(List<Enum> enumlist, List<Enum> optionSelecteds)
         {
             if (optionSelecteds.Contains(DataFilterOptions.Equal))
                 enumlist.RemoveAll(x =>
