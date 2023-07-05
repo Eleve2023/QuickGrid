@@ -2,7 +2,6 @@
 using Microsoft.AspNetCore.Components.QuickGrid.QuickGridCollection.Infrastructure;
 using Microsoft.AspNetCore.Components.Rendering;
 using System.Linq.Expressions;
-using System.Reflection;
 
 namespace Microsoft.AspNetCore.Components.QuickGrid.QuickGridCollection.Columns
 {
@@ -10,9 +9,7 @@ namespace Microsoft.AspNetCore.Components.QuickGrid.QuickGridCollection.Columns
     /// Représente une colonne dans une grille de données.
     /// Elle contient des propriétés et des méthodes pour gérer les options de colonne,
     /// telles que la visibilité des options, la possibilité de trier et de filtrer les données,
-    /// ainsi que les expressions de propriété et les types de propriété pour la colonne.
-    /// Cette classe est liée au composant Blazor Column.razor qui utilise des balises Razor
-    /// pour afficher une grille avec des colonnes et des lignes.
+    /// ainsi que les expressions de propriété et les types de propriété pour la colonne.    
     /// </summary>
     /// <typeparam name="TGridItem">Le type des éléments de données affichés dans la grille.</typeparam>
     [CascadingTypeParameter(nameof(TGridItem))]
@@ -187,24 +184,11 @@ namespace Microsoft.AspNetCore.Components.QuickGrid.QuickGridCollection.Columns
         /// Définit l'expression de propriété et le type de propriété pour la colonne.
         /// </summary>
         /// <param name="memberExp">Expression de membre à utiliser.</param>
-        internal void SetPropertyExpressionAndTypet<T>(MemberExpression memberExp)
+        internal void SetPropertyExpressionAndTypet(MemberExpression memberExp)
         {
-            Expression<Func<TGridItem, object?>>? finalExpression = null;
-            Type itemType = typeof(TGridItem);
-            PropertyInfo? propertyInfo = itemType.GetProperty(memberExp.Member.Name);
-            object? test = "";
-            var _ = Nullable.GetUnderlyingType(test.GetType()) ?? test.GetType();
-            if (propertyInfo != null)
-            {
-                typeOfProperty = Nullable.GetUnderlyingType(propertyInfo.PropertyType) ?? propertyInfo.PropertyType;
-                var parameter = Expression.Parameter(itemType, "c");
-                Expression propertyExpression = Expression.Property(parameter, propertyInfo);
-                if (propertyInfo.PropertyType.IsValueType)
-                    propertyExpression = Expression.Convert(propertyExpression, typeof(object));
-
-                finalExpression = Expression.Lambda<Func<TGridItem, object?>>(propertyExpression, parameter);
-            }
-            propertyExpression = finalExpression;
+            var parameter = Expression.Parameter(typeof(TGridItem), "c");
+            propertyExpression = Expression.Lambda<Func<TGridItem, object?>>(Expression.Convert(memberExp, typeof(object)), parameter);
+            typeOfProperty = Nullable.GetUnderlyingType(memberExp.Type) ?? memberExp.Type;            
         }
 
         /// <summary>
@@ -214,9 +198,8 @@ namespace Microsoft.AspNetCore.Components.QuickGrid.QuickGridCollection.Columns
         /// <param name="expression">L'expression lambda représentant la propriété à utiliser.</param>
         internal void SetPropertyExpressionAndTypet<TPro>(Expression<Func<TGridItem, TPro>> expression)
         {
-
             if (expression.Body is MemberExpression memberExpression)
-                SetPropertyExpressionAndTypet<TPro>(memberExpression);
+                SetPropertyExpressionAndTypet(memberExpression);
         }
 
         /// <summary>
