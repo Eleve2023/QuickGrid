@@ -87,9 +87,9 @@ namespace Microsoft.AspNetCore.Components.QuickGrid.QuickGridCollection
 
             sortDirectionCssClasses = new()
             {
-                { SortDirection.Ascending, ClassAndStyle[ClassHtml.Column_iSort_i_SortAsc] },
-                { SortDirection.Descending, ClassAndStyle[ClassHtml.Column_iSort_i_SortDesc] },
-                { SortDirection.Default, ClassAndStyle[ClassHtml.Column_iSort_i_Sortdefault] }
+                { SortDirection.Ascending, ClassAndStyle[ClassHtml.Column_Sort_i_i_SortAsc] },
+                { SortDirection.Descending, ClassAndStyle[ClassHtml.Column_Sort_i_i_SortDesc] },
+                { SortDirection.Default, ClassAndStyle[ClassHtml.Column_Sort_i_i_Sortdefault] }
             };
         }
 
@@ -251,7 +251,7 @@ namespace Microsoft.AspNetCore.Components.QuickGrid.QuickGridCollection
             {
                 return sortDirectionCssClasses[columnSortDirections[column]];
             }
-            return ClassAndStyle[ClassHtml.Column_iSort_i_SortNot];
+            return ClassAndStyle[ClassHtml.Column_Sort_i_i_SortNot];
         }
         /// <summary>
         /// Obtient la Style CSS correspondant à la direction de tri d'une colonne.
@@ -263,14 +263,14 @@ namespace Microsoft.AspNetCore.Components.QuickGrid.QuickGridCollection
             {
                 var style = columnSortDirections[column] switch
                 {
-                    SortDirection.Ascending => ClassAndStyle[StyleCss.Column_iSort_i_SortAsc],
-                    SortDirection.Descending => ClassAndStyle[StyleCss.Column_iSort_i_SortDesc],
-                    SortDirection.Default => ClassAndStyle[StyleCss.Column_iSort_i_Sortdefault],
+                    SortDirection.Ascending => ClassAndStyle[StyleCss.Column_Sort_i_i_SortAsc],
+                    SortDirection.Descending => ClassAndStyle[StyleCss.Column_Sort_i_i_SortDesc],
+                    SortDirection.Default => ClassAndStyle[StyleCss.Column_Sort_i_i_Sortdefault],
                     _ => throw new NotImplementedException(),
                 };
                 return style;
             }
-            return ClassAndStyle[StyleCss.Column_iSort_i_SortNot];
+            return ClassAndStyle[StyleCss.Column_Sort_i_i_SortNot];
         }
         /// <summary>
         /// Obtenir la valeur pour élément html aria-sort

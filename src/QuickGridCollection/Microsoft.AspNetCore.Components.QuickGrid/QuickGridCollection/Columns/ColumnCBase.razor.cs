@@ -78,6 +78,8 @@ namespace Microsoft.AspNetCore.Components.QuickGrid.QuickGridCollection.Columns
         protected ColumnCBase()
         {
             HeaderContent = RenderDefaultHeaderContent;
+            SortContent = RenderSortContent;
+            OptionsContent = RenderOptionsContent;
         }
         /// <summary>
         /// Contexte interne de la grille.
@@ -99,6 +101,14 @@ namespace Microsoft.AspNetCore.Components.QuickGrid.QuickGridCollection.Columns
         /// Contenu d'en-tête de la colonne.
         /// </summary>
         protected internal RenderFragment HeaderContent { get; protected set; }
+        /// <summary>
+        /// Contenu sort d'en-tête de la colonne.
+        /// </summary>
+        protected internal RenderFragment SortContent { get; protected set; }
+        /// <summary>
+        /// Contenu menu option d'en-tête de la colonne.
+        /// </summary>
+        protected internal RenderFragment OptionsContent { get; protected set; }
         /// <summary>
         /// Expression de propriété pour la colonne.
         /// </summary>
@@ -221,18 +231,18 @@ namespace Microsoft.AspNetCore.Components.QuickGrid.QuickGridCollection.Columns
         {
             if (ColumnOptions != null)
             {
-                return optionApplied ? ClassAndStyle[ClassHtml.Column_i_i_ColumnOptionActive] :
-                    ClassAndStyle[ClassHtml.Column_i_i_ColumnOptionNotActive];
+                return optionApplied ? ClassAndStyle[ClassHtml.Column_Options_i_i_ColumnOptionActive] :
+                    ClassAndStyle[ClassHtml.Column_Options_i_i_ColumnOptionNotActive];
             }
             else if (hasAdvancedFilterOptions)
             {
-                return optionApplied ? ClassAndStyle[ClassHtml.Column_i_i_MenuAdvancedFilterActive] :
-                    ClassAndStyle[ClassHtml.Column_i_i_MenuAdvancedFilterNotActive];
+                return optionApplied ? ClassAndStyle[ClassHtml.Column_Options_i_i_MenuAdvancedFilterActive] :
+                    ClassAndStyle[ClassHtml.Column_Options_i_i_MenuAdvancedFilterNotActive];
             }
             else if (hasFilterOptions)
             {
-                return optionApplied ? ClassAndStyle[ClassHtml.Column_i_i_MenuFiltreActive] :
-                    ClassAndStyle[ClassHtml.Column_i_i_MenuFiltreNotActive];
+                return optionApplied ? ClassAndStyle[ClassHtml.Column_Options_i_i_MenuFiltreActive] :
+                    ClassAndStyle[ClassHtml.Column_Options_i_i_MenuFiltreNotActive];
             }
             else
                 return "";
@@ -244,18 +254,18 @@ namespace Microsoft.AspNetCore.Components.QuickGrid.QuickGridCollection.Columns
         {
             if (ColumnOptions != null)
             {
-                return optionApplied ? ClassAndStyle[StyleCss.Column_i_i_ColumnOptionActive] :
-                    ClassAndStyle[StyleCss.Column_i_i_ColumnOptionNotActive];
+                return optionApplied ? ClassAndStyle[StyleCss.Column_Options_i_i_ColumnOptionActive] :
+                    ClassAndStyle[StyleCss.Column_Options_i_i_ColumnOptionNotActive];
             }
             else if (hasAdvancedFilterOptions)
             {
-                return optionApplied ? ClassAndStyle[StyleCss.Column_i_i_MenuAdvancedFilterActive] :
-                    ClassAndStyle[StyleCss.Column_i_i_MenuAdvancedFilterNotActive];
+                return optionApplied ? ClassAndStyle[StyleCss.Column_Options_i_i_MenuAdvancedFilterActive] :
+                    ClassAndStyle[StyleCss.Column_Options_i_i_MenuAdvancedFilterNotActive];
             }
             else if (hasFilterOptions)
             {
-                return optionApplied ? ClassAndStyle[StyleCss.Column_i_i_MenuFiltreActive] :
-                    ClassAndStyle[StyleCss.Column_i_i_MenuFiltreNotActive];
+                return optionApplied ? ClassAndStyle[StyleCss.Column_Options_i_i_MenuFiltreActive] :
+                    ClassAndStyle[StyleCss.Column_Options_i_i_MenuFiltreNotActive];
             }
             else
                 return "";

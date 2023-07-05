@@ -13,47 +13,47 @@
         Grid_div_table_tbody,
         Grid_div_table_tbody_tr,
         Grid_div_table_tbody_tr_td,
-        Column_iSort,
-        Column_iSort_i_SortAsc,
-        Column_iSort_i_SortDesc,
-        Column_iSort_i_Sortdefault,
+        Column_Sort_i,
+        Column_Sort_i_i_SortAsc,
+        Column_Sort_i_i_SortDesc,
+        Column_Sort_i_i_Sortdefault,
         /// <summary>
         /// La colonne n'est pas triable
         /// </summary>
-        Column_iSort_i_SortNot,
-        Column_i,
+        Column_Sort_i_i_SortNot,
+        Column_Options_i,
         /// <summary>
         /// Ne pas affiche le menu options
         /// </summary>
-        Column_i_div_NoShow,
+        Column_Options_i_div_NoShow,
         /// <summary>
         /// Affiche le menu options
         /// </summary>
-        Column_i_div_Show,
+        Column_Options_i_div_Show,
         /// <summary>
         /// Si les options de la colonne sont applique.
         /// </summary>
-        Column_i_i_ColumnOptionActive,
+        Column_Options_i_i_ColumnOptionActive,
         /// <summary>
         /// Si les options de la colonne ne sont pas applique.
         /// </summary>
-        Column_i_i_ColumnOptionNotActive,
+        Column_Options_i_i_ColumnOptionNotActive,
         /// <summary>
         /// Si les options de la colonne sont applique.
         /// </summary>
-        Column_i_i_MenuFiltreActive,
+        Column_Options_i_i_MenuFiltreActive,
         /// <summary>
         /// Si les options de la colonne ne sont pas applique.
         /// </summary>
-        Column_i_i_MenuFiltreNotActive,
+        Column_Options_i_i_MenuFiltreNotActive,
         /// <summary>
         /// Si les options de la colonne sont applique.
         /// </summary>
-        Column_i_i_MenuAdvancedFilterActive,
+        Column_Options_i_i_MenuAdvancedFilterActive,
         /// <summary>
         /// Si les options de la colonne ne sont pas applique.
         /// </summary>
-        Column_i_i_MenuAdvancedFilterNotActive,
+        Column_Options_i_i_MenuAdvancedFilterNotActive,
         MenuFiltre_from,
         MenuFiltre_from_divInput,
         MenuFiltre_from_divInput_selectInputOption,
