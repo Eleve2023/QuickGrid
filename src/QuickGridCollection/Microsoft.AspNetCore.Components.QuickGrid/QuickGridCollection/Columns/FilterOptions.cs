@@ -84,16 +84,10 @@
     /// Énumération des opérateurs de filtre utilisés pour agréger les filtres.
     /// </summary>
     public enum FilterOperator
-    {
-        /// <summary>
-        /// Opérateur ET logique.
-        /// </summary>
+    {        
         AndAlso,
         And,
-        AndAssign,
-        /// <summary>
-        /// Opérateur OU logique.
-        /// </summary>
+        AndAssign,        
         Or,
         OrElse,
         OrAssign
