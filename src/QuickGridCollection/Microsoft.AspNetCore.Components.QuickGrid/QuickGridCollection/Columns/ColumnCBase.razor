@@ -27,7 +27,8 @@
                     <i class="@GetColumnOptionCssClass()" style="@GetColumnOptionCssStyle()" @onclick="( () =>  ToggleColumnOptionsVisibility() )"></i>
                     <div class="@(isOptionVisible?ClassAndStyle[ClassHtml.Column_i_div_Show]:ClassAndStyle[ClassHtml.Column_i_div_NoShow] )"
                          style="@(isOptionVisible?ClassAndStyle[StyleCss.Column_i_div_Show]:ClassAndStyle[StyleCss.Column_i_div_NoShow] )">
-                        @if (isOptionVisible)
+                        <!-- todo: remplace true par isOptionVisible et persister les données des menu  -->
+                         @if (true)
                         {
                             @if (ColumnOptions != null && _lastAssignedColumn != null)
                             {
