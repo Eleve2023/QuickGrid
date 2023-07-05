@@ -1,8 +1,5 @@
-﻿using Microsoft.AspNetCore.Components;
-using Microsoft.AspNetCore.Components.QuickGrid.QuickGridCollection.Columns;
-using Microsoft.AspNetCore.Components.Rendering;
+﻿using Microsoft.AspNetCore.Components.Rendering;
 using System.Linq.Expressions;
-using System.Reflection;
 
 namespace Microsoft.AspNetCore.Components.QuickGrid.QuickGridCollection.Columns
 {
@@ -21,12 +18,14 @@ namespace Microsoft.AspNetCore.Components.QuickGrid.QuickGridCollection.Columns
         /// Référence à la  dernière instance de <see cref="PropertyColumnC{TGridItem, TProp}.DisplayFormat"/> assignée à cette variable.
         /// </summary>
         private string? lastDisplayForma;
+
         public PropertyColumnC()
         {
             isSortable = true;
             hasFilterOptions = true;
             hasAdvancedFilterOptions = false;
         }
+
         ///<summary>
         /// Expression pour obtenir la propriété à afficher dans la colonne.
         ///</summary>
@@ -103,7 +102,7 @@ namespace Microsoft.AspNetCore.Components.QuickGrid.QuickGridCollection.Columns
                 var compiledPropertyExpression = Property.Compile() ?? throw new ArgumentNullException();
 
                 if (string.IsNullOrEmpty(DisplayFormat) && memberExpression is not null)
-                    GetDisplayFormatFromDataAnnotations(memberExpression.Member);
+                    GetDisplayFormatFromDataAnnotations(memberExpression);
 
                 if (!string.IsNullOrEmpty(DisplayFormat))
                 {
@@ -122,10 +121,9 @@ namespace Microsoft.AspNetCore.Components.QuickGrid.QuickGridCollection.Columns
             }
 
             if (Title is null && memberExpression is not null)
-            {
-                MemberInfo? memberInfo = memberExpression.Member;
-                GetTitleFromDataAnnotations(memberInfo);
-                Title ??= memberInfo?.Name ?? "";
+            {                
+                GetTitleFromDataAnnotations(memberExpression);
+                Title ??= memberExpression.Member.Name;
             }
             if (IsNewProperty)
                 AddColumn();
@@ -134,9 +132,9 @@ namespace Microsoft.AspNetCore.Components.QuickGrid.QuickGridCollection.Columns
         protected internal override void CellContent(RenderTreeBuilder builder, TGridItem item)
         => builder.AddContent(0, _cellTextFunc!(item));
 
-        partial void GetTitleFromDataAnnotations(MemberInfo? memberInfo);
+        partial void GetTitleFromDataAnnotations(MemberExpression memberExpression);
 
-        partial void GetDisplayFormatFromDataAnnotations(MemberInfo? memberInfo);
+        partial void GetDisplayFormatFromDataAnnotations(MemberExpression memberExpression);
 
     }
 }
