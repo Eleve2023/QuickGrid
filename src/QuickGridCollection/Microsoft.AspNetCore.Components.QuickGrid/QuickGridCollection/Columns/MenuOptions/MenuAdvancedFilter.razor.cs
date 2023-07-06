@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Components.QuickGrid.QuickGridCollection.Infrastructure;
+﻿using Microsoft.AspNetCore.Components.QuickGrid.QuickGridCollection.Columns.MenuOptions;
+using Microsoft.AspNetCore.Components.QuickGrid.QuickGridCollection.Infrastructure;
 using System.Linq.Expressions;
 
 namespace Microsoft.AspNetCore.Components.QuickGrid.QuickGridCollection.Columns

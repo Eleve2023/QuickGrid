@@ -1,7 +1,4 @@
-﻿using Microsoft.AspNetCore.Components.QuickGrid.QuickGridCollection.Columns;
-using Microsoft.AspNetCore.Components.QuickGrid.QuickGridCollection.GridCss;
-using Microsoft.AspNetCore.Routing;
-using System.Reflection.Metadata;
+﻿using Microsoft.AspNetCore.Components.QuickGrid.QuickGridCollection;
 
 namespace SimpeQuickGrid.Pages
 {

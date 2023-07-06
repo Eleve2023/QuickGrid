@@ -1,4 +1,4 @@
-﻿namespace Microsoft.AspNetCore.Components.QuickGrid.QuickGridCollection.Columns
+﻿namespace Microsoft.AspNetCore.Components.QuickGrid.QuickGridCollection.Columns.MenuOptions
 {
     /// <summary xml:lang="fr">
     /// Énumération des options de filtre pour les champs de type chaîne.
@@ -79,17 +79,5 @@
         /// Option de filtre pour vérifier si le booléen est égal à un booléen spécifié.
         /// </summary>
         Equal
-    }
-    /// <summary xml:lang="fr">
-    /// Énumération des opérateurs de filtre utilisés pour agréger les filtres.
-    /// </summary>
-    public enum FilterOperator
-    {        
-        AndAlso,
-        And,
-        AndAssign,        
-        Or,
-        OrElse,
-        OrAssign
     }
 }

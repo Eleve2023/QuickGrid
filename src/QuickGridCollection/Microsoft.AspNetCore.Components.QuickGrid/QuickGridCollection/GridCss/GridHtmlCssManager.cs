@@ -1,4 +1,5 @@
-﻿namespace Microsoft.AspNetCore.Components.QuickGrid.QuickGridCollection.GridCss
+﻿
+namespace Microsoft.AspNetCore.Components.QuickGrid.QuickGridCollection
 {
     /// <summary xml:lang="fr">
     /// Classe permettant de gérer les classes CSS et les styles des éléments HTML de la grille <see cref="QuickGridC{TGridItem}"/>.

@@ -1,14 +1,12 @@
 ﻿@page "/fetchpeople"
 @using Microsoft.AspNetCore.Components.QuickGrid.QuickGridCollection
-@using Microsoft.AspNetCore.Components.QuickGrid.QuickGridCollection.Columns
-@using Microsoft.AspNetCore.Components.QuickGrid.QuickGridCollection.GridCss;
-@using Microsoft.AspNetCore.Components.QuickGrid.QuickGridCollection.Pagination
 @using SimpeQuickGrid.Data
 @using Simple.OData.Client;
 @using System.Linq.Expressions;
 @inject PersonService PersonService
 @inject PeopleDbContext DbContext
 @inject NavigationManager NavigationManager
+
 <PageTitle>QuickGridC Demonstration</PageTitle>
 
 <h1>QuickGridC Demonstration</h1>

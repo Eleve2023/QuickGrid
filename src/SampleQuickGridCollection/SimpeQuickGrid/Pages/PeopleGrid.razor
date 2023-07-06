@@ -1,7 +1,4 @@
 ﻿@using Microsoft.AspNetCore.Components.QuickGrid.QuickGridCollection
-@using Microsoft.AspNetCore.Components.QuickGrid.QuickGridCollection.Columns
-@using Microsoft.AspNetCore.Components.QuickGrid.QuickGridCollection.GridCss;
-@using Microsoft.AspNetCore.Components.QuickGrid.QuickGridCollection.Pagination;
 @using SimpeQuickGrid.Data;
 
 
@@ -22,11 +19,11 @@ else
             }
         </select>
         @* <div class="form-check form-check-inline form-switch">
-            <input class="form-check-input" type="checkbox" role="switch" id="checkHeaderTemplate"
-                   checked="@optionsBool[column]["HeaderTemplate"]"
-            @bind-value="@optionsBool[column]["HeaderTemplate"]">
-            <label class="form-check-label" for="checkHeaderTemplate">HeaderTemplate</label>
-        </div> *@
+    <input class="form-check-input" type="checkbox" role="switch" id="checkHeaderTemplate"
+    checked="@optionsBool[column]["HeaderTemplate"]"
+    @bind-value="@optionsBool[column]["HeaderTemplate"]">
+    <label class="form-check-label" for="checkHeaderTemplate">HeaderTemplate</label>
+    </div> *@
         <div hidden="@optionsBool[column]["HeaderTemplate"]">
             <div>
                 <div class="input-group input-group-sm">
@@ -70,12 +67,12 @@ else
                     @onchange="@(()=> {@optionsBool[column]["HasFilterOptions"] = false;@optionsBool[column]["HasAdvancedFilterOptions"] = false;} )">
                     <label class="form-check-label" for="hasOption3">Not</label>
                 </div>
-               @*  <div class="form-check form-check-inline form-switch">
-                    <input class="form-check-input" type="checkbox" role="switch" id="checkColumnOptions"
-                           checked="@optionsBool[column]["ColumnOptions"]"
-                    @bind-value="@optionsBool[column]["ColumnOptions"]">
-                    <label class="form-check-label" for="checkColumnOptions">ColumnOptions</label>
-                </div> *@
+                @*  <div class="form-check form-check-inline form-switch">
+            <input class="form-check-input" type="checkbox" role="switch" id="checkColumnOptions"
+            checked="@optionsBool[column]["ColumnOptions"]"
+            @bind-value="@optionsBool[column]["ColumnOptions"]">
+            <label class="form-check-label" for="checkColumnOptions">ColumnOptions</label>
+            </div> *@
                 <div class="input-group input-group-sm mb-3">
                     <label class="input-group-text" for="inputGroupFile01">MaxFilters</label>
                     <input type="number" class="form-control" id="inputGroupFile01"
@@ -108,7 +105,7 @@ else
                          HasAdvancedFilterOptions="@optionsBool["FirstName"]["HasAdvancedFilterOptions"]"
                          MaxFilters="@optionsInt["FirstName"]["MaxFilters"]" Title="@optionsString["FirstName"]["Title"]"
                          IsSortable="@optionsBool["FirstName"]["IsSortable"]"
-                         MultipleSortingAllowed="@optionsBool["FirstName"]["MultipleSortingAllowed"]"/>
+                         MultipleSortingAllowed="@optionsBool["FirstName"]["MultipleSortingAllowed"]" />
 
         <PropertyColumnC Property="@(e => e.LastName)" DisplayFormat="@optionsString["LastName"]["DisplayFormat"]"
                          HasFilterOptions="@optionsBool["LastName"]["HasFilterOptions"]"
@@ -146,8 +143,8 @@ else
                          MultipleSortingAllowed="@optionsBool["Active"]["MultipleSortingAllowed"]" />
     </QuickGridC>
     <GridPaging PaginationState="GridPagingState" />
-}    
-    
+}
+
 @code {
 
     //private IQueryable<Person> people = default!;
@@ -199,8 +196,8 @@ else
         optionsBool.Add(nameof(Person.Active), ob.ToDictionary());
     }
     [Parameter, EditorRequired] public ICollection<Person>? People { get; set; }
-    
-    [Parameter, EditorRequired] public GridPagingState GridPagingState { get; set; }
+
+    [Parameter, EditorRequired] public GridPagingState GridPagingState { get; set; } = default!;
     [Parameter, EditorRequired] public EventCallback<GridFilteringAndSorting<Person>> FilterSortChanged { get; set; }
 
     protected override Task OnParametersSetAsync()

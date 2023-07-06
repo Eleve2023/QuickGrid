@@ -1,6 +1,7 @@
-﻿using Microsoft.AspNetCore.Components.Rendering;
+﻿using Microsoft.AspNetCore.Components.QuickGrid.QuickGridCollection.Columns;
+using Microsoft.AspNetCore.Components.Rendering;
 
-namespace Microsoft.AspNetCore.Components.QuickGrid.QuickGridCollection.Columns
+namespace Microsoft.AspNetCore.Components.QuickGrid.QuickGridCollection
 {
     public class TemplateColumnC<TGridItem> : ColumnCBase<TGridItem>
     {

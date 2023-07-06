@@ -1,4 +1,4 @@
-﻿namespace Microsoft.AspNetCore.Components.QuickGrid.QuickGridCollection.Columns
+﻿namespace Microsoft.AspNetCore.Components.QuickGrid.QuickGridCollection
 {
     public enum SortDirection
     {

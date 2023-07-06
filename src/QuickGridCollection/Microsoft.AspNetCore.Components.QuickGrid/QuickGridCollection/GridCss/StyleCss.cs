@@ -1,4 +1,4 @@
-﻿namespace Microsoft.AspNetCore.Components.QuickGrid.QuickGridCollection.GridCss
+﻿namespace Microsoft.AspNetCore.Components.QuickGrid.QuickGridCollection
 {
     public enum StyleCss
     {

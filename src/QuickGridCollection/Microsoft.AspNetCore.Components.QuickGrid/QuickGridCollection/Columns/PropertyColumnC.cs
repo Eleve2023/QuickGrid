@@ -1,7 +1,8 @@
-﻿using Microsoft.AspNetCore.Components.Rendering;
+﻿using Microsoft.AspNetCore.Components.QuickGrid.QuickGridCollection.Columns;
+using Microsoft.AspNetCore.Components.Rendering;
 using System.Linq.Expressions;
 
-namespace Microsoft.AspNetCore.Components.QuickGrid.QuickGridCollection.Columns
+namespace Microsoft.AspNetCore.Components.QuickGrid.QuickGridCollection
 {
     /// <summary xml:lang="fr">
     /// La classe <see cref="PropertyColumnC{TGridItem, TProp}"/> hérite de la classe <see cref="ColumnCBase{TGridItem}"/> et représente une colonne de propriété dans un tableau.

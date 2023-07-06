@@ -3,7 +3,6 @@
 @using Microsoft.AspNetCore.Components.Web
 @using System.Linq.Expressions;
 @using Microsoft.AspNetCore.Components.QuickGrid.QuickGridCollection.Infrastructure;
-@using Microsoft.AspNetCore.Components.QuickGrid.QuickGridCollection.GridCss;
 
 @namespace Microsoft.AspNetCore.Components.QuickGrid.QuickGridCollection.Columns
 @typeparam TGridItem
@@ -48,7 +47,7 @@
             }
             <select name="inputEnumValue" class="@ClassAndStyle[ClassHtml.MenuFiltre_from_divInput_selectInputEnumValue]"
                     style="@ClassAndStyle[StyleCss.MenuFiltre_from_divInput_selectInputEnumValue]"
-            @bind:get="@filterValues[index].ToString()" @bind:set=@((arg) => filterValues[index] = arg)>
+            @bind:get="@filterValues[index]?.ToString()" @bind:set=@((arg) => filterValues[index] = arg)>
                 @foreach (var opt in Enum.GetValues(TypeOfProperty))
                 {
                     <option value="@opt.ToString()">@opt</option>
@@ -63,7 +62,7 @@
             }
             <select name="inputBoolValue" class="@ClassAndStyle[ClassHtml.MenuFiltre_from_divInput_selectInputBoolValue]"
                     style="@ClassAndStyle[StyleCss.MenuFiltre_from_divInput_selectInputBoolValue]"
-            @bind:get="@filterValues[index].ToString()" @bind:set=@((arg) => filterValues[index] = arg)>
+            @bind:get="@filterValues[index]?.ToString()" @bind:set=@((arg) => filterValues[index] = arg)>
                 <option value="@true.ToString()" selected="@true">True</option>
                 <option value="@false.ToString()">False</option>
             </select>

@@ -1,4 +1,4 @@
-﻿using Microsoft.AspNetCore.Components.QuickGrid.QuickGridCollection.Columns;
+﻿using Microsoft.AspNetCore.Components.QuickGrid.QuickGridCollection.Columns.MenuOptions;
 using Microsoft.AspNetCore.Components.QuickGrid.QuickGridCollection.Infrastructure;
 using System.Linq.Expressions;
 

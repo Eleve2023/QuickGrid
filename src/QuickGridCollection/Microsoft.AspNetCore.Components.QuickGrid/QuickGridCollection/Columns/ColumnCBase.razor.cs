@@ -1,5 +1,4 @@
-﻿using Microsoft.AspNetCore.Components.QuickGrid.QuickGridCollection.GridCss;
-using Microsoft.AspNetCore.Components.QuickGrid.QuickGridCollection.Infrastructure;
+﻿using Microsoft.AspNetCore.Components.QuickGrid.QuickGridCollection.Infrastructure;
 using Microsoft.AspNetCore.Components.Rendering;
 using System.Linq.Expressions;
 
