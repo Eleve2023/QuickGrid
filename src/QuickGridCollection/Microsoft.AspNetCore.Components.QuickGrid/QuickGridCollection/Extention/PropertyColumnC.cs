@@ -8,10 +8,10 @@ namespace Microsoft.AspNetCore.Components.QuickGrid.QuickGridCollection.Columns
     // doit être déplace verre un autre Project d'extension, si le développeur veux utilise DataAnnotation il devrai téléchargé extension
     public partial class PropertyColumnC<TGridItem, TProp>
     {
-        ///<summary>
+        /// <summary xml:lang="fr">
         /// Méthode partielle pour obtenir le titre de la colonne à partir des annotations de données.
         /// Si l'extension est installée, cette méthode utilise les attributs <see cref="DisplayNameAttribute"/>  et <see cref="DisplayAttribute"/>  pour définir <see cref="ColumnCBase{TGridItem}.Title"/> le titre de la colonne.
-        ///</summary>
+        /// </summary>
         partial void GetTitleFromDataAnnotations(MemberExpression memberExpression)
         {
             var memberInfo = memberExpression.Member;
@@ -19,10 +19,10 @@ namespace Microsoft.AspNetCore.Components.QuickGrid.QuickGridCollection.Columns
             var display = memberInfo.GetCustomAttribute(typeof(DisplayAttribute)) as DisplayAttribute;
             Title = displayName?.DisplayName ?? display?.Name ?? memberInfo.Name ?? "";
         }
-        ///<summary>
+        /// <summary xml:lang="fr">
         /// Méthode partielle pour obtenir le format à utiliser pour afficher la propriété à partir des annotations de données.
         /// Si l'extension est installée, cette méthode utilise l'attribut <see cref="DisplayFormatAttribute"/> pour définir <see cref="PropertyColumnC{TGridItem, TProp}.Format"/> le format de la colonne.
-        ///</summary>
+        /// </summary>
         partial void GetDisplayFormatFromDataAnnotations(MemberExpression memberExpression)
         {
             var memberInfo = memberExpression.Member;

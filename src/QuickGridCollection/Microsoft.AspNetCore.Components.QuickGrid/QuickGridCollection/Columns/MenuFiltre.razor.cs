@@ -6,45 +6,45 @@ namespace Microsoft.AspNetCore.Components.QuickGrid.QuickGridCollection.Columns
 {
     public partial class MenuFiltre<TGridItem> : ComponentBase
     {
-        /// <summary>
+        /// <summary xml:lang="fr">
         /// Cette chaîne de caractères contient le type d'entrée HTML à utiliser pour les champs de saisie du formulaire de recherche.
         /// Elle est déterminée en fonction du type de propriété associé au champ de saisie, spécifié par la propriété <see cref="TypeOfProperty"/>.
         /// Par exemple, pour les propriétés de type chaîne de caractères, elle prend la valeur "text", pour les propriétés de type numérique, elle prend la valeur "number", etc.
         /// </summary>
         private string htmlInputType = string.Empty;
-        /// <summary>
+        /// <summary xml:lang="fr">
         /// Obtient ou définit une valeur indiquant si le filtre est appliqué.
         /// Cette propriété est utilisée pour empêcher le déclenchement de l'événement <see cref="QuickGridC{TGridItem}.FilterSortChanged"/> dans la méthode <see cref="ResetColumnFilters"/> si la méthode <see cref="ApplyFilters"/> n'a pas été appelée auparavant.
         /// </summary>
         private bool filterApplied;
-        /// <summary>
+        /// <summary xml:lang="fr">
         /// Ce champ est utilisé par la classe <see cref="MenuAdvancedFilter{TGridItem}"/> pour indiquer le nombre de filtres ajoutés dans la colonne.
         /// </summary>
         protected int columnFilterAdditions;
-        /// <summary>
+        /// <summary xml:lang="fr">
         /// Cette liste contient les objets qui correspondent aux champs de saisie du formulaire de recherche.
         /// Elle est utilisée par la classe <see cref="MenuAdvancedFilter{TGridItem}"/> pour gérer le nombre d'ajouts de filtres dans la colonne.
         /// </summary>
         protected List<object?> filterValues = new() { null };
-        /// <summary>
+        /// <summary xml:lang="fr">
         /// Cette liste contient les options de filtre dans le formulaire de recherche.
         /// La première liste gère le nombre d'ajouts de filtres dans la colonne, tandis que la seconde liste permet de choisir le type de recherche à effectuer.
         /// </summary>
         protected List<List<Enum>> filterOptions = default!;
-        /// <summary>
+        /// <summary xml:lang="fr">
         /// Cette liste contient les options de filtre sélectionnées pour les champs de type énumération dans le formulaire de recherche.
         /// La liste gère le nombre d'ajouts de filtres dans la colonne
         /// </summary>
         protected List<Enum> selectedFilterOptions = default!;
-        /// <summary>
+        /// <summary xml:lang="fr">
         /// la valeur par défaut de <see cref="selectedFilterOptions"/>. 
         /// </summary>
         protected List<Enum> selectedFilterOptionsDefault = default!;
-        /// <summary>
+        /// <summary xml:lang="fr">
         /// le Type Enum a utilisée pour l'option de rechercher.
         /// </summary>
         protected Type optionsType = default!;
-        /// <summary>
+        /// <summary xml:lang="fr">
         /// Cette liste contient les expressions lambda générées à partir des options de filtre sélectionnées dans le formulaire de recherche.
         /// Les expressions sont créées en utilisant les valeurs contenues dans la propriété <see cref="filterValues"/> et les options de filtre sélectionnées.
         /// la List est utilisée par la classe <see cref="MenuAdvancedFilter{TGridItem}"/> pour gérer le nombre d'ajouts de filtres dans la colonne.
@@ -54,20 +54,20 @@ namespace Microsoft.AspNetCore.Components.QuickGrid.QuickGridCollection.Columns
         [CascadingParameter] public ColumnCBase<TGridItem> Column { get; set; } = default!;
 
         protected RenderFragment RenderFragment => FromRender;
-        /// <summary>
+        /// <summary xml:lang="fr">
         /// Une instance de la grille <see cref="QuickGridC{TGridItem}"/>
         /// </summary>
         protected QuickGridC<TGridItem> Grid => Column.Grid;
-        /// <summary>
+        /// <summary xml:lang="fr">
         /// Type de la propriété de la colonne.
         /// </summary>        
         protected Type TypeOfProperty => Column.TypeOfProperty is not null ? Nullable.GetUnderlyingType(Column.TypeOfProperty) ?? Column.TypeOfProperty : throw new NullReferenceException("Column.TypeOfProperty is null");
-        /// <summary>
+        /// <summary xml:lang="fr">
         /// Expression de propriété pour la colonne.
         /// </summary>
         protected Expression<Func<TGridItem, object?>> PropertyExpression => Column.PropertyExpression ?? throw new NullReferenceException("Column.PropertyExpression is null");
         protected GridHtmlCssManager ClassAndStyle => Column.ClassAndStyle;
-        /// <summary>
+        /// <summary xml:lang="fr">
         /// Obtient ou définit une valeur indiquant si le filtre est appliqué.
         /// Cette propriété est utilisée pour empêcher le déclenchement de l'événement <see cref="QuickGridC{TGridItem}.FilterSortChanged"/> dans la méthode <see cref="ResetColumnFilters"/> si la méthode <see cref="ApplyFilters"/> n'a pas été appelée auparavant.
         /// </summary>
@@ -110,7 +110,7 @@ namespace Microsoft.AspNetCore.Components.QuickGrid.QuickGridCollection.Columns
                 || value == typeof(double)
                 || value == typeof(decimal);
         }
-        /// <summary>
+        /// <summary xml:lang="fr">
         /// Cette méthode est appelée lorsque l'utilisateur clique sur le bouton "OK" du formulaire de recherche.
         /// Elle crée des expressions lambda à partir des options de filtre sélectionnées dans le formulaire et les ajoute à la liste des expressions de filtre de la colonne.
         /// Les expressions sont créées en utilisant les valeurs contenues dans la propriété <see cref="filterValues"/> et les options de filtre sélectionnées.
@@ -185,7 +185,7 @@ namespace Microsoft.AspNetCore.Components.QuickGrid.QuickGridCollection.Columns
                 Column.IsOptionVisible = false;
             }
         }
-        /// <summary>
+        /// <summary xml:lang="fr">
         /// Cette méthode ajoute le filtre de la colonne dans la grille.
         /// </summary>
         protected virtual void ApplyColumnFilterFromGrid()
@@ -193,7 +193,7 @@ namespace Microsoft.AspNetCore.Components.QuickGrid.QuickGridCollection.Columns
             if (columnFilterExpressions != null && columnFilterExpressions.Count != 0)
                 Grid.ApplyColumnFilter(columnFilterExpressions.First(), Column);
         }
-        /// <summary>
+        /// <summary xml:lang="fr">
         /// Cette méthode réinitialise les options de filtre sélectionnées dans le formulaire de recherche et supprime les expressions de filtre de la colonne.
         /// Si un filtre a été appliqué précédemment, il est supprimé de la grille <see cref="QuickGridC{TGridItem}.columnFilters"/>.
         /// </summary>
@@ -211,12 +211,12 @@ namespace Microsoft.AspNetCore.Components.QuickGrid.QuickGridCollection.Columns
 
         //todo if objValue is null
 
-        /// <summary>
+        /// <summary xml:lang="fr">
         /// Cette méthode crée une expression lambda pour les champs de type chaîne de caractères en utilisant la méthode spécifiée et la valeur fournie.
         /// </summary>
         /// <param name="methode">La méthode à utiliser pour créer l'expression lambda.</param>
         /// <param name="objValue">La valeur à utiliser dans l'expression lambda.</param>
-        /// <returns>Une expression lambda représentant le filtre pour un champ de type chaîne de caractères.</returns>
+        /// <returns xml:lang="fr">Une expression lambda représentant le filtre pour un champ de type chaîne de caractères.</returns>
         private Expression<Func<TGridItem, bool>> CreateStringFilterExpression(string methode, object? objValue)
         {
             MemberExpression memberExp = null!;
@@ -249,12 +249,12 @@ namespace Microsoft.AspNetCore.Components.QuickGrid.QuickGridCollection.Columns
                 throw new Exception("Not MemberExpression");
             }
         }
-        /// <summary>
+        /// <summary xml:lang="fr">
         /// Cette méthode crée une expression lambda pour les champs de type numérique, date, enum ou bool en utilisant le type de comparaison et la valeur fournie.
         /// </summary>
         /// <param name="comparisonType">Le type de comparaison à utiliser pour créer l'expression lambda.</param>
         /// <param name="objValue">La valeur à utiliser dans l'expression lambda.</param>
-        /// <returns>Une expression lambda représentant le filtre pour un champ de type numérique, date, enum ou bool.</returns>
+        /// <returns xml:lang="fr">Une expression lambda représentant le filtre pour un champ de type numérique, date, enum ou bool.</returns>
         private Expression<Func<TGridItem, bool>> CreateDataFilterExpression(ExpressionType comparisonType, object? objValue)
         {
             MemberExpression memberExp = null!;
@@ -317,12 +317,12 @@ namespace Microsoft.AspNetCore.Components.QuickGrid.QuickGridCollection.Columns
 
         }
 
-        /// <summary>
+        /// <summary xml:lang="fr">
         /// Renvoie la liste des options de filtre pour les différents types de champs dans le formulaire de recherche.
         /// Cette méthode est utilisée pour générer les menus déroulants permettant à l'utilisateur de sélectionner les options de filtre dans le formulaire.
         /// </summary>
         /// <param name="index">L'index de la liste des options de filtre à renvoyer.</param>
-        /// <returns>La liste des options de filtre <see cref="filterOptions"/> à l'index spécifié.</returns>
+        /// <returns xml:lang="fr">La liste des options de filtre <see cref="filterOptions"/> à l'index spécifié.</returns>
         protected virtual List<Enum> GetListOptionFiltre(int index)
         {
             filterOptions ??= new() { Enum.GetValues(optionsType).Cast<Enum>().ToList() };

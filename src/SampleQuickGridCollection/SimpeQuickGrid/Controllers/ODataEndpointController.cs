@@ -12,14 +12,14 @@ using System.Text;
 
 namespace SimpeQuickGrid.Controllers
 {
-    /// <summary>
+    /// <summary xml:lang="fr">
     /// A controller for debugging that shows the OData endpoints.
     /// </summary>
     public class ODataEndpointController : ControllerBase
     {
         private EndpointDataSource _dataSource;
 
-        /// <summary>
+        /// <summary xml:lang="fr">
         /// Initializes a new instance of the <see cref="ODataEndpointController" /> class.
         /// </summary>
         /// <param name="dataSource">The data source.</param>
@@ -28,10 +28,10 @@ namespace SimpeQuickGrid.Controllers
             _dataSource = dataSource;
         }
 
-        /// <summary>
+        /// <summary xml:lang="fr">
         /// Get all routes.
         /// </summary>
-        /// <returns>The content result.</returns>
+        /// <returns xml:lang="fr">The content result.</returns>
         [HttpGet("$odata")]
         public IActionResult GetAllRoutes()
         {
@@ -80,7 +80,7 @@ namespace SimpeQuickGrid.Controllers
             return string.Join(", ", methodMetadata.HttpMethods);
         }
 
-        /// <summary>
+        /// <summary xml:lang="fr">
         /// Process the endpoint
         /// </summary>
         /// <param name="sb">The string builder to append HTML to.</param>

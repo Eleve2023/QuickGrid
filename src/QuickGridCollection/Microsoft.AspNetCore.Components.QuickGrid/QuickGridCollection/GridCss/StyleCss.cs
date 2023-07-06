@@ -2,7 +2,7 @@
 {
     public enum StyleCss
     {
-        /// <summary>
+        /// <summary xml:lang="fr">
         /// La div qui enveloppe table
         /// </summary>
         Grid_div,
@@ -17,40 +17,40 @@
         Column_Sort_i_i_SortAsc,
         Column_Sort_i_i_SortDesc,
         Column_Sort_i_i_Sortdefault,
-        /// <summary>
+        /// <summary xml:lang="fr">
         /// La colonne n'est pas triable
         /// </summary>
         Column_Sort_i_i_SortNot,
         Column_Options_i,
-        /// <summary>
+        /// <summary xml:lang="fr">
         /// Ne pas affiche le menu options
         /// </summary>
         Column_Options_i_div_NoShow,
-        /// <summary>
+        /// <summary xml:lang="fr">
         /// Affiche le menu options
         /// </summary>
         Column_Options_i_div_Show,
-        /// <summary>
+        /// <summary xml:lang="fr">
         /// Si les options de la colonne sont applique.
         /// </summary>
         Column_Options_i_i_ColumnOptionActive,
-        /// <summary>
+        /// <summary xml:lang="fr">
         /// Si les options de la colonne ne sont pas applique.
         /// </summary>
         Column_Options_i_i_ColumnOptionNotActive,
-        /// <summary>
+        /// <summary xml:lang="fr">
         /// Si les options de la colonne sont applique.
         /// </summary>
         Column_Options_i_i_MenuFiltreActive,
-        /// <summary>
+        /// <summary xml:lang="fr">
         /// Si les options de la colonne ne sont pas applique.
         /// </summary>
         Column_Options_i_i_MenuFiltreNotActive,
-        /// <summary>
+        /// <summary xml:lang="fr">
         /// Si les options de la colonne sont applique.
         /// </summary>
         Column_Options_i_i_MenuAdvancedFilterActive,
-        /// <summary>
+        /// <summary xml:lang="fr">
         /// Si les options de la colonne ne sont pas applique.
         /// </summary>
         Column_Options_i_i_MenuAdvancedFilterNotActive,

@@ -12,19 +12,19 @@ namespace Microsoft.AspNetCore.Components.QuickGrid.QuickGridCollection
     //Le code principal du composant est contenu dans un élément Defer qui retarde son rendu jusqu’à ce que les colonnes soient collectées.Cet élément contient une div qui représente la grille et qui contient une table HTML avec des en-têtes de colonne et des cellules de données.
     //Les en-têtes de colonne sont générés par la méthode RenderColumnHeaders, qui crée une ligne d’en-tête pour chaque colonne de la grille.Chaque en-tête contient une icône de tri qui appelle la méthode ApplySort lorsqu’elle est cliquée, ainsi que le contenu d’en-tête défini par la colonne.
     //Les cellules de données sont générées par la méthode RenderCellText, qui crée une ligne pour chaque élément de données dans la collection _currentItems.Chaque ligne est générée par la méthode RenderRow, qui crée une cellule pour chaque colonne de la grille. Chaque cellule contient le contenu de cellule défini par la colonne pour l’élément de données correspondant.
-    /// <summary>
+    /// <summary xml:lang="fr">
     /// Composant Blazor représentant une grille de données générique.
     /// Permet d'afficher, de filtrer et de trier des données de type <see cref="TGridItem"/>.
     /// </summary>
-    /// <typeparam name="TGridItem">Le type des éléments de données affichés dans la grille.</typeparam>
+    /// <typeparam name="TGridItem" xml:lang="fr">Le type des éléments de données affichés dans la grille.</typeparam>
     [CascadingTypeParameter(nameof(TGridItem))]
     public partial class QuickGridC<TGridItem> : ComponentBase
     {
-        /// <summary>
+        /// <summary xml:lang="fr">
         /// Collection d'éléments actuellement affichés dans la grille.
         /// </summary>
         private ICollection<TGridItem> _currentItems = Array.Empty<TGridItem>();
-        /// <summary>
+        /// <summary xml:lang="fr">
         /// Dernière valeur assignée à la propriété <see cref="QuickGridC{TGridItem}.Items"/>.
         /// </summary>
         private ICollection<TGridItem>? _lastAssignedItems;
@@ -34,7 +34,7 @@ namespace Microsoft.AspNetCore.Components.QuickGrid.QuickGridCollection
         /// Le champ <see cref="QuickGridC{TGridItem}.ClassAndStyle"/> est une instance de la classe <see cref="GridHtmlCssManager"/> qui permet de gérer les classes CSS et les styles 
         /// des éléments HTML de la grille. Cette classe contient des dictionnaires associant chaque élément HTML à sa classe CSS ou à son style. 
         /// Ces dictionnaires sont initialisés dans le constructeur de la classe avec les valeurs par défaut.
-        /// <summary>
+        /// <summary xml:lang="fr">
         /// Objet permettant de gérer les classes CSS et les styles des éléments HTML de la grille.
         /// </summary>
         private GridHtmlCssManager classAndStyle = new();
@@ -49,26 +49,26 @@ namespace Microsoft.AspNetCore.Components.QuickGrid.QuickGridCollection
         /// La méthode <see cref="QuickGridC{TGridItem}.GetSortClass(ColumnCBase{TGridItem})"/>  est utilisée pour obtenir la classe CSS correspondant à la direction de tri d’une colonne. 
         /// Elle utilise le dictionnaire <see cref="QuickGridC{TGridItem}.sortDirectionCssClasses"/> pour associer chaque direction de tri à sa classe CSS correspondante.
 
-        /// <summary>
+        /// <summary xml:lang="fr">
         /// Dictionnaire associant chaque colonne triable à sa direction de tri actuelle.
         /// </summary>
         private readonly Dictionary<ColumnCBase<TGridItem>, SortDirection> columnSortDirections = new();
 
-        /// <summary>
+        /// <summary xml:lang="fr">
         /// Liste des colonnes à trier
         /// </summary>
         private readonly List<KeyValuePair<ColumnCBase<TGridItem>, (SortDirection, Expression<Func<TGridItem, object?>>)>> columnsSorted = new();
-        /// <summary>
+        /// <summary xml:lang="fr">
         /// Dictionnaire associant chaque direction de tri à la classe CSS correspondante.
         /// </summary>
         private readonly Dictionary<SortDirection, string> sortDirectionCssClasses;
 
-        /// <summary>
+        /// <summary xml:lang="fr">
         /// Liste des filtres appliqués aux données de la grille.
         /// </summary>
         private readonly List<KeyValuePair<ColumnCBase<TGridItem>, Expression<Func<TGridItem, bool>>>> columnFilters = new();
 
-        /// <summary>
+        /// <summary xml:lang="fr">
         /// Objet contenant les expressions de filtre et les expressions de tri pour chaque colonne.
         /// </summary>
         private GridFilteringAndSorting<TGridItem> _gridFilteringSorting = new();
@@ -94,11 +94,11 @@ namespace Microsoft.AspNetCore.Components.QuickGrid.QuickGridCollection
         }
 
         [Parameter] public RenderFragment? ChildContent { get; set; }
-        /// <summary>
+        /// <summary xml:lang="fr">
         /// Collection d'éléments à afficher dans la grille.
         /// </summary>
         [Parameter, EditorRequired] public ICollection<TGridItem> Items { get; set; } = null!;
-        /// <summary>
+        /// <summary xml:lang="fr">
         /// Callback appelé lorsqu'une ligne de la grille est sélectionnée.
         /// </summary>
         [Parameter] public EventCallback<TGridItem> RowSelected { get; set; }
@@ -107,7 +107,7 @@ namespace Microsoft.AspNetCore.Components.QuickGrid.QuickGridCollection
         /// qui est appelé lorsqu’un filtre ou un tri est modifié. Lorsque ce callback est invoqué, il reçoit en paramètre 
         /// l’objet <see cref="QuickGridC{TGridItem}._gridFilteringSorting"/> contenant les informations de filtrage et de tri mises à jour.
         //
-        /// <summary>
+        /// <summary xml:lang="fr">
         /// Callback appelé lorsqu'un filtre ou un tri est modifié.        
         /// </summary>
         [Parameter] public EventCallback<GridFilteringAndSorting<TGridItem>> FilterSortChanged { get; set; }
@@ -125,7 +125,7 @@ namespace Microsoft.AspNetCore.Components.QuickGrid.QuickGridCollection
             }
             return dataSourceHasChanged ? RefreshDataAsync() : Task.CompletedTask;
         }
-        /// <summary>
+        /// <summary xml:lang="fr">
         /// Ajoute une colonne à la grille.
         /// Si la colonne est triable, elle est ajoutée au dictionnaire <see cref="QuickGridC{TGridItem}.columnSortDirections"/> avec une direction de tri par défaut.
         /// </summary>
@@ -156,7 +156,7 @@ namespace Microsoft.AspNetCore.Components.QuickGrid.QuickGridCollection
 
         // Le champ filter est une liste de paires clé-valeur associant chaque colonne filtrable à son expression de filtre. La méthode AddOrMoveFilter est utilisée pour ajouter ou mettre à jour un filtre pour une colonne spécifiée. Si l’expression de filtre passée en paramètre est nulle, le filtre existant pour cette colonne est supprimé de la liste filter. Sinon, le filtre existant pour cette colonne est mis à jour ou ajouté à la liste filter.
 
-        /// <summary>
+        /// <summary xml:lang="fr">
         /// Ajoute ou met à jour un filtre pour une colonne spécifiée.
         /// Si l'expression de filtre est nulle, le filtre existant pour cette colonne est supprimé.
         /// Sinon, le filtre existant pour cette colonne est mis à jour ou ajouté à la liste des filtres.
@@ -178,7 +178,7 @@ namespace Microsoft.AspNetCore.Components.QuickGrid.QuickGridCollection
             return null;
         }
 
-        /// <summary>
+        /// <summary xml:lang="fr">
         /// Trie les données de la grille en fonction de la colonne spécifiée.
         /// Met à jour la liste <see cref="QuickGridC{TGridItem}.columnsSorted"/> en fonction de la nouvelle direction de tri.
         /// Met également à jour la direction de tri dans le dictionnaire <see cref="QuickGridC{TGridItem}.columnSortDirections"/>.
@@ -241,7 +241,7 @@ namespace Microsoft.AspNetCore.Components.QuickGrid.QuickGridCollection
             await FilterSortChanged.InvokeAsync(_gridFilteringSorting);
 
         }
-        /// <summary>
+        /// <summary xml:lang="fr">
         /// Obtient la classe CSS correspondant à la direction de tri d'une colonne.
         /// Utilise le dictionnaire <see cref="QuickGridC{TGridItem}.sortDirectionCssClasses"/> pour associer chaque direction de tri à sa classe CSS correspondante.
         /// </summary>
@@ -253,7 +253,7 @@ namespace Microsoft.AspNetCore.Components.QuickGrid.QuickGridCollection
             }
             return ClassAndStyle[ClassHtml.Column_Sort_i_i_SortNot];
         }
-        /// <summary>
+        /// <summary xml:lang="fr">
         /// Obtient la Style CSS correspondant à la direction de tri d'une colonne.
         /// Utilise le dictionnaire <see cref="QuickGridC{TGridItem}.sortDirectionCssClasses"/> pour associer chaque direction de tri à sa classe CSS correspondante.
         /// </summary>
@@ -272,11 +272,11 @@ namespace Microsoft.AspNetCore.Components.QuickGrid.QuickGridCollection
             }
             return ClassAndStyle[StyleCss.Column_Sort_i_i_SortNot];
         }
-        /// <summary>
+        /// <summary xml:lang="fr">
         /// Obtenir la valeur pour élément html aria-sort
         /// </summary>
         /// <param name="column">instance de la colonne</param>
-        /// <returns>La valeur en <c>string</c> selon étal de la colonne</returns>
+        /// <returns xml:lang="fr">La valeur en <c>string</c> selon étal de la colonne</returns>
         private string AriaSortValue(ColumnCBase<TGridItem> column)
         {
             var hasValue = columnSortDirections.TryGetValue(column, out SortDirection sortDirection);
@@ -290,14 +290,14 @@ namespace Microsoft.AspNetCore.Components.QuickGrid.QuickGridCollection
             }
             else return "none";
         }
-        /// <summary>
+        /// <summary xml:lang="fr">
         /// Invoque le callback <see cref="QuickGridC{TGridItem}.RowSelected"/> avec l'élément de la ligne sélectionnée.
         /// </summary>
         private void HandleRowSelection(TGridItem item)
         {
             RowSelected.InvokeAsync(item);
         }
-        /// <summary>
+        /// <summary xml:lang="fr">
         /// Met à jour les éléments affichés dans la grille.
         /// Si la dernière valeur assignée à la propriété <see cref="QuickGridC{TGridItem}.Items"/> n'est pas nulle,
         /// les éléments actuellement affichés sont mis à jour avec cette valeur.

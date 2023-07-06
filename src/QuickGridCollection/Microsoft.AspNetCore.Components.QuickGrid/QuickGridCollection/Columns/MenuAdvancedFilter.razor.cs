@@ -5,25 +5,25 @@ namespace Microsoft.AspNetCore.Components.QuickGrid.QuickGridCollection.Columns
 {
     public partial class MenuAdvancedFilter<TGridItem> : MenuFiltre<TGridItem>
     {
-        /// <summary>
+        /// <summary xml:lang="fr">
         /// Représente l'index des filtres de la colonne.
         /// </summary>
         private int filterIndex;
-        /// <summary>
+        /// <summary xml:lang="fr">
         /// Affiche ou masque le bouton d'ajout de filtre pour chaque filtre de la colonne.
         /// </summary>
         private readonly List<bool> showAddFilterButton = new() { false };
-        /// <summary>
+        /// <summary xml:lang="fr">
         /// Opérateur utilisé pour agréger les filtres de la colonne <see cref="MenuFiltre{TGridItem}.columnFilterExpressions"/>.
         /// </summary>
         private FilterOperator filterOperator = FilterOperator.AndAlso;
         
-        /// <summary>
+        /// <summary xml:lang="fr">
         /// Obtient le nombre maximum de filtres à appliquer pour cette colonne.
         /// </summary>
         private int MaxColumnFilters => Column.MaxFilters;
         
-        /// <summary>
+        /// <summary xml:lang="fr">
         /// Ajoute un filtre à la liste des filtres de la colonne.
         /// </summary>
         private void AddColumnFilter()
@@ -90,10 +90,10 @@ namespace Microsoft.AspNetCore.Components.QuickGrid.QuickGridCollection.Columns
             return filterOptions[index] = enumlist;
         }
 
-        /// <summary>
+        /// <summary xml:lang="fr">
         /// Résout la liste des options de filtre pour les champs de type chaîne en fonction des options de filtre sélectionnées.
         /// </summary>
-        /// <typeparam name="TOption">Le type des options de filtre.</typeparam>
+        /// <typeparam name="TOption" xml:lang="fr">Le type des options de filtre.</typeparam>
         /// <param name="enumlist">La liste des options de filtre à résoudre.</param>
         /// <param name="optionSelecteds">La liste des options de filtre sélectionnées.</param>
         private static void ResolveStringFilterOptions<TOption>(List<TOption> enumlist, List<Enum> optionSelecteds)
@@ -116,10 +116,10 @@ namespace Microsoft.AspNetCore.Components.QuickGrid.QuickGridCollection.Columns
                     or StringFilterOptions.NotEqual);
         }
 
-        /// <summary>
+        /// <summary xml:lang="fr">
         /// Résout la liste des options de filtre pour les champs de type énumération en fonction des options de filtre sélectionnées.
         /// </summary>
-        /// <typeparam name="TOption">Le type des options de filtre.</typeparam>
+        /// <typeparam name="TOption" xml:lang="fr">Le type des options de filtre.</typeparam>
         /// <param name="enumlist">La liste des options de filtre à résoudre.</param>
         /// <param name="optionSelecteds">La liste des options de filtre sélectionnées.</param>
         private static void ResolveEnumFilterOptions<TOption>(List<TOption> enumlist, List<Enum> optionSelecteds)
@@ -131,7 +131,7 @@ namespace Microsoft.AspNetCore.Components.QuickGrid.QuickGridCollection.Columns
                 enumlist.RemoveAll(x => x is EnumFilterOptions.Equal);
         }
 
-        /// <summary>
+        /// <summary xml:lang="fr">
         /// Résout la liste des options de filtre pour les champs de type données en fonction des options de filtre sélectionnées.
         /// </summary>
         /// <param name="enumlist">La liste des options de filtre à résoudre.</param>
@@ -197,7 +197,7 @@ namespace Microsoft.AspNetCore.Components.QuickGrid.QuickGridCollection.Columns
             }
         }
         // todo : remplace le bouton par select
-        /// <summary>
+        /// <summary xml:lang="fr">
         /// Bascule entre les valeurs de l'opérateur de filtre pour assigner la propriété <see cref="MenuAdvancedFilter{TGridItem}.filterOperator"/>.
         /// </summary>
         /// <exception cref="NotImplementedException">Lancée si la valeur de l'opérateur de filtre n'est pas gérée.</exception>

@@ -2,7 +2,7 @@
 
 namespace Microsoft.AspNetCore.Components.QuickGrid.QuickGridCollection.Infrastructure
 {
-    /// <summary>
+    /// <summary xml:lang="fr">
     /// Un visiteur d'expression personnalisé qui gère les expressions avec des valeurs Nullable et des comparaisons de chaînes insensibles à la casse.
     /// </summary>
     internal class NullableAndStringComparisonExpressionVisitor : ExpressionVisitor
@@ -10,7 +10,7 @@ namespace Microsoft.AspNetCore.Components.QuickGrid.QuickGridCollection.Infrastr
         private readonly bool useDefaultValueForNull;
         private readonly bool ignoreCaseInStringComparison;
 
-        /// <summary>
+        /// <summary xml:lang="fr">
         /// Crée une nouvelle instance de la classe NullableAndStringComparisonExpressionVisitor.
         /// </summary>
         /// <param name="useDefaultValueForNull">Indique si les objets nullables doivent être traités comme ayant une valeur par défaut lors de la visite d'expressions.</param>
@@ -21,11 +21,11 @@ namespace Microsoft.AspNetCore.Components.QuickGrid.QuickGridCollection.Infrastr
             this.ignoreCaseInStringComparison = ignoreCaseInStringComparison;
         }
 
-        /// <summary>
+        /// <summary xml:lang="fr">
         /// Visite les nœuds d'appel de méthode de l'arbre d'expression.
         /// </summary>
         /// <param name="node">Le nœud d'appel de méthode à visiter.</param>
-        /// <returns>Le nœud d'appel de méthode modifié, si nécessaire, ou le nœud d'origine si aucune modification n'est nécessaire.</returns>
+        /// <returns xml:lang="fr">Le nœud d'appel de méthode modifié, si nécessaire, ou le nœud d'origine si aucune modification n'est nécessaire.</returns>
         protected override Expression VisitMethodCall(MethodCallExpression node)
         {
             if (node.Object != null && node.Object.Type == typeof(string))
@@ -61,11 +61,11 @@ namespace Microsoft.AspNetCore.Components.QuickGrid.QuickGridCollection.Infrastr
             return base.VisitMethodCall(node);
         }
 
-        /// <summary>
+        /// <summary xml:lang="fr">
         /// Visite les nœuds binaires de l'arbre d'expression.
         /// </summary>
         /// <param name="node">Le nœud binaire à visiter.</param>
-        /// <returns>Le nœud binaire modifié, si nécessaire, ou le nœud d'origine si aucune modification n'est nécessaire.</returns>
+        /// <returns xml:lang="fr">Le nœud binaire modifié, si nécessaire, ou le nœud d'origine si aucune modification n'est nécessaire.</returns>
         protected override Expression VisitBinary(BinaryExpression node)
         {
             if (node.Left is UnaryExpression unaryLeft

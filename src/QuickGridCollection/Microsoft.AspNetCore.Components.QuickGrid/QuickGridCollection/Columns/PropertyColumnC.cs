@@ -3,59 +3,59 @@ using System.Linq.Expressions;
 
 namespace Microsoft.AspNetCore.Components.QuickGrid.QuickGridCollection.Columns
 {
-    ///<summary>
+    /// <summary xml:lang="fr">
     /// La classe <see cref="PropertyColumnC{TGridItem, TProp}"/> hérite de la classe <see cref="ColumnCBase{TGridItem}"/> et représente une colonne de propriété dans un tableau.
-    ///</summary>
+    /// </summary>
     ///<typeparam name="TGridItem">Le type des éléments de données affichés dans la grille.</typeparam>
     ///<typeparam name="TProp">Le type de la propriété.</typeparam>
     public partial class PropertyColumnC<TGridItem, TProp> : ColumnCBase<TGridItem>
     {
-        ///<summary>
+        /// <summary xml:lang="fr">
         /// Fonction pour obtenir le texte de la cellule.
-        ///</summary>
+        /// </summary>
         private Func<TGridItem, string?>? _cellTextFunc;
-        /// <summary>
+        /// <summary xml:lang="fr">
         /// Référence à la  dernière instance de <see cref="PropertyColumnC{TGridItem, TProp}.DisplayFormat"/> assignée à cette variable.
         /// </summary>
         private string? lastDisplayForma;
                 
-        ///<summary>
+        /// <summary xml:lang="fr">
         /// Expression pour obtenir la propriété à afficher dans la colonne.
-        ///</summary>
+        /// </summary>
         [Parameter, EditorRequired] public Expression<Func<TGridItem, TProp>> Property { get; set; } = default!;
-        ///<summary>
+        /// <summary xml:lang="fr">
         /// Format à utiliser pour afficher la propriété.
-        ///</summary>
+        /// </summary>
         [Parameter] public string? DisplayFormat { get; set; }
-        ///<summary>
+        /// <summary xml:lang="fr">
         /// Indique si la colonne est triable.
-        ///</summary>
+        /// </summary>
         [Parameter] public new bool IsSortable { get => isSortable; set => isSortable = value; }
-        /// <summary>
+        /// <summary xml:lang="fr">
         /// Obtient ou définit une valeur indiquant si cette colonne peut être triée avec d'autres colonnes triables.
         /// </summary>
-        /// <remarks>
+        /// <remarks xml:lang="fr">
         /// Si cette propriété est définie sur <c>true</c> et que la propriété <see cref="IsSortable"/> est également définie sur <c>true</c>, cette colonne peut être triée avec d'autres colonnes triables.
         /// </remarks>
         [Parameter] public new bool MultipleSortingAllowed { get => multipleSortingAllowed; set => multipleSortingAllowed = value; }
-        ///<summary>
+        /// <summary xml:lang="fr">
         /// Indique si la colonne a des options de filtre.
-        ///</summary>
+        /// </summary>
         ///<remarks>
         /// Remarque: si <see cref="PropertyColumnC{TGridItem, TProp}.HasAdvancedFilterOptions"/> est défini sur <c>true</c>, <see cref="PropertyColumnC{TGridItem, TProp}.HasFilterOptions"/> sera défini sur <c>false</c>.
         ///</remarks>
         [Parameter] public bool HasFilterOptions { get => hasFilterOptions; set => hasFilterOptions = value; }
-        ///<summary>
+        /// <summary xml:lang="fr">
         /// Indique si la colonne a des options de filtre avancées.
-        ///</summary>
+        /// </summary>
         ///<remarks>
         /// Remarque: si <see cref="PropertyColumnC{TGridItem, TProp}.HasAdvancedFilterOptions"/> est défini sur <c>true</c>, <see cref="PropertyColumnC{TGridItem, TProp}.HasFilterOptions"/> sera défini sur <c>false</c>.
         ///</remarks>
         [Parameter] public bool HasAdvancedFilterOptions { get => hasAdvancedFilterOptions; set => hasAdvancedFilterOptions = value; }
-        /// <summary>
+        /// <summary xml:lang="fr">
         /// Nombre maximum de filtres à applique pour cette colonne. La valeur par défaut est 5 et La valeur minimal est 2.
         /// </summary>
-        /// <remarks>
+        /// <remarks xml:lang="fr">
         /// Cette propriété est utilise si <see cref="PropertyColumnC{TGridItem, TProp}.HasAdvancedFilterOptions"/> est définir sur <c>True</c>
         /// </remarks>
         [Parameter]

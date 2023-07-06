@@ -1,6 +1,6 @@
 ﻿namespace Microsoft.AspNetCore.Components.QuickGrid.QuickGridCollection.GridCss
 {
-    /// <summary>
+    /// <summary xml:lang="fr">
     /// Classe permettant de gérer les classes CSS et les styles des éléments HTML de la grille <see cref="QuickGridC{TGridItem}"/>.
     /// Contient des dictionnaires associant chaque élément HTML à sa classe CSS ou à son style.
     /// </summary>
@@ -18,7 +18,7 @@
         public string this[ClassHtml classHtml] { get => classHtmls[classHtml]; set => classHtmls[classHtml] = value; }
         public string this[StyleCss styleCss] { get => styleCsss[styleCss]; set => styleCsss[styleCss] = value; }
 
-        /// <summary>
+        /// <summary xml:lang="fr">
         /// Initialized
         /// </summary>
         protected virtual Dictionary<ClassHtml, string> InitializedClassCss()
@@ -63,7 +63,7 @@
             };
         }
 
-        /// <summary>
+        /// <summary xml:lang="fr">
         /// Initialized
         /// </summary>
         protected virtual Dictionary<StyleCss, string> InitializedStyleCss()
