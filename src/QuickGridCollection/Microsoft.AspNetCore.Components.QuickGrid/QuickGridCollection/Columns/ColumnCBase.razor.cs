@@ -4,6 +4,13 @@ using System.Linq.Expressions;
 
 namespace Microsoft.AspNetCore.Components.QuickGrid.QuickGridCollection.Columns
 {
+    /// <summary>
+    /// Represents a column in a data grid.
+    /// It contains properties and methods to manage column options,
+    /// such as visibility of options, ability to sort and filter data,
+    /// as well as property expressions and property types for the column.
+    /// </summary>
+    /// <typeparam name="TGridItem">The type of data items displayed in the grid.</typeparam>
     /// <summary xml:lang="fr">
     /// Représente une colonne dans une grille de données.
     /// Elle contient des propriétés et des méthodes pour gérer les options de colonne,
@@ -14,14 +21,28 @@ namespace Microsoft.AspNetCore.Components.QuickGrid.QuickGridCollection.Columns
     [CascadingTypeParameter(nameof(TGridItem))]
     public abstract partial class ColumnCBase<TGridItem> : ComponentBase
     {
+        /// <summary>
+        /// Reference to the last instance of <see cref="ColumnCBase{TGridItem}"/> assigned to this variable.
+        /// </summary>
         /// <summary xml:lang="fr">
         /// Référence à la  dernière instance de <see cref="ColumnCBase{TGridItem}"/> assignée à cette variable.
         /// </summary>
         private ColumnCBase<TGridItem>? _lastAssignedColumn;
+
+        /// <summary>
+        /// Indicates whether column options are shown or hidden.
+        /// </summary>
         /// <summary xml:lang="fr">
         /// Indique si les options de colonne sont affichées ou masquées.
         /// </summary>
         private bool isOptionVisible = false;
+
+        /// <summary>
+        /// Indicates whether the column is sortable.
+        /// </summary>
+        /// <remarks>
+        /// if <see cref="isSortable"/> is set to <c>true</c> then <see cref="ColumnCBase{TGridItem}.PropertyExpression"/> must not be <c>null</c>
+        /// </remarks>
         /// <summary xml:lang="fr">
         /// Indique si la colonne est triable. 
         /// </summary>
@@ -29,6 +50,13 @@ namespace Microsoft.AspNetCore.Components.QuickGrid.QuickGridCollection.Columns
         /// si <see cref="isSortable"/> est définir sur <c>true</c> la <see cref="ColumnCBase{TGridItem}.PropertyExpression"/> ne doit pas être <c>null</c>
         /// </remarks>
         protected bool isSortable = false;
+
+        /// <summary>
+        /// Gets or sets a value indicating whether this column can be sorted with other sortable columns.
+        /// </summary>
+        /// <remarks>
+        /// If this property is set to <c>true</c> and the <see cref="IsSortable"/> property is also set to <c>true</c>, this column can be sorted with other sortable columns.
+        /// </remarks>
         /// <summary xml:lang="fr">
         /// Obtient ou définit une valeur indiquant si cette colonne peut être triée avec d'autres colonnes triables.
         /// </summary>
@@ -36,10 +64,21 @@ namespace Microsoft.AspNetCore.Components.QuickGrid.QuickGridCollection.Columns
         /// Si cette propriété est définie sur <c>true</c> et que la propriété <see cref="IsSortable"/> est également définie sur <c>true</c>, cette colonne peut être triée avec d'autres colonnes triables.
         /// </remarks>
         protected bool multipleSortingAllowed;
+
+        /// <summary>
+        /// Maximum number of filters to apply for this column. The default value is 5.
+        /// </summary>
         /// <summary xml:lang="fr">
         /// Nombre maximum de filtres à applique pour cette colonne. La valeur par défaut est 5.
         /// </summary>
         protected int maxFilters = 5;
+
+        /// <summary>
+        /// Indicates whether the column has advanced filter options.
+        /// </summary>
+        /// <remarks>
+        /// if <see cref="hasAdvancedFilterOptions"/> is set to <c>true</c> then <see cref="ColumnCBase{TGridItem}.PropertyExpression"/> must not be <c>null</c>
+        /// </remarks>
         /// <summary xml:lang="fr">
         /// Indique si la colonne a des options de filtre avancé.
         /// </summary>
@@ -47,6 +86,13 @@ namespace Microsoft.AspNetCore.Components.QuickGrid.QuickGridCollection.Columns
         /// si <see cref="hasAdvancedFilterOptions"/> est définir sur <c>true</c> la <see cref="ColumnCBase{TGridItem}.PropertyExpression"/> ne doit pas être <c>null</c>
         /// </remarks>
         protected bool hasAdvancedFilterOptions;
+
+        /// <summary>
+        /// Indicates whether the column has filter options.
+        /// </summary>
+        /// /// <remarks>
+        /// if <see cref="hasFilterOptions"/> is set to <c>true</c> then <see cref="ColumnCBase{TGridItem}.PropertyExpression"/> must not be <c>null</c>
+        /// </remarks>
         /// <summary xml:lang="fr">
         /// Indique si la colonne a des options de filtre.        
         /// </summary>
@@ -54,14 +100,26 @@ namespace Microsoft.AspNetCore.Components.QuickGrid.QuickGridCollection.Columns
         /// si <see cref="hasFilterOptions"/> est définir sur <c>true</c> la <see cref="ColumnCBase{TGridItem}.PropertyExpression"/> ne doit pas être <c>null</c>
         /// </remarks>
         protected bool hasFilterOptions;
+
+        /// <summary>
+        /// Indicates whether the column options are applied.
+        /// </summary>
         /// <summary xml:lang="fr">
         /// Indique si les options de la colonne sont applique 
         /// </summary>
         private bool optionApplied;
+
+        /// <summary>
+        /// Type of the column property.
+        /// </summary>
         /// <summary xml:lang="fr">
         /// Type de la propriété de la colonne.
         /// </summary>
         protected Type? typeOfProperty;
+
+        /// <summary>
+        /// Property expression for the column.
+        /// </summary>
         /// <summary xml:lang="fr">
         /// Expression de propriété pour la colonne.
         /// </summary>
@@ -74,44 +132,84 @@ namespace Microsoft.AspNetCore.Components.QuickGrid.QuickGridCollection.Columns
             OptionsContent = RenderOptionsContent;
         }
 
+        /// <summary>
+        /// Internal grid context.
+        /// </summary>
         /// <summary xml:lang="fr">
         /// Contexte interne de la grille.
         /// </summary>
         [CascadingParameter] internal InternalGridContext<TGridItem> InternalGridContext { get; set; } = default!;
+
+        /// <summary>
+        /// Column title.
+        /// </summary>
         /// <summary xml:lang="fr">
         /// Titre de la colonne.
         /// </summary>
         [Parameter] public string? Title { get; set; }
+
+        /// <summary>
+        /// Custom header template for the column.
+        /// </summary>
         /// <summary xml:lang="fr">
         /// Modèle d'en-tête personnalisé pour la colonne.
         /// </summary>
         [Parameter] public RenderFragment<HeaderTemplateContext<TGridItem>>? HeaderTemplate { get; set; }
+        
+        /// <summary>
+        /// Custom column options.
+        /// </summary>
         /// <summary xml:lang="fr">
         /// Options de colonne personnalisées.
         /// </summary>
         [Parameter] public RenderFragment<ColumnOptionsContext<TGridItem>>? ColumnOptions { get; set; }
+
+        /// <summary>
+        /// Column header content.
+        /// </summary>
         /// <summary xml:lang="fr">
         /// Contenu d'en-tête de la colonne.
         /// </summary>
         protected internal RenderFragment HeaderContent { get; protected set; }
+
+        /// <summary>
+        /// Column header sort content.
+        /// </summary>
         /// <summary xml:lang="fr">
         /// Contenu sort d'en-tête de la colonne.
         /// </summary>
         protected internal RenderFragment SortContent { get; protected set; }
+
+        /// <summary>
+        /// Column header options menu content.
+        /// </summary>
         /// <summary xml:lang="fr">
         /// Contenu menu option d'en-tête de la colonne.
         /// </summary>
         protected internal RenderFragment OptionsContent { get; protected set; }
-
+        
+        /// <summary>
+        /// Property expression for the column.
+        /// </summary>
         /// <summary xml:lang="fr">
         /// Expression de propriété pour la colonne.
         /// </summary>
         internal Expression<Func<TGridItem, object?>>? PropertyExpression => propertyExpression;
+
+        /// <summary>
+        /// Type of the column property.
+        /// </summary>
         /// <summary xml:lang="fr">
         /// Type de la propriété de la colonne.
         /// </summary>
         internal Type? TypeOfProperty => typeOfProperty;
 
+        /// <summary>
+        /// Indicates whether the column is sortable.
+        /// </summary>
+        /// /// <remarks>
+        /// if <see cref="IsSortable"/> is set to <c>true</c> then <see cref="ColumnCBase{TGridItem}.PropertyExpression"/> must not be <c>null</c>
+        /// </remarks>
         /// <summary xml:lang="fr">
         /// Indique si la colonne est triable.        
         /// </summary>
@@ -119,6 +217,13 @@ namespace Microsoft.AspNetCore.Components.QuickGrid.QuickGridCollection.Columns
         /// si <see cref="IsSortable"/> est définir sur <c>true</c> la <see cref="ColumnCBase{TGridItem}.PropertyExpression"/> ne doit pas être <c>null</c>
         /// </remarks>
         internal bool IsSortable { get => isSortable; set => isSortable = value; }
+
+        /// <summary>
+        /// Gets or sets a value indicating whether this column can be sorted with other sortable columns.
+        /// </summary>
+        /// <remarks>
+        /// If this property is set to <c>true</c> and the <see cref="IsSortable"/> property is also set to <c>true</c>, this column can be sorted with other sortable columns.
+        /// </remarks>
         /// <summary xml:lang="fr">
         /// Obtient ou définit une valeur indiquant si cette colonne peut être triée avec d'autres colonnes triables.
         /// </summary>
@@ -126,18 +231,35 @@ namespace Microsoft.AspNetCore.Components.QuickGrid.QuickGridCollection.Columns
         /// Si cette propriété est définie sur <c>true</c> et que la propriété <see cref="IsSortable"/> est également définie sur <c>true</c>, cette colonne peut être triée avec d'autres colonnes triables.
         /// </remarks>
         internal bool MultipleSortingAllowed { get => multipleSortingAllowed; set => multipleSortingAllowed = value; }
+
+        /// <summary>
+        /// instance of <see cref="QuickGridC{TGridItem}"/>
+        /// </summary>
         /// <summary xml:lang="fr">
         /// instance de <see cref="QuickGridC{TGridItem}"/>
         /// </summary>
         internal QuickGridC<TGridItem> Grid => InternalGridContext.Grid;
+
+        /// <summary>
+        /// Object for managing CSS classes and styles of HTML elements in the grid.
+        /// </summary>
         /// <summary xml:lang="fr">
         /// Objet permettant de gérer les classes CSS et les styles des éléments HTML de la grille.
         /// </summary>
         internal GridHtmlCssManager ClassAndStyle => Grid.ClassAndStyle;
+
+        /// <summary>
+        /// Indicates whether the column options are applied.
+        /// </summary>
         /// <summary xml:lang="fr">
         /// Indique si les options de la colonne sont applique. 
         /// </summary>
         internal bool OptionApplied { get => optionApplied; set => optionApplied = value; }
+
+        /// <summary>
+        /// Maximum number of filters to apply for this column. The default value is 5, The minimum value is 2
+        /// </summary>
+        /// <remarks> This property is used by <see cref="MenuAdvancedFilter{TGridItem}"/> </remarks>
         /// <summary xml:lang="fr">
         /// Nombre maximum de filtres à applique pour cette colonne. La valeur par défaut est 5, La valeur minimal est 2
         /// </summary>
@@ -152,6 +274,10 @@ namespace Microsoft.AspNetCore.Components.QuickGrid.QuickGridCollection.Columns
                     maxFilters = value;
             }
         }
+
+        /// <summary>
+        /// Indicates whether column options are shown or hidden.
+        /// </summary>
         /// <summary xml:lang="fr">
         /// Indique si les options de colonne sont affichées ou masquées.
         /// </summary>
@@ -159,6 +285,9 @@ namespace Microsoft.AspNetCore.Components.QuickGrid.QuickGridCollection.Columns
 
         protected internal abstract void CellContent(RenderTreeBuilder builder, TGridItem item);
 
+        /// <summary>
+        /// Adds a column to the grid.
+        /// </summary>
         /// <summary xml:lang="fr">
         /// Ajoute une colonne à la grille.
         /// </summary>
@@ -167,6 +296,11 @@ namespace Microsoft.AspNetCore.Components.QuickGrid.QuickGridCollection.Columns
             Grid.AddColumn(_lastAssignedColumn = this);
         }
 
+        /// <summary>
+        /// Sorts the grid data.
+        /// Updates the list of sorted columns in the grid based on the new sort direction.
+        /// Also updates the sort direction in the dictionary of sort directions for each column in the grid.
+        /// </summary>
         /// <summary xml:lang="fr">
         /// Trie les données de la grille.
         /// Met à jour la liste <see cref="QuickGridC{TGridItem}.columnsSorted"/> en fonction de la nouvelle direction de tri.
@@ -177,6 +311,10 @@ namespace Microsoft.AspNetCore.Components.QuickGrid.QuickGridCollection.Columns
             Grid.ApplySort(_lastAssignedColumn!);
         }
 
+        /// <summary>
+        /// Sets the property expression and property type for the column.
+        /// </summary>
+        /// <param name="memberExp">Member expression to use.</param>
         /// <summary xml:lang="fr">
         /// Définit l'expression de propriété et le type de propriété pour la colonne.
         /// </summary>
@@ -188,6 +326,11 @@ namespace Microsoft.AspNetCore.Components.QuickGrid.QuickGridCollection.Columns
             typeOfProperty = Nullable.GetUnderlyingType(memberExp.Type) ?? memberExp.Type;            
         }
 
+        /// <summary>
+        /// Sets the property expression and property type for the column using a lambda expression.
+        /// </summary>
+        /// <typeparam name="TPro">The type of the property to use.</typeparam>
+        /// <param name="expression">The lambda expression representing the property to use.</param>
         /// <summary xml:lang="fr">
         /// Définit l'expression de propriété et le type de propriété pour la colonne en utilisant une expression lambda.
         /// </summary>
@@ -199,6 +342,9 @@ namespace Microsoft.AspNetCore.Components.QuickGrid.QuickGridCollection.Columns
                 SetPropertyExpressionAndTypet(memberExpression);
         }
 
+        /// <summary>
+        /// Shows or hides column options.
+        /// </summary>
         /// <summary xml:lang="fr">
         /// Affiche ou masque les options de colonne.
         /// </summary>
@@ -208,6 +354,9 @@ namespace Microsoft.AspNetCore.Components.QuickGrid.QuickGridCollection.Columns
             Grid.StateChanged();
         }
 
+        /// <summary>
+        /// Resolves the CSS class for column options.
+        /// </summary>
         /// <summary xml:lang="fr">
         /// Résout la classe CSS pour les options de colonne.
         /// </summary>
@@ -232,6 +381,9 @@ namespace Microsoft.AspNetCore.Components.QuickGrid.QuickGridCollection.Columns
                 return "";
         }
 
+        /// <summary>
+        /// Resolves the CSS style for column options.
+        /// </summary>
         /// <summary xml:lang="fr">
         /// Résout le Style CSS pour les options de colonne.
         /// </summary>
@@ -256,6 +408,10 @@ namespace Microsoft.AspNetCore.Components.QuickGrid.QuickGridCollection.Columns
                 return "";
         }
 
+        /// <summary>
+        /// Gets the CSS class corresponding to the sort direction of this column.
+        /// Uses the dictionary of sort direction CSS classes to associate each sort direction with its corresponding CSS class.
+        /// </summary>
         /// <summary xml:lang="fr">
         /// Obtient la classe CSS correspondant à la direction de tri du cette colonne.
         /// Utilise le dictionnaire <see cref="QuickGridC{TGridItem}.sortDirectionCssClasses"/> pour associer chaque direction de tri à sa classe CSS correspondante.
@@ -265,6 +421,10 @@ namespace Microsoft.AspNetCore.Components.QuickGrid.QuickGridCollection.Columns
             return Grid.GetSortClass(_lastAssignedColumn!);
         }
 
+        /// <summary>
+        /// Gets the CSS style corresponding to the sort direction of this column.
+        /// Uses the dictionary of sort direction CSS classes to associate each sort direction with its corresponding CSS class.
+        /// </summary>
         /// <summary xml:lang="fr">
         /// Obtient la Style CSS correspondant à la direction de tri du cette colonne.
         /// Utilise le dictionnaire <see cref="QuickGridC{TGridItem}.sortDirectionCssClasses"/> pour associer chaque direction de tri à sa classe CSS correspondante.

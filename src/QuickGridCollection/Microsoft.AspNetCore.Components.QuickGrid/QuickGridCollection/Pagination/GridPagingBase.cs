@@ -2,36 +2,65 @@
 {
     public abstract class GridPagingBase : ComponentBase
     {
+        /// <summary>
+        /// Gets or sets the pagination state.
+        /// </summary>
         /// <summary xml:lang="fr">
         /// Obtient ou définit l'état de la pagination.
         /// </summary>
-        [Parameter, EditorRequired]
-        public required GridPagingState PaginationState { get; set; }
+        [Parameter, EditorRequired] public required GridPagingState PaginationState { get; set; }
+
+        /// <summary>
+        /// Gets or sets the total number of items.
+        /// </summary>
         /// <summary xml:lang="fr">
         /// Obtient ou définit le nombre total d'éléments.
         /// </summary>
         public int TotalItems { get => PaginationState.TotalItems; set => PaginationState.TotalItems = value; }
+
+        /// <summary>
+        /// Gets or sets the number of items per page.
+        /// </summary>
         /// <summary xml:lang="fr">
         /// Obtient ou définit le nombre d'éléments par page.
         /// </summary>
         public int ItemsPerPage { get => PaginationState.ItemsPerPage; set => PaginationState.ItemsPerPage = value; }
+
+        /// <summary>
+        /// Gets or sets the index of the current page.
+        /// </summary>
         /// <summary xml:lang="fr">
         /// Obtient ou définit l'index de la page actuelle.
         /// </summary>
         public int CurrentPage { get => PaginationState.CurrentPage; set => PaginationState.CurrentPage = value; }
+
+        /// <summary>
+        /// Gets the total number of pages.
+        /// </summary>
         /// <summary xml:lang="fr">
         /// Obtient le nombre total de pages.
         /// </summary>
         public int PageCount { get => PaginationState.PageCount; }
+
+        /// <summary>
+        /// Gets a value indicating whether the current page has a previous page.
+        /// </summary>
         /// <summary xml:lang="fr">
         /// Obtient une valeur indiquant si la page actuelle a une page précédente.
         /// </summary>
         public bool HasPreviousPage => CurrentPage > 1;
+
+        /// <summary>
+        /// Gets a value indicating whether the current page has a next page.
+        /// </summary>
         /// <summary xml:lang="fr">
         /// Obtient une valeur indiquant si la page actuelle a une page suivante.
         /// </summary>
         public bool HasNextPage => CurrentPage < PageCount;
 
+        /// <summary>
+        /// Navigates to the previous page.
+        /// </summary>
         /// <summary xml:lang="fr">
         /// Navigue vers la page précédente.
         /// </summary>
@@ -39,6 +68,10 @@
         {
             CurrentPage--;
         }
+
+        /// <summary>
+        /// Navigates to the next page.
+        /// </summary>
         /// <summary xml:lang="fr">
         /// Navigue vers la page suivante.
         /// </summary>
@@ -46,6 +79,11 @@
         {
             CurrentPage++;
         }
+
+        /// <summary>
+        /// Navigates to a specific page.
+        /// </summary>
+        /// <param name="pageIndex">The index of the page to navigate to.</param>
         /// <summary xml:lang="fr">
         /// Navigue vers une page spécifique.
         /// </summary>
@@ -61,8 +99,7 @@
         /// <summary>
         /// Distributes page numbers into an array.
         /// </summary>
-        /// <returns> An array of integers representing the distributed page numbers. 0 indicates that there is no page number at that index.</returns>
-        
+        /// <returns> An array of integers representing the distributed page numbers. 0 indicates that there is no page number at that index.</returns>        
         /// <summary xml:lang="fr">
         /// Répartit les numéros de page dans un tableau.
         /// </summary>

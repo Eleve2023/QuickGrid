@@ -6,24 +6,46 @@ namespace Microsoft.AspNetCore.Components.QuickGrid.QuickGridCollection.Columns
 {
     public partial class MenuAdvancedFilter<TGridItem> : MenuFiltre<TGridItem>
     {
+        /// <summary>
+        /// Represents the index of the column filters.
+        /// </summary>
+
         /// <summary xml:lang="fr">
         /// Représente l'index des filtres de la colonne.
         /// </summary>
         private int filterIndex;
+
+        /// <summary>
+        /// Shows or hides the add filter button for each column filter.
+        /// </summary>
+
         /// <summary xml:lang="fr">
         /// Affiche ou masque le bouton d'ajout de filtre pour chaque filtre de la colonne.
         /// </summary>
         private readonly List<bool> showAddFilterButton = new() { false };
+
+        /// <summary>
+        /// Operator used to aggregate the column filters <see cref="MenuFiltre{TGridItem}.columnFilterExpressions"/>.
+        /// </summary>
+
         /// <summary xml:lang="fr">
         /// Opérateur utilisé pour agréger les filtres de la colonne <see cref="MenuFiltre{TGridItem}.columnFilterExpressions"/>.
         /// </summary>
         private FilterOperator filterOperator = FilterOperator.AndAlso;
-        
+
+        /// <summary>
+        /// Gets the maximum number of filters to apply for this column.
+        /// </summary>
+
         /// <summary xml:lang="fr">
         /// Obtient le nombre maximum de filtres à appliquer pour cette colonne.
         /// </summary>
         private int MaxColumnFilters => Column.MaxFilters;
-        
+
+        /// <summary>
+        /// Adds a filter to the list of column filters.
+        /// </summary>
+
         /// <summary xml:lang="fr">
         /// Ajoute un filtre à la liste des filtres de la colonne.
         /// </summary>
@@ -91,6 +113,13 @@ namespace Microsoft.AspNetCore.Components.QuickGrid.QuickGridCollection.Columns
             return filterOptions[index] = enumlist;
         }
 
+        /// <summary>
+        /// Resolves the list of filter options for string type fields based on the selected filter options.
+        /// </summary>
+        /// <typeparam name="TOption">The type of filter options.</typeparam>
+        /// <param name="enumlist">The list of filter options to resolve.</param>
+        /// <param name="optionSelecteds">The list of selected filter options.</param>
+
         /// <summary xml:lang="fr">
         /// Résout la liste des options de filtre pour les champs de type chaîne en fonction des options de filtre sélectionnées.
         /// </summary>
@@ -117,6 +146,13 @@ namespace Microsoft.AspNetCore.Components.QuickGrid.QuickGridCollection.Columns
                     or StringFilterOptions.NotEqual);
         }
 
+        /// <summary>
+        /// Resolves the list of filter options for enumeration type fields based on the selected filter options.
+        /// </summary>
+        /// <typeparam name="TOption">The type of filter options.</typeparam>
+        /// <param name="enumlist">The list of filter options to resolve.</param>
+        /// <param name="optionSelecteds">The list of selected filter options.</param>
+
         /// <summary xml:lang="fr">
         /// Résout la liste des options de filtre pour les champs de type énumération en fonction des options de filtre sélectionnées.
         /// </summary>
@@ -131,6 +167,12 @@ namespace Microsoft.AspNetCore.Components.QuickGrid.QuickGridCollection.Columns
             if (optionSelecteds.Contains(EnumFilterOptions.NotEqual))
                 enumlist.RemoveAll(x => x is EnumFilterOptions.Equal);
         }
+
+        /// <summary>
+        /// Resolves the list of filter options for data type fields based on the selected filter options.
+        /// </summary>
+        /// <param name="enumlist">The list of filter options to resolve.</param>
+        /// <param name="optionSelecteds">The list of selected filter options.</param>
 
         /// <summary xml:lang="fr">
         /// Résout la liste des options de filtre pour les champs de type données en fonction des options de filtre sélectionnées.
@@ -197,7 +239,14 @@ namespace Microsoft.AspNetCore.Components.QuickGrid.QuickGridCollection.Columns
                     Grid.ApplyColumnFilter(lambda, Column);
             }
         }
+
+        // todo : replace button with select
         // todo : remplace le bouton par select
+        /// <summary>
+        /// Toggles between the values of the filter operator to assign the property <see cref="MenuAdvancedFilter{TGridItem}.filterOperator"/>.
+        /// </summary>
+        /// <exception cref="NotImplementedException">Thrown if the value of the filter operator is not handled.</exception>
+
         /// <summary xml:lang="fr">
         /// Bascule entre les valeurs de l'opérateur de filtre pour assigner la propriété <see cref="MenuAdvancedFilter{TGridItem}.filterOperator"/>.
         /// </summary>

@@ -1,6 +1,10 @@
 ﻿
 namespace Microsoft.AspNetCore.Components.QuickGrid.QuickGridCollection
 {
+    /// <summary>
+    /// Class for managing CSS classes and styles of HTML elements in the <see cref="QuickGridC{TGridItem}"/> grid.
+    /// Contains dictionaries associating each HTML element with its CSS class or style.
+    /// </summary>
     /// <summary xml:lang="fr">
     /// Classe permettant de gérer les classes CSS et les styles des éléments HTML de la grille <see cref="QuickGridC{TGridItem}"/>.
     /// Contient des dictionnaires associant chaque élément HTML à sa classe CSS ou à son style.

@@ -4,6 +4,58 @@ using System.Linq.Expressions;
 
 namespace Microsoft.AspNetCore.Components.QuickGrid.QuickGridCollection
 {
+    /// <summary>
+    /// The <see cref="GridFilteringAndSorting{TGridItem}"/> structure is a generic type that takes a type parameter <c>TGridItem</c> which is the same typeparam as <see cref="QuickGridC{TGridItem}"/>.
+    /// It is used by a <see cref="QuickGridC{TGridItem}"/> component via the <see cref="QuickGridC{TGridItem}.FilterSortChanged"/> property.
+    /// This property is of type <see cref="EventCallback{GridFilteringAndSorting{TGridItem}}"/>,
+    /// which means it can be used to trigger an event when the grid's filters or order change.
+    /// <para>
+    /// The user can then use this instance to filter and sort the grid data using <c>Linq</c>, <c>Entity Framework Linq</c> or <c>Simple.Client.OData</c>.
+    /// </para>
+    /// <para>
+    /// <example>
+    /// Example of usage in a Blazor component:
+    /// <code>
+    /// <Grid TGridItem="Item" Items="Items" FilterOrOrderChange="OnFilterOrOrderChange">
+    /// </Grid>
+    /// @code {
+    ///     private async Task OnFilterOrOrderChange(GridFilteringAndSorting&lt;Item&gt; filtersAndOrder)
+    ///    {
+    ///         // Using Linq
+    ///         Items = filtersAndOrder.ApplyFilterAndSortExpressionsForLinq(myData.AsQueryable()).ToList();
+    ///
+    ///         // Using Entity Framework Linq
+    ///         Items = filtersAndOrder.ApplyFilterAndSortExpressions(dbContext.Set&lt;Item&gt;()).ToList();
+    ///
+    ///        // Using Simple.Client.OData
+    ///        var client = new ODataClient("https://my-service.com/odata");
+    ///        var queryableOdata = client.For&lt;Item&gt;();
+    ///        if (filtersAndOrder.HasFilterExpressions())
+    ///           queryableOdata.Filter(filtersAndOrder.CombineFilterExpressions()!);
+    ///        if(filtersAndOrder.HasSortExpressions())
+    ///        {
+    ///            foreach (var value in filtersAndOrder.SortExpressions)
+    ///            {
+    ///                (var sort, var exp) = value;
+    ///                if (sort == SortedLinq.OrderBy)
+    ///                    queryableOdata.OrderBy(exp);
+    ///                if (sort == SortedLinq.OrderByDescending)
+    ///                    queryableOdata.OrderByDescending(exp);
+    ///                if (sort == SortedLinq.ThenBy)
+    ///                    queryableOdata.ThenBy(exp);
+    ///                if (sort == SortedLinq.ThenByDescending)
+    ///                   queryableOdata.ThenByDescending(exp);
+    ///           }
+    ///       }
+    ///       Items = await queryableOdata.FindEntriesAsync();
+    ///   }
+    /// }    
+    /// </code>
+    /// </example>
+    /// </para>
+    /// </summary>
+    /// <typeparam name="TGridItem">The type of grid item.</typeparam> 
+
     /// <summary xml:lang="fr">
     /// La structure <see cref="GridFilteringAndSorting{TGridItem}"/> est un type générique qui prend un paramètre de type <c>TGridItem</c> est le même typeparam que <see cref="QuickGridC{TGridItem}"/>.
     /// Elle est utilisée par un composant <see cref="QuickGridC{TGridItem}"/> via la propriété <see cref="QuickGridC{TGridItem}.FilterSortChanged"/>.
@@ -57,6 +109,14 @@ namespace Microsoft.AspNetCore.Components.QuickGrid.QuickGridCollection
     /// <typeparam name="TGridItem" xml:lang="fr">Le type d'élément de la grille.</typeparam>
     public struct GridFilteringAndSorting<TGridItem>
     {
+        /// <summary>
+        /// Nullable array of expressions that take a TGridItem and return a boolean value.
+        /// These expressions can be used to filter grid items.
+        /// For example,
+        /// <code>
+        /// var queryable = myData.AsQueryable().Where(gridFilteringAndSorting.FilterExpressions[0])
+        /// </code>
+        /// </summary>
         /// <summary xml:lang="fr">
         /// Tableau d'expressions nullable qui prennent un TGridItem et renvoient une valeur booléenne.
         /// Ces expressions peuvent être utilisées pour filtrer les éléments de la grille.
@@ -66,6 +126,18 @@ namespace Microsoft.AspNetCore.Components.QuickGrid.QuickGridCollection
         /// </code>
         /// </summary>
         public Expression<Func<TGridItem, bool>>[]? FilterExpressions { get; internal set; }
+
+        /// <summary>
+        /// Nullable array of tuples containing an element of type SortedLinq and an expression that takes a TGridItem and returns a value of type object.
+        /// These tuples can be used to sort grid items.
+        /// The first element of the tuple indicates the sorting method to use (OrderBy, OrderByDescending, ThenBy or ThenByDescending) and the second element is the sorting expression.
+        /// For example, to sort items in ascending order, the following code can be used:
+        /// <code>
+        /// var queryable = myData.AsQueryable();
+        /// if (gridFilteringAndSorting.SortExpressions[0].Item1 == SortedLinq.OrderBy)
+        ///    queryable = queryable.OrderBy(gridFilteringAndSorting.SortExpressions[0].Item2);
+        /// </code>
+        /// </summary>
         /// <summary xml:lang="fr">
         /// Tableau nullable de tuples contenant un élément de type SortedLinq et une expression qui prend un TGridItem et renvoie une valeur de type object.
         /// Ces tuples peuvent être utilisés pour trier les éléments de la grille.
@@ -79,6 +151,10 @@ namespace Microsoft.AspNetCore.Components.QuickGrid.QuickGridCollection
         /// </summary>
         public (SortedLinq, Expression<Func<TGridItem, object?>>)[]? SortExpressions { get; internal set; }
 
+        /// <summary>
+        /// Checks if the sorting tuple array <see cref="GridFilteringAndSorting{TGridItem}.SortExpressions"/> is non-null and non-empty.
+        /// </summary>
+        /// <returns>Returns <c>true</c> if the sorting tuple array is non-null and non-empty, otherwise <c>false</c>.</returns>
         /// <summary xml:lang="fr">
         /// Vérifie si le tableau de tuples de tri <see cref="GridFilteringAndSorting{TGridItem}.SortExpressions"/> est non nul et non vide.
         /// </summary>
@@ -89,6 +165,10 @@ namespace Microsoft.AspNetCore.Components.QuickGrid.QuickGridCollection
                 return true;
             else return false;
         }
+
+        /// <summary>
+        /// Checks if the filtering expression array <see cref="GridFilteringAndSorting{TGridItem}.FilterExpressions"/> is non-null and non-empty.
+        /// </summary> 
         /// <summary xml:lang="fr">
         /// Vérifie si le tableau d'expressions de filtrage <see cref="GridFilteringAndSorting{TGridItem}.FilterExpressions"/> est non nul et non vide.
         /// </summary>
@@ -99,6 +179,22 @@ namespace Microsoft.AspNetCore.Components.QuickGrid.QuickGridCollection
                 return true;
             else return false;
         }
+
+        /// <summary>
+        /// Applies the filtering expressions <see cref="GridFilteringAndSorting{TGridItem}.FilterExpressions"/> to the provided IQueryable using the AndAlso (logical AND) operator.
+        /// </summary>
+        /// <param name="queryable">The <see cref="IQueryable"/> to filter.</param>
+        /// <param name="useDefaultValueForNull">
+        /// Indicates whether nullable objects should be treated as having a default value when generating expressions.
+        /// <para>If this value is <c>true</c>, the generated expressions will replace <c>null</c> values with the default value of the nullable type.</para>
+        /// If this value is <c>false</c>, the generated expressions will treat <c>null</c> values as valid values.
+        /// </param>
+        /// <param name="ignoreCaseInStringComparison">
+        /// Indicates whether string comparisons should be case-insensitive when generating expressions.
+        /// <para>If this value is <c>true</c>, the generated expressions will convert strings to lowercase before comparing them, thus making the comparison case-insensitive.</para>
+        /// If this value is <c>false</c>, the generated expressions will perform case-sensitive comparisons.
+        /// </param>
+        /// <returns>Returns a filtered <see cref="IQueryable"/> or <c>null</c> if no filtering expression is defined.</returns>
         /// <summary xml:lang="fr">
         /// Applique les expressions de filtrage <see cref="GridFilteringAndSorting{TGridItem}.FilterExpressions"/> au IQueryable fourni en utilisant l'opérateur AndAlso (ET logique).
         /// </summary>
@@ -125,7 +221,13 @@ namespace Microsoft.AspNetCore.Components.QuickGrid.QuickGridCollection
                 return queryable.Where(expression);
             return null;
         }
-
+        
+        /// <summary>
+        /// Applies the filtering expressions <see cref="GridFilteringAndSorting{TGridItem}.FilterExpressions"/> to the provided IQueryable using the AndAlso (logical AND) operator.
+        /// </summary>
+        /// <param name="queryable">The <see cref="IQueryable"/> to filter.</param>  
+        /// <param name="operatorType">The operator to use to combine expressions.</param>
+        /// <returns>Returns a filtered <see cref="IQueryable"/> or <c>null</c> if no filtering expression is defined.</returns>
         /// <summary xml:lang="fr">
         /// Applique les expressions de filtrage <see cref="GridFilteringAndSorting{TGridItem}.FilterExpressions"/> au IQueryable fourni en utilisant l'opérateur AndAlso (ET logique).
         /// </summary>
@@ -142,6 +244,11 @@ namespace Microsoft.AspNetCore.Components.QuickGrid.QuickGridCollection
             return null;
         }
 
+        /// <summary>
+        /// Applies the sorting tuples <see cref="GridFilteringAndSorting{TGridItem}.SortExpressions"/> to the provided <see cref="IQueryable"/>.
+        /// </summary>
+        /// <param name="queryable">The <see cref="IQueryable"/> to sort.</param>
+        /// <returns>Returns a sorted <see cref="IOrderedQueryable"/> or <c>null</c> if no sorting tuple is defined.</returns>
         /// <summary xml:lang="fr">
         /// Applique les tuples de tri <see cref="GridFilteringAndSorting{TGridItem}.SortExpressions"/> au <see cref="IQueryable"/> fourni.
         /// </summary>
@@ -169,6 +276,22 @@ namespace Microsoft.AspNetCore.Components.QuickGrid.QuickGridCollection
             return null;
         }
 
+        /// <summary>
+        /// Applies the filtering expressions <see cref="GridFilteringAndSorting{TGridItem}.FilterExpressions"/> and sorting tuples <see cref="GridFilteringAndSorting{TGridItem}.SortExpressions"/> to the provided <see cref="IQueryable"/>.
+        /// </summary>
+        /// <param name="queryable">The <see cref="IQueryable"/> to filter and sort.</param>
+        /// <param name="useDefaultValueForNull">
+        /// Indicates whether nullable objects should be treated as having a default value when generating expressions.
+        /// <para>If this value is <c>true</c>, the generated expressions will replace <c>null</c> values with the default value of the nullable type.</para>
+        /// If this value is <c>false</c>, the generated expressions will treat <c>null</c> values as valid values.
+        /// </param>
+        /// <param name="ignoreCaseInStringComparison">
+        /// Indicates whether string comparisons should be case-insensitive when generating expressions.
+        /// <para>If this value is <c>true</c>, the generated expressions will convert strings to lowercase before comparing them, thus making the comparison case-insensitive.</para>
+        /// If this value is <c>false</c>, the generated expressions will perform case-sensitive comparisons.
+        /// </param>
+        /// <param name="operatorType">The operator to use to combine expressions.</param>
+        /// <returns>Returns a filtered and sorted <see cref="IQueryable"/>.</returns>
         /// <summary xml:lang="fr">
         /// Applique les expressions de filtrage <see cref="GridFilteringAndSorting{TGridItem}.FilterExpressions"/> et les tuples de tri <see cref="GridFilteringAndSorting{TGridItem}.SortExpressions"/> au <see cref="IQueryable"/> fourni.
         /// </summary>
@@ -199,7 +322,12 @@ namespace Microsoft.AspNetCore.Components.QuickGrid.QuickGridCollection
                 queryable = oq;
             return queryable;
         }
-
+        /// <summary>
+        /// Applies the filtering expressions <see cref="GridFilteringAndSorting{TGridItem}.FilterExpressions"/> and sorting tuples <see cref="GridFilteringAndSorting{TGridItem}.SortExpressions"/> to the provided <see cref="IQueryable"/>.
+        /// </summary>
+        /// <param name="queryable">The <see cref="IQueryable"/> to filter and sort.</param>        
+        /// <param name="operatorType">The operator to use to combine expressions.</param>
+        /// <returns>Returns a filtered and sorted <see cref="IQueryable"/>.</returns>
         /// <summary xml:lang="fr">
         /// Applique les expressions de filtrage <see cref="GridFilteringAndSorting{TGridItem}.FilterExpressions"/> et les tuples de tri <see cref="GridFilteringAndSorting{TGridItem}.SortExpressions"/> au <see cref="IQueryable"/> fourni.
         /// </summary>
@@ -218,8 +346,12 @@ namespace Microsoft.AspNetCore.Components.QuickGrid.QuickGridCollection
                 queryable = oq;
             return queryable;
         }
-
+        /// <summary>
+        /// Combines the filtering expressions <see cref="GridFilteringAndSorting{TGridItem}.FilterExpressions"/> using the AndAlso (logical AND) operator.
+        /// </summary>
+        /// <param name="operatorType">The operator to use to combine expressions.</param>
         /// <summary xml:lang="fr">
+        /// <returns>Returns a combined expression or <c>null</c> if no filtering expression is defined.</returns>
         /// Combine les expressions de filtrage <see cref="GridFilteringAndSorting{TGridItem}.FilterExpressions"/> en utilisant l'opérateur AndAlso (ET logique).
         /// </summary>
         /// <param name="operatorType" xml:lang="fr">L'opérateur à utiliser pour combiner les expressions.</param>
@@ -233,6 +365,23 @@ namespace Microsoft.AspNetCore.Components.QuickGrid.QuickGridCollection
             }
             else return null;
         }
+
+        /// <summary>
+        /// Combines the filtering expressions <see cref="GridFilteringAndSorting{TGridItem}.FilterExpressions"/> using the AndAlso (logical AND) operator.
+        /// Adds a null check for nullable types
+        /// </summary>
+        /// <param name="useDefaultValueForNull">
+        /// Indicates whether nullable objects should be treated as having a default value when generating expressions.
+        /// <para>If this value is <c>true</c>, the generated expressions will replace <c>null</c> values with the default value of the nullable type.</para>
+        /// If this value is <c>false</c>, the generated expressions will treat <c>null</c> values as valid values.
+        /// </param>
+        /// <param name="ignoreCaseInStringComparison">
+        /// Indicates whether string comparisons should be case-insensitive when generating expressions.
+        /// <para>If this value is <c>true</c>, the generated expressions will convert strings to lowercase before comparing them, thus making the comparison case-insensitive.</para>
+        /// If this value is <c>false</c>, the generated expressions will perform case-sensitive comparisons.
+        /// </param>
+        /// <param name="operatorType">The operator to use to combine expressions.</param>
+        /// <returns>Returns a combined expression or <c>null</c> if no filtering expression is defined.</returns>
         /// <summary xml:lang="fr">
         /// Combine les expressions de filtrage <see cref="GridFilteringAndSorting{TGridItem}.FilterExpressions"/> en utilisant l'opérateur AndAlso (ET logique).
         /// Ajoute un contre valeur null pour les type nullable
@@ -268,16 +417,13 @@ namespace Microsoft.AspNetCore.Components.QuickGrid.QuickGridCollection
             return (Expression<Func<TGridItem, bool>>)(new NullableAndStringComparisonExpressionVisitor(useDefaultValueForNull, ignoreCaseInStringComparison)).Visit(e);            
         }
 
-        /// <summary xml:lang="fr">
-        /// Combine les expressions de filtrage <see cref="GridFilteringAndSorting{TGridItem}.FilterExpressions"/> en utilisant l'opérateur OrElse (OU logique).
+        /// <summary>
+        /// Combines the expressions using the specified operator.
         /// </summary>
-        /// <returns xml:lang="fr">Retourne une expression combinée ou <c>null</c> si aucune expression de filtrage n'est définie.</returns>
-        public readonly Expression<Func<TGridItem, bool>>? CombineFilterExpressionsWithOr()
-        {
-            if (HasFilterExpressions())
-                return CombineExpressions(ExpressionType.OrElse, FilterExpressions!);
-            else return null;
-        }
+        /// <typeparam name="T">The return type of the expressions.</typeparam>
+        /// <param name="expressionType">The operator to use to combine the expressions.</param>
+        /// <param name="expressions">The expressions to combine.</param>
+        /// <returns>Returns a combined expression.</returns>
         /// <summary xml:lang="fr">
         /// Combine les expressions en utilisant l'opérateur spécifié.
         /// </summary>

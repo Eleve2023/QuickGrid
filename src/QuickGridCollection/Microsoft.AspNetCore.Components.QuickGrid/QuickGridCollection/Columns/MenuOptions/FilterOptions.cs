@@ -1,5 +1,9 @@
 ﻿namespace Microsoft.AspNetCore.Components.QuickGrid.QuickGridCollection.Columns.MenuOptions
 {
+    /// <summary>
+    /// Enumeration of filter options for string type fields.
+    /// </summary>
+
     /// <summary xml:lang="fr">
     /// Énumération des options de filtre pour les champs de type chaîne.
     /// </summary>
@@ -26,6 +30,11 @@
         /// </summary>
         NotEqual
     }
+
+    /// <summary>
+    /// Enumeration of filter options for data type fields.
+    /// </summary>
+
     /// <summary xml:lang="fr">
     /// Énumération des options de filtre pour les champs de type données.
     /// </summary>
@@ -56,6 +65,11 @@
         /// </summary>
         Equal
     }
+
+    /// <summary>
+    /// Enumeration of filter options for enumeration type fields.
+    /// </summary>
+
     /// <summary xml:lang="fr">
     /// Énumération des options de filtre pour les champs de type énumération.
     /// </summary>
@@ -70,6 +84,11 @@
         /// </summary>
         Equal
     }
+
+    /// <summary>
+    /// Enumeration of filter options for boolean type fields.
+    /// </summary>
+
     /// <summary xml:lang="fr">
     /// Énumération des options de filtre pour les champs de type booléen.
     /// </summary>

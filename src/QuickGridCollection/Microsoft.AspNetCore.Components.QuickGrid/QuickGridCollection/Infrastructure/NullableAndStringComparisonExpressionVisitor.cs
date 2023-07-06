@@ -2,6 +2,9 @@
 
 namespace Microsoft.AspNetCore.Components.QuickGrid.QuickGridCollection.Infrastructure
 {
+    /// <summary>
+    /// A custom expression visitor that handles expressions with Nullable values and case-insensitive string comparisons.
+    /// </summary>
     /// <summary xml:lang="fr">
     /// Un visiteur d'expression personnalisé qui gère les expressions avec des valeurs Nullable et des comparaisons de chaînes insensibles à la casse.
     /// </summary>
@@ -10,6 +13,11 @@ namespace Microsoft.AspNetCore.Components.QuickGrid.QuickGridCollection.Infrastr
         private readonly bool useDefaultValueForNull;
         private readonly bool ignoreCaseInStringComparison;
 
+        /// <summary>
+        /// Creates a new instance of the NullableAndStringComparisonExpressionVisitor class.
+        /// </summary>
+        /// <param name="useDefaultValueForNull">Indicates whether nullable objects should be treated as having a default value when visiting expressions.</param>
+        /// <param name="ignoreCaseInStringComparison">Indicates whether string comparisons should be case-insensitive when visiting expressions.</param>
         /// <summary xml:lang="fr">
         /// Crée une nouvelle instance de la classe NullableAndStringComparisonExpressionVisitor.
         /// </summary>
@@ -21,6 +29,11 @@ namespace Microsoft.AspNetCore.Components.QuickGrid.QuickGridCollection.Infrastr
             this.ignoreCaseInStringComparison = ignoreCaseInStringComparison;
         }
 
+        /// <summary>
+        /// Visits the method call nodes of the expression tree.
+        /// </summary>
+        /// <param name="node">The method call node to visit.</param>
+        /// <returns>The modified method call node, if necessary, or the original node if no modification is necessary.</returns>
         /// <summary xml:lang="fr">
         /// Visite les nœuds d'appel de méthode de l'arbre d'expression.
         /// </summary>
@@ -61,6 +74,11 @@ namespace Microsoft.AspNetCore.Components.QuickGrid.QuickGridCollection.Infrastr
             return base.VisitMethodCall(node);
         }
 
+        /// <summary>
+        /// Visits the binary nodes of the expression tree.
+        /// </summary>
+        /// <param name="node">The binary node to visit.</param>
+        /// <returns>The modified binary node, if necessary, or the original node if no modification is necessary.</returns>
         /// <summary xml:lang="fr">
         /// Visite les nœuds binaires de l'arbre d'expression.
         /// </summary>
