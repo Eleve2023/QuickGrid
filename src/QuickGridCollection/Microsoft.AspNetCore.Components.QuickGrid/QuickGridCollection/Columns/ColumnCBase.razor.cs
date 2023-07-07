@@ -246,7 +246,7 @@ namespace Microsoft.AspNetCore.Components.QuickGrid.QuickGridCollection.Columns
         /// <summary xml:lang="fr">
         /// Objet permettant de gérer les classes CSS et les styles des éléments HTML de la grille.
         /// </summary>
-        internal GridHtmlCssManager ClassAndStyle => Grid.ClassAndStyle;
+        internal GridHtmlCssManager CssClassAndStyle => Grid.CssClassAndStyle;
 
         /// <summary>
         /// Indicates whether the column options are applied.
@@ -364,18 +364,18 @@ namespace Microsoft.AspNetCore.Components.QuickGrid.QuickGridCollection.Columns
         {
             if (ColumnOptions != null)
             {
-                return optionApplied ? ClassAndStyle[ClassHtml.Column_Options_i_i_ColumnOptionActive] :
-                    ClassAndStyle[ClassHtml.Column_Options_i_i_ColumnOptionNotActive];
+                return optionApplied ? CssClassAndStyle[CssClass.Column_Options_i_i_ColumnOptionActive] :
+                    CssClassAndStyle[CssClass.Column_Options_i_i_ColumnOptionNotActive];
             }
             else if (hasAdvancedFilterOptions)
             {
-                return optionApplied ? ClassAndStyle[ClassHtml.Column_Options_i_i_MenuAdvancedFilterActive] :
-                    ClassAndStyle[ClassHtml.Column_Options_i_i_MenuAdvancedFilterNotActive];
+                return optionApplied ? CssClassAndStyle[CssClass.Column_Options_i_i_MenuAdvancedFilterActive] :
+                    CssClassAndStyle[CssClass.Column_Options_i_i_MenuAdvancedFilterNotActive];
             }
             else if (hasFilterOptions)
             {
-                return optionApplied ? ClassAndStyle[ClassHtml.Column_Options_i_i_MenuFiltreActive] :
-                    ClassAndStyle[ClassHtml.Column_Options_i_i_MenuFiltreNotActive];
+                return optionApplied ? CssClassAndStyle[CssClass.Column_Options_i_i_MenuFiltreActive] :
+                    CssClassAndStyle[CssClass.Column_Options_i_i_MenuFiltreNotActive];
             }
             else
                 return "";
@@ -391,18 +391,18 @@ namespace Microsoft.AspNetCore.Components.QuickGrid.QuickGridCollection.Columns
         {
             if (ColumnOptions != null)
             {
-                return optionApplied ? ClassAndStyle[StyleCss.Column_Options_i_i_ColumnOptionActive] :
-                    ClassAndStyle[StyleCss.Column_Options_i_i_ColumnOptionNotActive];
+                return optionApplied ? CssClassAndStyle[CssStyle.Column_Options_i_i_ColumnOptionActive] :
+                    CssClassAndStyle[CssStyle.Column_Options_i_i_ColumnOptionNotActive];
             }
             else if (hasAdvancedFilterOptions)
             {
-                return optionApplied ? ClassAndStyle[StyleCss.Column_Options_i_i_MenuAdvancedFilterActive] :
-                    ClassAndStyle[StyleCss.Column_Options_i_i_MenuAdvancedFilterNotActive];
+                return optionApplied ? CssClassAndStyle[CssStyle.Column_Options_i_i_MenuAdvancedFilterActive] :
+                    CssClassAndStyle[CssStyle.Column_Options_i_i_MenuAdvancedFilterNotActive];
             }
             else if (hasFilterOptions)
             {
-                return optionApplied ? ClassAndStyle[StyleCss.Column_Options_i_i_MenuFiltreActive] :
-                    ClassAndStyle[StyleCss.Column_Options_i_i_MenuFiltreNotActive];
+                return optionApplied ? CssClassAndStyle[CssStyle.Column_Options_i_i_MenuFiltreActive] :
+                    CssClassAndStyle[CssStyle.Column_Options_i_i_MenuFiltreNotActive];
             }
             else
                 return "";
@@ -418,7 +418,7 @@ namespace Microsoft.AspNetCore.Components.QuickGrid.QuickGridCollection.Columns
         /// </summary>
         private string GetSortClass()
         {
-            return Grid.GetSortClass(_lastAssignedColumn!);
+            return Grid.GetSortCssClass(_lastAssignedColumn!);
         }
 
         /// <summary>
@@ -431,7 +431,7 @@ namespace Microsoft.AspNetCore.Components.QuickGrid.QuickGridCollection.Columns
         /// </summary>
         private string GetSortStyle()
         {
-            return Grid.GetSortStyle(_lastAssignedColumn!);
+            return Grid.GetSortCssStyle(_lastAssignedColumn!);
         }
     }
 }

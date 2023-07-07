@@ -48,9 +48,9 @@ namespace Microsoft.AspNetCore.Components.QuickGrid.QuickGridCollection
         private ICollection<TGridItem>? _lastAssignedItems;
         private bool _collectingColumns;
 
-        /// The <see cref="QuickGridC{TGridItem}.ClassAndStyle"/> field is an instance of the <see cref="GridHtmlCssManager"/> class that allows managing the CSS classes and styles of the grid's HTML elements. This class contains dictionaries associating each HTML element with its CSS class or style. These dictionaries are initialized in the class constructor with default values.
+        /// The <see cref="QuickGridC{TGridItem}.CssClassAndStyle"/> field is an instance of the <see cref="GridHtmlCssManager"/> class that allows managing the CSS classes and styles of the grid's HTML elements. This class contains dictionaries associating each HTML element with its CSS class or style. These dictionaries are initialized in the class constructor with default values.
         
-        /// Le champ <see cref="QuickGridC{TGridItem}.ClassAndStyle"/> est une instance de la classe <see cref="GridHtmlCssManager"/> qui permet de gérer les classes CSS et les styles 
+        /// Le champ <see cref="QuickGridC{TGridItem}.CssClassAndStyle"/> est une instance de la classe <see cref="GridHtmlCssManager"/> qui permet de gérer les classes CSS et les styles 
         /// des éléments HTML de la grille. Cette classe contient des dictionnaires associant chaque élément HTML à sa classe CSS ou à son style. 
         /// Ces dictionnaires sont initialisés dans le constructeur de la classe avec les valeurs par défaut.
 
@@ -60,7 +60,7 @@ namespace Microsoft.AspNetCore.Components.QuickGrid.QuickGridCollection
         /// <summary xml:lang="fr">
         /// Objet permettant de gérer les classes CSS et les styles des éléments HTML de la grille.
         /// </summary>
-        private GridHtmlCssManager classAndStyle = new();
+        private GridHtmlCssManager cssClassAndStyle = new();
 
         /// Ces champs sont utilisés pour gérer le tri des colonnes de la grille. 
         /// Lorsqu’une colonne est ajoutée à la grille via la méthode <see cref="QuickGridC{TGridItem}.AddColumn(ColumnCBase{TGridItem})"/>, 
@@ -69,7 +69,7 @@ namespace Microsoft.AspNetCore.Components.QuickGrid.QuickGridCollection
         /// Lorsqu’un utilisateur clique sur l’icône de tri d’une colonne, la méthode Sort <see cref="QuickGridC{TGridItem}.ApplySort(ColumnCBase{TGridItem})"/> est appelée. 
         /// Cette méthode vérifie si la colonne est triable et met à jour les listes <see cref="QuickGridC{TGridItem}.columnsSortedAscending"/> et <see cref="QuickGridC{TGridItem}.columnsSortedDescending"/> en fonction de la nouvelle direction de tri.
         /// Elle met également à jour la direction de tri dans le dictionnaire <see cref="QuickGridC{TGridItem}.columnSortDirections"/>.
-        /// La méthode <see cref="QuickGridC{TGridItem}.GetSortClass(ColumnCBase{TGridItem})"/>  est utilisée pour obtenir la classe CSS correspondant à la direction de tri d’une colonne. 
+        /// La méthode <see cref="QuickGridC{TGridItem}.GetSortCssClass(ColumnCBase{TGridItem})"/>  est utilisée pour obtenir la classe CSS correspondant à la direction de tri d’une colonne. 
         /// Elle utilise le dictionnaire <see cref="QuickGridC{TGridItem}.sortDirectionCssClasses"/> pour associer chaque direction de tri à sa classe CSS correspondante.
 
         /// These fields are used to manage the sorting of the grid columns.
@@ -79,7 +79,7 @@ namespace Microsoft.AspNetCore.Components.QuickGrid.QuickGridCollection
         /// When a user clicks on a column's sort icon, the Sort <see cref="QuickGridC{TGridItem}.ApplySort(ColumnCBase{TGridItem})"/> method is called.
         /// This method checks if the column is sortable and updates the <see cref="QuickGridC{TGridItem}.columnsSortedAscending"/> and <see cref="QuickGridC{TGridItem}.columnsSortedDescending"/> lists based on the new sort direction.
         /// It also updates the sort direction in the <see cref="QuickGridC{TGridItem}.columnSortDirections"/> dictionary.
-        /// The <see cref="QuickGridC{TGridItem}.GetSortClass(ColumnCBase{TGridItem})"/> method is used to get the CSS class corresponding to a column's sort direction.
+        /// The <see cref="QuickGridC{TGridItem}.GetSortCssClass(ColumnCBase{TGridItem})"/> method is used to get the CSS class corresponding to a column's sort direction.
         /// It uses the <see cref="QuickGridC{TGridItem}.sortDirectionCssClasses"/> dictionary to associate each sort direction with its corresponding CSS class.
 
         /// <summary>
@@ -105,6 +105,13 @@ namespace Microsoft.AspNetCore.Components.QuickGrid.QuickGridCollection
         /// Dictionnaire associant chaque direction de tri à la classe CSS correspondante.
         /// </summary>
         private readonly Dictionary<SortDirection, string> sortDirectionCssClasses;
+        /// <summary>
+        /// Dictionary associating each sort direction with its corresponding CSS style.
+        /// </summary> 
+        /// <summary xml:lang="fr">
+        /// Dictionnaire associant chaque direction de tri à la style CSS correspondante.
+        /// </summary>
+        private readonly Dictionary<SortDirection, string> sortDirectionCssStyles;
 
         /// <summary>
         /// List of filters applied to the grid data.
@@ -136,9 +143,15 @@ namespace Microsoft.AspNetCore.Components.QuickGrid.QuickGridCollection
 
             sortDirectionCssClasses = new()
             {
-                { SortDirection.Ascending, ClassAndStyle[ClassHtml.Column_Sort_i_i_SortAsc] },
-                { SortDirection.Descending, ClassAndStyle[ClassHtml.Column_Sort_i_i_SortDesc] },
-                { SortDirection.Default, ClassAndStyle[ClassHtml.Column_Sort_i_i_Sortdefault] }
+                { SortDirection.Ascending, CssClassAndStyle[CssClass.Column_Sort_i_i_SortAsc] },
+                { SortDirection.Descending, CssClassAndStyle[CssClass.Column_Sort_i_i_SortDesc] },
+                { SortDirection.Default, CssClassAndStyle[CssClass.Column_Sort_i_i_Sortdefault] }
+            };
+            sortDirectionCssStyles = new()
+            {
+                { SortDirection.Ascending, CssClassAndStyle[CssStyle.Column_Sort_i_i_SortAsc] },
+                { SortDirection.Descending, CssClassAndStyle[CssStyle.Column_Sort_i_i_SortDesc] },
+                { SortDirection.Default, CssClassAndStyle[CssStyle.Column_Sort_i_i_Sortdefault] }
             };
         }
 
@@ -177,7 +190,7 @@ namespace Microsoft.AspNetCore.Components.QuickGrid.QuickGridCollection
         /// Callback appelé lorsqu'un filtre ou un tri est modifié.        
         /// </summary>
         [Parameter] public EventCallback<GridFilteringAndSorting<TGridItem>> FilterSortChanged { get; set; }
-        [Parameter] public GridHtmlCssManager ClassAndStyle { get => classAndStyle; set => classAndStyle = value; }
+        [Parameter] public GridHtmlCssManager CssClassAndStyle { get => cssClassAndStyle; set => cssClassAndStyle = value; }
 
         internal bool IsFirstRender { get; set; } = true;
 
@@ -333,13 +346,13 @@ namespace Microsoft.AspNetCore.Components.QuickGrid.QuickGridCollection
         /// Obtient la classe CSS correspondant à la direction de tri d'une colonne.
         /// Utilise le dictionnaire <see cref="QuickGridC{TGridItem}.sortDirectionCssClasses"/> pour associer chaque direction de tri à sa classe CSS correspondante.
         /// </summary>
-        internal string GetSortClass(ColumnCBase<TGridItem> column)
+        internal string GetSortCssClass(ColumnCBase<TGridItem> column)
         {
-            if (column.PropertyExpression != null && column.IsSortable)
+            if (GetSortDirection(column) is SortDirection sortDirection)
             {
-                return sortDirectionCssClasses[columnSortDirections[column]];
+                return sortDirectionCssClasses[sortDirection];
             }
-            return ClassAndStyle[ClassHtml.Column_Sort_i_i_SortNot];
+            return CssClassAndStyle[CssClass.Column_Sort_i_i_SortNot];
         }
 
         /// <summary>
@@ -350,20 +363,13 @@ namespace Microsoft.AspNetCore.Components.QuickGrid.QuickGridCollection
         /// Obtient la Style CSS correspondant à la direction de tri d'une colonne.
         /// Utilise le dictionnaire <see cref="QuickGridC{TGridItem}.sortDirectionCssClasses"/> pour associer chaque direction de tri à sa classe CSS correspondante.
         /// </summary>
-        internal string GetSortStyle(ColumnCBase<TGridItem> column)
+        internal string GetSortCssStyle(ColumnCBase<TGridItem> column)
         {
-            if (column.PropertyExpression != null && column.IsSortable)
+            if (GetSortDirection(column) is SortDirection sortDirection)
             {
-                var style = columnSortDirections[column] switch
-                {
-                    SortDirection.Ascending => ClassAndStyle[StyleCss.Column_Sort_i_i_SortAsc],
-                    SortDirection.Descending => ClassAndStyle[StyleCss.Column_Sort_i_i_SortDesc],
-                    SortDirection.Default => ClassAndStyle[StyleCss.Column_Sort_i_i_Sortdefault],
-                    _ => throw new NotImplementedException(),
-                };
-                return style;
+                return sortDirectionCssStyles[sortDirection];
             }
-            return ClassAndStyle[StyleCss.Column_Sort_i_i_SortNot];
+            return CssClassAndStyle[CssStyle.Column_Sort_i_i_SortNot];
         }
 
         /// <summary>

@@ -1,6 +1,6 @@
 ﻿namespace Microsoft.AspNetCore.Components.QuickGrid.QuickGridCollection
 {
-    public enum StyleCss
+    public enum CssStyle
     {
         /// <summary xml:lang="fr">
         /// La div qui enveloppe table

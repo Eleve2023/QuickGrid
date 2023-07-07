@@ -121,7 +121,7 @@ namespace Microsoft.AspNetCore.Components.QuickGrid.QuickGridCollection.Columns
         /// Expression de propriété pour la colonne.
         /// </summary>
         protected Expression<Func<TGridItem, object?>> PropertyExpression => Column.PropertyExpression ?? throw new NullReferenceException("Column.PropertyExpression is null");
-        protected GridHtmlCssManager ClassAndStyle => Column.ClassAndStyle;
+        protected GridHtmlCssManager CssClassAndStyle => Column.CssClassAndStyle;
 
         /// <summary>
         /// Gets or sets a value indicating whether the filter is applied.

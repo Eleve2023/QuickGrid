@@ -96,7 +96,7 @@ else
             </div>
         </div>
     </div>
-    <QuickGridC TGridItem="Person" Items="@People" FilterSortChanged="FilterSortChanged" ClassAndStyle="@(cssManagerDefault?new():gridHtmlCssManager)">
+    <QuickGridC TGridItem="Person" Items="@People" FilterSortChanged="FilterSortChanged" CssClassAndStyle="@(cssManagerDefault?new():gridHtmlCssManager)">
 
 
         <PropertyColumnC Property="@(e => e.FirstName)"

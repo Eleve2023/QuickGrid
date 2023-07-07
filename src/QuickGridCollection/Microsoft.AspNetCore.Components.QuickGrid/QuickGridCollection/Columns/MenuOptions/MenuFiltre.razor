@@ -13,8 +13,8 @@
 
     private void FromRender(RenderTreeBuilder __builder)
     {
-        <from class="@ClassAndStyle[ClassHtml.MenuFiltre_from]" style="@ClassAndStyle[StyleCss.MenuFiltre_from]">
-            <div name="input" class="@ClassAndStyle[ClassHtml.MenuFiltre_from_divInput]" style="@ClassAndStyle[StyleCss.MenuFiltre_from_divInput]">
+        <from class="@CssClassAndStyle[CssClass.MenuFiltre_from]" style="@CssClassAndStyle[CssStyle.MenuFiltre_from]">
+            <div name="input" class="@CssClassAndStyle[CssClass.MenuFiltre_from_divInput]" style="@CssClassAndStyle[CssStyle.MenuFiltre_from_divInput]">
                 @for (int i = 0; i < columnFilterAdditions + 1; i++)
                 {
                     FindOptionRender(__builder, i);
@@ -22,12 +22,12 @@
                     OptionRender(__builder, i);
                 }
             </div>
-            <div name="action" class="@ClassAndStyle[ClassHtml.MenuFiltre_from_divAction]" style="@ClassAndStyle[StyleCss.MenuFiltre_from_divAction]">
-                <button name="reset" class="@ClassAndStyle[ClassHtml.MenuFiltre_from_divAction_buttonReset]" style="@ClassAndStyle[StyleCss.MenuFiltre_from_divAction_buttonReset]"
+            <div name="action" class="@CssClassAndStyle[CssClass.MenuFiltre_from_divAction]" style="@CssClassAndStyle[CssStyle.MenuFiltre_from_divAction]">
+                <button name="reset" class="@CssClassAndStyle[CssClass.MenuFiltre_from_divAction_buttonReset]" style="@CssClassAndStyle[CssStyle.MenuFiltre_from_divAction_buttonReset]"
                         type="button" @onclick="ResetColumnFilters">
                     Reset
                 </button>
-                <button name="ok" class="@ClassAndStyle[ClassHtml.MenuFiltre_from_divAction_buttonOk]" style="@ClassAndStyle[StyleCss.MenuFiltre_from_divAction_buttonOk]"
+                <button name="ok" class="@CssClassAndStyle[CssClass.MenuFiltre_from_divAction_buttonOk]" style="@CssClassAndStyle[CssStyle.MenuFiltre_from_divAction_buttonOk]"
                         type="button" @onclick="ApplyFilters">
                     OK
                 </button>
@@ -45,8 +45,8 @@
                     filterValues[index] = (Enum.GetValues(TypeOfProperty)).GetValue(0)!.ToString()!;
                 }
             }
-            <select name="inputEnumValue" class="@ClassAndStyle[ClassHtml.MenuFiltre_from_divInput_selectInputEnumValue]"
-                    style="@ClassAndStyle[StyleCss.MenuFiltre_from_divInput_selectInputEnumValue]"
+            <select name="inputEnumValue" class="@CssClassAndStyle[CssClass.MenuFiltre_from_divInput_selectInputEnumValue]"
+                    style="@CssClassAndStyle[CssStyle.MenuFiltre_from_divInput_selectInputEnumValue]"
             @bind:get="@filterValues[index]?.ToString()" @bind:set=@((arg) => filterValues[index] = arg)>
                 @foreach (var opt in Enum.GetValues(TypeOfProperty))
                 {
@@ -60,8 +60,8 @@
             {
                 filterValues[index] = true.ToString();
             }
-            <select name="inputBoolValue" class="@ClassAndStyle[ClassHtml.MenuFiltre_from_divInput_selectInputBoolValue]"
-                    style="@ClassAndStyle[StyleCss.MenuFiltre_from_divInput_selectInputBoolValue]"
+            <select name="inputBoolValue" class="@CssClassAndStyle[CssClass.MenuFiltre_from_divInput_selectInputBoolValue]"
+                    style="@CssClassAndStyle[CssStyle.MenuFiltre_from_divInput_selectInputBoolValue]"
             @bind:get="@filterValues[index]?.ToString()" @bind:set=@((arg) => filterValues[index] = arg)>
                 <option value="@true.ToString()" selected="@true">True</option>
                 <option value="@false.ToString()">False</option>
@@ -70,8 +70,8 @@
         }
         else
         {
-            <input name="inputValue" type="@htmlInputType" class="@ClassAndStyle[ClassHtml.MenuFiltre_from_divInput_inputInputValue]"
-                   style="@ClassAndStyle[StyleCss.MenuFiltre_from_divInput_inputInputValue]"
+            <input name="inputValue" type="@htmlInputType" class="@CssClassAndStyle[CssClass.MenuFiltre_from_divInput_inputInputValue]"
+                   style="@CssClassAndStyle[CssStyle.MenuFiltre_from_divInput_inputInputValue]"
             value="@filterValues[index]" @onchange="@((arg) => filterValues[index] = arg.Value)" />
         }
     }
@@ -87,8 +87,8 @@
     }
     private void FindOptionRender(RenderTreeBuilder __builder, int index)
     {
-        <select name="inputOption" class="@ClassAndStyle[ClassHtml.MenuFiltre_from_divInput_selectInputOption]"
-                style="@ClassAndStyle[StyleCss.MenuFiltre_from_divInput_selectInputOption]"
+        <select name="inputOption" class="@CssClassAndStyle[CssClass.MenuFiltre_from_divInput_selectInputOption]"
+                style="@CssClassAndStyle[CssStyle.MenuFiltre_from_divInput_selectInputOption]"
         @bind:get="@selectedFilterOptions[index].ToString()"
         @bind:set=@((arg) => selectedFilterOptions[index] = (Enum) Enum.Parse(optionsType, arg.ToString()))>
             @foreach (var opt in GetListOptionFiltre(index))

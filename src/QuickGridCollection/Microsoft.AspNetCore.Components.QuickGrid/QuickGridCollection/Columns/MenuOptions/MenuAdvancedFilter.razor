@@ -16,14 +16,14 @@
     {
         this.filterIndex = index;
 
-        <div class="@ClassAndStyle[ClassHtml.MenuAdvancedFilter_div]" style="@ClassAndStyle[StyleCss.MenuAdvancedFilter_div]">
+        <div class="@CssClassAndStyle[CssClass.MenuAdvancedFilter_div]" style="@CssClassAndStyle[CssStyle.MenuAdvancedFilter_div]">
 
             @if (index < MaxColumnFilters - 1)
             {
                 bool disabled = !showAddFilterButton[index];
 
-                <button class="@ClassAndStyle[ClassHtml.MenuAdvancedFilter_div_button_Operator]"
-                        style="@ClassAndStyle[StyleCss.MenuAdvancedFilter_div_button_Operator]"
+                <button class="@CssClassAndStyle[CssClass.MenuAdvancedFilter_div_button_Operator]"
+                        style="@CssClassAndStyle[CssStyle.MenuAdvancedFilter_div_button_Operator]"
                         @onclick="ToggleFilterOperator">
                     @if (filterOperator == FilterOperator.AndAlso)
                     {
@@ -34,8 +34,8 @@
                         <strong>Or</strong> <text> -> And</text>
                     }
                 </button>
-                <button class="@ClassAndStyle[ClassHtml.MenuAdvancedFilter_div_button_Add]"
-                        style="@ClassAndStyle[StyleCss.MenuAdvancedFilter_div_button_Add]"
+                <button class="@CssClassAndStyle[CssClass.MenuAdvancedFilter_div_button_Add]"
+                        style="@CssClassAndStyle[CssStyle.MenuAdvancedFilter_div_button_Add]"
                         disabled="@disabled" @onclick="AddColumnFilter">
                     ADD
                 </button>

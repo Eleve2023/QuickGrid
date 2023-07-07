@@ -22,7 +22,7 @@
     }
     private void RenderSortContent(RenderTreeBuilder __builder)
     {
-        <i id="sort" class="@ClassAndStyle[ClassHtml.Column_Sort_i]" style="@ClassAndStyle[StyleCss.Column_Sort_i]">
+        <i id="sort" class="@CssClassAndStyle[CssClass.Column_Sort_i]" style="@CssClassAndStyle[CssStyle.Column_Sort_i]">
             <i class="@( GetSortClass())" style="@( GetSortStyle())" @onclick="@( () => ApplySort())"></i>
         </i>
     }
@@ -30,10 +30,10 @@
     {
         if (ColumnOptions != null || hasFilterOptions || hasAdvancedFilterOptions)
         {
-            <i class="@ClassAndStyle[ClassHtml.Column_Options_i]" style="@ClassAndStyle[StyleCss.Column_Options_i]">
+            <i class="@CssClassAndStyle[CssClass.Column_Options_i]" style="@CssClassAndStyle[CssStyle.Column_Options_i]">
                 <i class="@GetColumnOptionCssClass()" style="@GetColumnOptionCssStyle()" @onclick="( () =>  ToggleColumnOptionsVisibility() )"></i>
-                <div class="@(isOptionVisible?ClassAndStyle[ClassHtml.Column_Options_i_div_Show]:ClassAndStyle[ClassHtml.Column_Options_i_div_NoShow] )"
-                     style="@(isOptionVisible?ClassAndStyle[StyleCss.Column_Options_i_div_Show]:ClassAndStyle[StyleCss.Column_Options_i_div_NoShow] )">
+                <div class="@(isOptionVisible?CssClassAndStyle[CssClass.Column_Options_i_div_Show]:CssClassAndStyle[CssClass.Column_Options_i_div_NoShow] )"
+                     style="@(isOptionVisible?CssClassAndStyle[CssStyle.Column_Options_i_div_Show]:CssClassAndStyle[CssStyle.Column_Options_i_div_NoShow] )">
                     <!-- todo: remplace true par isOptionVisible et persister les données des menu  -->
                     @if (true)
                     {

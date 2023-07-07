@@ -15,12 +15,12 @@
             FinishCollectingColumns();
         }
         
-        <div class="@ClassAndStyle[ClassHtml.Grid_div]" style="@ClassAndStyle[StyleCss.Grid_div]">
-            <table class="@ClassAndStyle[ClassHtml.Grid_div_table]" style="@ClassAndStyle[StyleCss.Grid_div_table]">
-                <thead class="@ClassAndStyle[ClassHtml.Grid_div_table_thead]" style="@ClassAndStyle[StyleCss.Grid_div_table_thead]">
+        <div class="@CssClassAndStyle[CssClass.Grid_div]" style="@CssClassAndStyle[CssStyle.Grid_div]">
+            <table class="@CssClassAndStyle[CssClass.Grid_div_table]" style="@CssClassAndStyle[CssStyle.Grid_div_table]">
+                <thead class="@CssClassAndStyle[CssClass.Grid_div_table_thead]" style="@CssClassAndStyle[CssStyle.Grid_div_table_thead]">
                     @_ColumnHeaders
                 </thead>
-                <tbody class="@ClassAndStyle[ClassHtml.Grid_div_table_thead]" style="@ClassAndStyle[StyleCss.Grid_div_table_thead]">
+                <tbody class="@CssClassAndStyle[CssClass.Grid_div_table_thead]" style="@CssClassAndStyle[CssStyle.Grid_div_table_thead]">
                     @_CellText
                 </tbody>
             </table>
@@ -32,11 +32,11 @@
 @code {
     private void RenderColumnHeaders(RenderTreeBuilder __builder)
     {
-        <tr class="@ClassAndStyle[ClassHtml.Grid_div_table_thead_tr]" style="@ClassAndStyle[StyleCss.Grid_div_table_thead_tr]">
+        <tr class="@CssClassAndStyle[CssClass.Grid_div_table_thead_tr]" style="@CssClassAndStyle[CssStyle.Grid_div_table_thead_tr]">
             @foreach (var column in _columns)
             {
-                <th class="@ClassAndStyle[ClassHtml.Grid_div_table_thead_tr_th]"
-                    style="@ClassAndStyle[StyleCss.Grid_div_table_thead_tr_th]"
+                <th class="@CssClassAndStyle[CssClass.Grid_div_table_thead_tr_th]"
+                    style="@CssClassAndStyle[CssStyle.Grid_div_table_thead_tr_th]"
                     aria-sort="@AriaSortValue(column)">
                     
                     @column.HeaderContent
@@ -55,13 +55,13 @@
     }
     private void RenderRow(RenderTreeBuilder __builder, TGridItem item, int rowIndex)
     {
-        <tr class="@ClassAndStyle[ClassHtml.Grid_div_table_tbody_tr]"
-            style="@ClassAndStyle[StyleCss.Grid_div_table_tbody_tr]"
+        <tr class="@CssClassAndStyle[CssClass.Grid_div_table_tbody_tr]"
+            style="@CssClassAndStyle[CssStyle.Grid_div_table_tbody_tr]"
             aria-rowindex="@rowIndex"
         @onclick="(() =>  HandleRowSelection(item))">
             @foreach (var column in _columns)
             {
-                <td class="@ClassAndStyle[ClassHtml.Grid_div_table_tbody_tr_td]" style="@ClassAndStyle[StyleCss.Grid_div_table_tbody_tr_td]">
+                <td class="@CssClassAndStyle[CssClass.Grid_div_table_tbody_tr_td]" style="@CssClassAndStyle[CssStyle.Grid_div_table_tbody_tr_td]">
                     @{
                         column.CellContent(__builder, item);
                     }
