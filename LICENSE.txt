@@ -1,5 +1,4 @@
 // Licensed under the MIT License
-// https://github.com/Eleve2023/QuickGrid#readme
 
 MIT License
 
