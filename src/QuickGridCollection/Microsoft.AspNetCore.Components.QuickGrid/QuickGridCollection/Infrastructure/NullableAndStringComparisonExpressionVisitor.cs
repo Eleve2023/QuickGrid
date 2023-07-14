@@ -101,7 +101,6 @@ namespace Microsoft.AspNetCore.Components.QuickGrid.QuickGridCollection.Infrastr
                 
                 if (useDefaultValueForNull)
                 {
-                    var getValueOrDefaultMethod = memberExpression.Type.GetMethod("GetValueOrDefault", Type.EmptyTypes);
                     Expression getValueOrDefaultExpression;
                     if (memberExpression.Type == typeof(string))
                     {
@@ -111,7 +110,7 @@ namespace Microsoft.AspNetCore.Components.QuickGrid.QuickGridCollection.Infrastr
                     }
                     else if (Nullable.GetUnderlyingType(memberExpression.Type) != null)
                     {
-                        getValueOrDefaultExpression = Expression.Call(property, getValueOrDefaultMethod!);
+                        getValueOrDefaultExpression = Expression.Default(property.Type);
                     }
                     else
                         return Expression.MakeBinary(node.NodeType, memberExpression, constantExpression);
