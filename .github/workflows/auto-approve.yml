@@ -1,0 +1,12 @@
+name: Auto-approve
+on: pull_request_target
+
+jobs:
+  auto-approve:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Auto-approve
+      if: github.event.pull_request.user.login == 'Eleve2023'
+      uses: hmarr/auto-approve-action@v2.1.0
+      with:
+        github-token: "${{ secrets.GITHUB_TOKEN }}"
