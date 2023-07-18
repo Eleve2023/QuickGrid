@@ -1,19 +1,20 @@
-﻿using Microsoft.EntityFrameworkCore;
-using System.Xml;
+// Licensed under the MIT License. 
+// https://github.com/Eleve2023/QuickGrid/blob/master/LICENSE.txt
 
-namespace SimpeQuickGrid.Data
+using Microsoft.EntityFrameworkCore;
+
+namespace SimpeQuickGrid.Data;
+
+public class PeopleDbContext: DbContext
 {
-    public class PeopleDbContext: DbContext
-    {
-        public DbSet<Person> People { get; set; } = default!;
+    public DbSet<Person> People { get; set; } = default!;
 
-        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+    {
+        base.OnConfiguring(optionsBuilder);
+        if (!optionsBuilder.IsConfigured)
         {
-            base.OnConfiguring(optionsBuilder);
-            if (!optionsBuilder.IsConfigured)
-            {
-                optionsBuilder.UseSqlServer("Server=(localdb)\\mssqllocaldb;Database=SimpleQuickGridData;Trusted_Connection=True;MultipleActiveResultSets=true");
-            }
+            optionsBuilder.UseSqlServer("Server=(localdb)\\mssqllocaldb;Database=SimpleQuickGridData;Trusted_Connection=True;MultipleActiveResultSets=true");
         }
     }
 }

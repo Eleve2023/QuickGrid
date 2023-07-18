@@ -1,11 +1,10 @@
-using Microsoft.AspNetCore.Components;
-using Microsoft.AspNetCore.Components.Web;
+// Licensed under the MIT License. 
+// https://github.com/Eleve2023/QuickGrid/blob/master/LICENSE.txt
+
 using Microsoft.AspNetCore.OData;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.OData.Edm;
 using Microsoft.OData.ModelBuilder;
 using SimpeQuickGrid.Data;
-using System.Xml;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -14,10 +13,6 @@ builder.Services.AddRazorPages();
 builder.Services.AddServerSideBlazor();
 
 builder.Services.AddControllers().AddOData(o => o.EnableQueryFeatures().AddRouteComponents("odata", GetEdmModel()));
-
-var serviceProvider = builder.Services.BuildServiceProvider();
-var navigationManager = serviceProvider.GetRequiredService<NavigationManager>();
-builder.Services.AddHttpClient("SimpleQuickGridServerAPI", client => client.BaseAddress = new Uri(navigationManager.BaseUri));
 
 builder.Services.AddDbContext<PeopleDbContext>();
 
@@ -32,8 +27,7 @@ if (!app.Environment.IsDevelopment())
     app.UseExceptionHandler("/Error");
 }
 
-await PersonService.InitDataBase(app.Services);
-
+await PersonService.InitDataBase(app.Services).ConfigureAwait(false);
 
 app.UseStaticFiles();
 
