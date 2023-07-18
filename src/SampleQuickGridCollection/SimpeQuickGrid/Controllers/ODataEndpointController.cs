@@ -1,108 +1,104 @@
-﻿//-----------------------------------------------------------------------------
-// <copyright file="ODataEndpointController.cs" company=".NET Foundation">
-//      Copyright (c) .NET Foundation and Contributors. All rights reserved.
-//      See License.txt in the project root for license information.
-// </copyright>
-//------------------------------------------------------------------------------
+// Licensed under the MIT License. 
+// https://github.com/Eleve2023/QuickGrid/blob/master/LICENSE.txt
 
 using Microsoft.AspNetCore.Mvc.Controllers;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.OData.Routing;
 using System.Text;
 
-namespace SimpeQuickGrid.Controllers
+namespace SimpeQuickGrid.Controllers;
+
+/// <summary>
+/// A controller for debugging that shows the OData endpoints.
+/// </summary>
+public class ODataEndpointController : ControllerBase
 {
-    /// <summary xml:lang="fr">
-    /// A controller for debugging that shows the OData endpoints.
+    private readonly EndpointDataSource _dataSource;
+
+    /// <summary>
+    /// Initializes a new instance of the <see cref="ODataEndpointController" /> class.
     /// </summary>
-    public class ODataEndpointController : ControllerBase
+    /// <param name="dataSource">The data source.</param>
+    public ODataEndpointController(EndpointDataSource dataSource)
     {
-        private EndpointDataSource _dataSource;
+        _dataSource = dataSource;
+    }
 
-        /// <summary xml:lang="fr">
-        /// Initializes a new instance of the <see cref="ODataEndpointController" /> class.
-        /// </summary>
-        /// <param name="dataSource">The data source.</param>
-        public ODataEndpointController(EndpointDataSource dataSource)
+    /// <summary>
+    /// Get all routes.
+    /// </summary>
+    /// <returns>The content result.</returns>
+    [HttpGet("$odata")]
+    public IActionResult GetAllRoutes()
+    {
+        CreateRouteTables(out var stdRouteTable, out var odataRouteTable);
+
+        string output = ODataRouteMappingHtmlTemplate;
+        output = output.Replace("ODATA_ROUTE_CONTENT", odataRouteTable, StringComparison.OrdinalIgnoreCase);
+        output = output.Replace("STD_ROUTE_CONTENT", stdRouteTable, StringComparison.OrdinalIgnoreCase);
+
+        return base.Content(output, "text/html");
+    }
+
+    private void CreateRouteTables(out string stdRouteTable, out string odataRouteTable)
+    {
+        var stdRoutes = new StringBuilder();
+        var odataRoutes = new StringBuilder();
+        foreach (var endpoint in _dataSource.Endpoints.OfType<RouteEndpoint>())
         {
-            _dataSource = dataSource;
-        }
-
-        /// <summary xml:lang="fr">
-        /// Get all routes.
-        /// </summary>
-        /// <returns xml:lang="fr">The content result.</returns>
-        [HttpGet("$odata")]
-        public IActionResult GetAllRoutes()
-        {
-            CreateRouteTables(_dataSource.Endpoints, out var stdRouteTable, out var odataRouteTable);
-
-            string output = ODataRouteMappingHtmlTemplate;
-            output = output.Replace("ODATA_ROUTE_CONTENT", odataRouteTable, StringComparison.OrdinalIgnoreCase);
-            output = output.Replace("STD_ROUTE_CONTENT", stdRouteTable, StringComparison.OrdinalIgnoreCase);
-
-            return base.Content(output, "text/html");
-        }
-
-        private void CreateRouteTables(IReadOnlyList<Endpoint> endpoints, out string stdRouteTable, out string odataRouteTable)
-        {
-            var stdRoutes = new StringBuilder();
-            var odataRoutes = new StringBuilder();
-            foreach (var endpoint in _dataSource.Endpoints.OfType<RouteEndpoint>())
+            var controllerActionDescriptor = endpoint.Metadata.GetMetadata<ControllerActionDescriptor>();
+            if (controllerActionDescriptor == null)
             {
-                var controllerActionDescriptor = endpoint.Metadata.GetMetadata<ControllerActionDescriptor>();
-                if (controllerActionDescriptor == null)
-                {
-                    continue;
-                }
-
-                var metadata = endpoint.Metadata.GetMetadata<IODataRoutingMetadata>();
-                if (metadata == null)
-                {
-                    AppendRoute(stdRoutes, endpoint);
-                }
-                else
-                {
-                    AppendRoute(odataRoutes, endpoint);
-                }
+                continue;
             }
-            stdRouteTable = stdRoutes.ToString();
-            odataRouteTable = odataRoutes.ToString();
-        }
 
-        private static string GetHttpMethods(Endpoint endpoint)
-        {
-            var methodMetadata = endpoint.Metadata.GetMetadata<HttpMethodMetadata>();
-            if (methodMetadata == null)
+            var metadata = endpoint.Metadata.GetMetadata<IODataRoutingMetadata>();
+            if (metadata == null)
             {
-                return "";
+                AppendRoute(stdRoutes, endpoint);
             }
-            return string.Join(", ", methodMetadata.HttpMethods);
+            else
+            {
+                AppendRoute(odataRoutes, endpoint);
+            }
         }
+        stdRouteTable = stdRoutes.ToString();
+        odataRouteTable = odataRoutes.ToString();
+    }
 
-        /// <summary xml:lang="fr">
-        /// Process the endpoint
-        /// </summary>
-        /// <param name="sb">The string builder to append HTML to.</param>
-        /// <param name="endpoint">The endpoint to render.</param>
-        private static void AppendRoute(StringBuilder sb, RouteEndpoint endpoint)
+    private static string GetHttpMethods(Endpoint endpoint)
+    {
+        var methodMetadata = endpoint.Metadata.GetMetadata<HttpMethodMetadata>();
+        if (methodMetadata == null)
         {
-            sb.Append("<tr>");
-            sb.Append($"<td>{endpoint.DisplayName}</td>");
+            return "";
+        }
+        return string.Join(", ", methodMetadata.HttpMethods);
+    }
 
-            sb.Append($"<td>{string.Join(",", GetHttpMethods(endpoint))}</td>");
+    /// <summary xml:lang="fr">
+    /// Process the endpoint
+    /// </summary>
+    /// <param name="sb">The string builder to append HTML to.</param>
+    /// <param name="endpoint">The endpoint to render.</param>
+    private static void AppendRoute(StringBuilder sb, RouteEndpoint endpoint)
+    {
+        sb.Append("<tr>");
+        sb.Append($"<td>{endpoint.DisplayName}</td>");
 
-            sb.Append("<td>");
+        sb.Append($"<td>{string.Join(",", GetHttpMethods(endpoint))}</td>");
+
+        sb.Append("<td>");
 #pragma warning disable CS8602 // Déréférencement d'une éventuelle référence null.
-            var link = "" + endpoint.RoutePattern.RawText.TrimStart('/');
+        var link = "" + endpoint.RoutePattern.RawText.TrimStart('/');
 #pragma warning restore CS8602 // Déréférencement d'une éventuelle référence null.
-            sb.Append($"<a href=\"/{link}\">~/{link}</a>");
-            sb.Append("</td>");
+        sb.Append($"<a href=\"/{link}\">~/{link}</a>");
+        sb.Append("</td>");
 
-            sb.Append("</tr>");
-        }
+        sb.Append("</tr>");
+    }
 
-        private static string ODataRouteMappingHtmlTemplate = @"<html>
+    private static readonly string ODataRouteMappingHtmlTemplate = @"<html>
 <head>
     <title>OData Endpoint Routing Debugger</title>
     <style>
@@ -149,5 +145,4 @@ namespace SimpeQuickGrid.Controllers
     </table>
 </body>
 </html>";
-    }
 }

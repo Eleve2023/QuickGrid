@@ -17,7 +17,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\QuickGridCollection\Microsoft.AspNetCore.Components.QuickGrid\Microsoft.AspNetCore.Components.QuickGrid.csproj" />
+    <ProjectReference Include="..\..\QuickGridCollection\Microsoft.AspNetCore.Components.QuickGrid\Components.QuickGrid.csproj" />
   </ItemGroup>
 
 </Project>
