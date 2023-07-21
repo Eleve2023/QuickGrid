@@ -9,7 +9,8 @@ namespace QuickGridCTests
         public string? StringNullable { get; set; }
         public Guid Guid { get; set; }
         public Guid? GuidNullable { get; set; }
-
+        public EnumTest Enum { get; set; } = default!;
+        public EnumTest? EnumNullable { get; set; }
         public bool Bool { get; set; }
         public bool? BoolNullable { get; set; }
         public byte Byte { get; set; }
@@ -44,6 +45,15 @@ namespace QuickGridCTests
         public DateOnly? DateOnlyNullable { get; set; }
         public TimeOnly TimeOnly { get; set; }
         public TimeOnly? TimeOnlyNullable { get; set; }
+    }
+
+    public enum EnumTest
+    {
+        One,
+        Two,
+        Three,
+        Four,
+        Five
     }
 
 }
