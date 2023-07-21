@@ -228,7 +228,7 @@
     private object? GetExpression(PropertyInfo propertyInfo)
     {
         var objectHandle = Activator.CreateInstance("QuickGridCTests, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null\r\n",
-            $"QuickGridCTests.Helpeur`1[[{propertyInfo.PropertyType.AssemblyQualifiedName}]]"
+            $"QuickGridCTests.HelperExpression`1[[{propertyInfo.PropertyType.AssemblyQualifiedName}]]"
             );
         var helper = objectHandle!.Unwrap()!;
         var methode = helper.GetType().GetMethods().Where(e => e.Name == "GetExpression").First();

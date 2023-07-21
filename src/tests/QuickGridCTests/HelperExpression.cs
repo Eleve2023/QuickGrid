@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace QuickGridCTests
 {
-    public class Helpeur<T>
+    public class HelperExpression<T>
     {
         public static PropertyInfo[] GetPropertyInfos()
         {
