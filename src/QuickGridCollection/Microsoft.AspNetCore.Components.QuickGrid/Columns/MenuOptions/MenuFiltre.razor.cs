@@ -144,11 +144,7 @@ public partial class MenuFiltre<TGridItem> : ComponentBase
         (optionsType, selectedFilterOptions, htmlInputType) = typeOfProperty switch
         {
             Type t when t == typeof(string) =>
-                        (typeof(StringFilterOptions), new List<Enum>() { StringFilterOptions.Contains }, "text"),
-            Type t when t == typeof(Guid) =>
-                        (typeof(DataFilterOptions), new() { DataFilterOptions.Equal }, "text"),
-            Type t when t == typeof(char) =>
-                        (typeof(DataFilterOptions), new() { DataFilterOptions.Equal }, "text"),
+                        (typeof(StringFilterOptions), new List<Enum>() { StringFilterOptions.Contains }, "text"),            
             Type t when t == typeof(DateTime) || t == typeof(DateTimeOffset) =>
                         (typeof(DataFilterOptions), new() { DataFilterOptions.Equal }, "datetime-local"),
             Type t when t == typeof(DateOnly) =>
@@ -161,7 +157,7 @@ public partial class MenuFiltre<TGridItem> : ComponentBase
                         (typeof(DataFilterOptions), new() { DataFilterOptions.Equal }, "number"),
             Type t when t.IsEnum =>
                         (typeof(EnumFilterOptions), new() { EnumFilterOptions.Equal }, string.Empty),
-            _ => throw new NotSupportedException($"type {TypeOfProperty} not supported")
+            _ => (typeof(DataFilterOptions), new() { DataFilterOptions.Equal }, "text")
         };
         selectedFilterOptionsDefault = selectedFilterOptions.ToList();
     }
@@ -442,13 +438,13 @@ public partial class MenuFiltre<TGridItem> : ComponentBase
         {
             objectConverted = Enum.Parse(typeOfProperty, (string)objValue);
         }
-        else if (typeOfProperty == typeof(DateOnly) || Nullable.GetUnderlyingType(typeOfProperty) == typeof(DateOnly))
+        else if (typeOfProperty == typeof(DateOnly) )
         {
             objectConverted = DateOnly.Parse((string)objValue);
         }
         else if (typeOfProperty == typeof(DateTimeOffset))
         {
-            objectConverted = (DateTimeOffset?)DateTimeOffset.Parse((string)objValue).ToUniversalTime();
+            objectConverted = DateTimeOffset.Parse((string)objValue).ToUniversalTime();
         }
         else if (typeOfProperty == typeof(TimeSpan))
         {
@@ -468,7 +464,7 @@ public partial class MenuFiltre<TGridItem> : ComponentBase
         }
         else
         {
-            objectConverted = Convert.ChangeType(objValue, typeOfProperty);
+            objectConverted = Convert.ChangeType(objValue, typeOfProperty, CultureInfo.InvariantCulture);
         }
 
         return objectConverted;
