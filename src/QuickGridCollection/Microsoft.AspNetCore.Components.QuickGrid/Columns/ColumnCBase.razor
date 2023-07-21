@@ -33,9 +33,9 @@
         if (ColumnOptions != null || hasFilterOptions || hasAdvancedFilterOptions)
         {
             <i class="@CssClassAndStyle[CssClass.Column_Options_i]" style="@CssClassAndStyle[CssStyle.Column_Options_i]">
-                <i class="@GetColumnOptionCssClass()" style="@GetColumnOptionCssStyle()" @onclick="( () =>  ToggleColumnOptionsVisibility() )"></i>
+                <i id="icon-option" class="@GetColumnOptionCssClass()" style="@GetColumnOptionCssStyle()" @onclick="( () =>  ToggleColumnOptionsVisibility() )"></i>
             </i>
-            <div class="@(isOptionVisible?CssClassAndStyle[CssClass.Column_Options_div_Show]:CssClassAndStyle[CssClass.Column_Options_div_NoShow] )"
+            <div id="menu-option" class="@(isOptionVisible?CssClassAndStyle[CssClass.Column_Options_div_Show]:CssClassAndStyle[CssClass.Column_Options_div_NoShow] )"
                  style="@(isOptionVisible?CssClassAndStyle[CssStyle.Column_Options_div_Show]:CssClassAndStyle[CssStyle.Column_Options_div_NoShow] )">
                 <!-- todo: remplace true par isOptionVisible et persister les données des menu  -->
                 @if (true)

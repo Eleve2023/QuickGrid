@@ -1,0 +1,255 @@
+@using Components.QuickGrid
+@using System.Reflection;
+@using System.Linq.Expressions;
+@inherits TestContext
+
+@code {
+    private readonly ICollection<MyGridItem> _items;
+    public QuickGridCTest()
+    {
+        _items = MyGridItemService.GetMyGridItems();
+    }
+
+    [Fact]
+    public void ExempleTest()
+    {
+                    QuickGridC<MyGridItem> gridC = new();
+        var cut = Render(
+    @<QuickGridC TGridItem="MyGridItem" Items="_items" @ref="gridC">
+        @foreach (var propertyInfo in GetPropertyInfos())
+        {
+            var expression = GetExpression(propertyInfo);
+                    if (true)
+            {
+                if (expression is Expression<Func<MyGridItem, String>> t1)
+                {
+                    <PropertyColumnC Property="t1" IsSortable="true" HasAdvancedFilterOptions="true" />
+                }
+                else if (expression is Expression<Func<MyGridItem, Guid>> t3)
+                {
+                    <PropertyColumnC Property="t3" IsSortable="true" HasAdvancedFilterOptions="true" />
+                }
+                else if (expression is Expression<Func<MyGridItem, Guid?>> t4)
+                {
+                    <PropertyColumnC Property="t4" IsSortable="true" HasAdvancedFilterOptions="true" />
+                }
+                else if (expression is Expression<Func<MyGridItem, Boolean>> t5)
+                {
+                    <PropertyColumnC Property="t5" IsSortable="true" HasAdvancedFilterOptions="true" />
+                }
+                else if (expression is Expression<Func<MyGridItem, Boolean?>> t6)
+                {
+                    <PropertyColumnC Property="t6" IsSortable="true" HasAdvancedFilterOptions="true" />
+                }
+                else if (expression is Expression<Func<MyGridItem, Byte>> t7)
+                {
+                    <PropertyColumnC Property="t7" IsSortable="true" HasAdvancedFilterOptions="true" />
+                }
+                else if (expression is Expression<Func<MyGridItem, Byte?>> t8)
+                {
+                    <PropertyColumnC Property="t8" IsSortable="true" HasAdvancedFilterOptions="true" />
+                }
+                else if (expression is Expression<Func<MyGridItem, SByte>> t9)
+                {
+                    <PropertyColumnC Property="t9" IsSortable="true" HasAdvancedFilterOptions="true" />
+                }
+                else if (expression is Expression<Func<MyGridItem, SByte?>> t10)
+                {
+                    <PropertyColumnC Property="t10" IsSortable="true" HasAdvancedFilterOptions="true" />
+                }
+                else if (expression is Expression<Func<MyGridItem, Char>> t11)
+                {
+                    <PropertyColumnC Property="t11" IsSortable="true" HasAdvancedFilterOptions="true" />
+                }
+                else if (expression is Expression<Func<MyGridItem, Char?>> t12)
+                {
+                    <PropertyColumnC Property="t12" IsSortable="true" HasAdvancedFilterOptions="true" />
+                }
+                else if (expression is Expression<Func<MyGridItem, Decimal>> t13)
+                {
+                    <PropertyColumnC Property="t13" IsSortable="true" HasAdvancedFilterOptions="true" />
+                }
+                else if (expression is Expression<Func<MyGridItem, Decimal?>> t14)
+                {
+                    <PropertyColumnC Property="t14" IsSortable="true" HasAdvancedFilterOptions="true" />
+                }
+                else if (expression is Expression<Func<MyGridItem, Double>> t15)
+                {
+                    <PropertyColumnC Property="t15" IsSortable="true" HasAdvancedFilterOptions="true" />
+                }
+                else if (expression is Expression<Func<MyGridItem, Double?>> t16)
+                {
+                    <PropertyColumnC Property="t16" IsSortable="true" HasAdvancedFilterOptions="true" />
+                }
+                else if (expression is Expression<Func<MyGridItem, Single>> t17)
+                {
+                    <PropertyColumnC Property="t17" IsSortable="true" HasAdvancedFilterOptions="true" />
+                }
+                else if (expression is Expression<Func<MyGridItem, Single?>> t18)
+                {
+                    <PropertyColumnC Property="t18" IsSortable="true" HasAdvancedFilterOptions="true" />
+                }
+                else if (expression is Expression<Func<MyGridItem, Int32>> t19)
+                {
+                    <PropertyColumnC Property="t19" IsSortable="true" HasAdvancedFilterOptions="true" />
+                }
+                else if (expression is Expression<Func<MyGridItem, Int32?>> t20)
+                {
+                    <PropertyColumnC Property="t20" IsSortable="true" HasAdvancedFilterOptions="true" />
+                }
+                else if (expression is Expression<Func<MyGridItem, UInt32>> t21)
+                {
+                    <PropertyColumnC Property="t21" IsSortable="true" HasAdvancedFilterOptions="true" />
+                }
+                else if (expression is Expression<Func<MyGridItem, UInt32?>> t22)
+                {
+                    <PropertyColumnC Property="t22" IsSortable="true" HasAdvancedFilterOptions="true" />
+                }
+                else if (expression is Expression<Func<MyGridItem, Int64>> t23)
+                {
+                    <PropertyColumnC Property="t23" IsSortable="true" HasAdvancedFilterOptions="true" />
+                }
+                else if (expression is Expression<Func<MyGridItem, Int64?>> t24)
+                {
+                    <PropertyColumnC Property="t24" IsSortable="true" HasAdvancedFilterOptions="true" />
+                }
+                else if (expression is Expression<Func<MyGridItem, UInt64>> t25)
+                {
+                    <PropertyColumnC Property="t25" IsSortable="true" HasAdvancedFilterOptions="true" />
+                }
+                else if (expression is Expression<Func<MyGridItem, UInt64?>> t26)
+                {
+                    <PropertyColumnC Property="t26" IsSortable="true" HasAdvancedFilterOptions="true" />
+                }
+                else if (expression is Expression<Func<MyGridItem, Int16>> t27)
+                {
+                    <PropertyColumnC Property="t27" IsSortable="true" HasAdvancedFilterOptions="true" />
+                }
+                else if (expression is Expression<Func<MyGridItem, Int16?>> t28)
+                {
+                    <PropertyColumnC Property="t28" IsSortable="true" HasAdvancedFilterOptions="true" />
+                }
+                else if (expression is Expression<Func<MyGridItem, DateTime>> t29)
+                {
+                    <PropertyColumnC Property="t29" IsSortable="true" HasAdvancedFilterOptions="true" />
+                }
+                else if (expression is Expression<Func<MyGridItem, DateTime?>> t30)
+                {
+                    <PropertyColumnC Property="t30" IsSortable="true" HasAdvancedFilterOptions="true" />
+                }
+                else if (expression is Expression<Func<MyGridItem, DateTimeOffset>> t31)
+                {
+                    <PropertyColumnC Property="t31" IsSortable="true" HasAdvancedFilterOptions="true" />
+                }
+                else if (expression is Expression<Func<MyGridItem, DateTimeOffset?>> t32)
+                {
+                    <PropertyColumnC Property="t32" IsSortable="true" HasAdvancedFilterOptions="true" />
+                }
+                else if (expression is Expression<Func<MyGridItem, TimeSpan>> t33)
+                {
+                    <PropertyColumnC Property="t33" IsSortable="true" HasAdvancedFilterOptions="true" />
+                }
+                else if (expression is Expression<Func<MyGridItem, TimeSpan?>> t34)
+                {
+                    <PropertyColumnC Property="t34" IsSortable="true" HasAdvancedFilterOptions="true" />
+                }
+                else if (expression is Expression<Func<MyGridItem, DateOnly>> t35)
+                {
+                    <PropertyColumnC Property="t35" IsSortable="true" HasAdvancedFilterOptions="true" />
+                }
+                else if (expression is Expression<Func<MyGridItem, DateOnly?>> t36)
+                {
+                    <PropertyColumnC Property="t36" IsSortable="true" HasAdvancedFilterOptions="true" />
+                }
+                else if (expression is Expression<Func<MyGridItem, TimeOnly>> t37)
+                {
+                    <PropertyColumnC Property="t37" IsSortable="true" HasAdvancedFilterOptions="true" />
+                }
+                else if (expression is Expression<Func<MyGridItem, TimeOnly?>> t38)
+                {
+                    <PropertyColumnC Property="t38" IsSortable="true" HasAdvancedFilterOptions="true" />
+                }
+
+            }
+
+        }
+    </QuickGridC>
+    );
+        var _ = cut.Nodes[1].FirstChild as AngleSharp.Html.Dom.IHtmlTableElement;
+        for (int i = 0; i < _!.Rows[0].Cells.Length; i++)
+        {
+            var iconeOption = cut.FindAll("i", true).Where(e => { var el = e; while (el is not AngleSharp.Html.Dom.IHtmlBodyElement) { if (el is AngleSharp.Html.Dom.IHtmlTableHeaderCellElement hc && hc.Index == i && e.Id == "icon-option") { return true; } el = el!.ParentElement; } return false; }).First();
+
+            var input = cut.FindAll("input", true).Where(e => { var el = e; while (el is not AngleSharp.Html.Dom.IHtmlBodyElement) { if (el is AngleSharp.Html.Dom.IHtmlTableHeaderCellElement hc && hc.Index == i && e.Id == "input-value") { return true; } el = el!.ParentElement; } return false; }).FirstOrDefault();
+            var rows = cut.FindAll("td").Where(e => { if (e is AngleSharp.Html.Dom.IHtmlTableDataCellElement c) { if (c.Index == i) { return true; } } return false; }).ToArray();
+            var buttons = cut.FindAll("button").Where(e => { var el = e; while (el is not AngleSharp.Html.Dom.IHtmlBodyElement) { if (el is AngleSharp.Html.Dom.IHtmlTableHeaderCellElement hc && hc.Index == i) { return true; } el = el!.ParentElement; } return false; }).Cast<AngleSharp.Html.Dom.IHtmlButtonElement>();
+            var btnOk = buttons.Where(e => e.Name == "ok").First();
+            var btnRest = buttons.Where(e => e.Name == "reset").First();
+
+            iconeOption.Click();
+            input?.Change<string>(rows[0].TextContent);
+            btnOk.Click();
+            iconeOption.Click();
+            btnRest.Click();
+            //avec les valeur null
+            iconeOption.Click();
+            input = cut.FindAll("input", true).Where(e => { var el = e; while (el is not AngleSharp.Html.Dom.IHtmlBodyElement) { if (el is AngleSharp.Html.Dom.IHtmlTableHeaderCellElement hc && hc.Index == i && e.Id == "input-value") { return true; } el = el!.ParentElement; } return false; }).FirstOrDefault();
+            input?.Change<string>(rows[1].TextContent);
+            btnOk.Click();
+            iconeOption.Click();
+            btnRest.Click();
+            //sant touche input
+            iconeOption.Click();
+            btnOk.Click();
+            iconeOption.Click();
+            //btnRest.Click();
+        }
+
+    }
+    string GetPropertyColumnCCode(LambdaExpression expression)
+    {
+        var returnType = expression.ReturnType;
+        return $"<PropertyColumnC Property=\"{expression}\" Title=\"C1\" />";
+    }
+
+
+    private PropertyInfo[] GetPropertyInfos()
+    {
+        return typeof(MyGridItem).GetProperties();
+    }
+    private object? GetExpression(PropertyInfo propertyInfo)
+    {
+        var objectHandle = Activator.CreateInstance("QuickGridCTests, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null\r\n",
+            $"QuickGridCTests.Helpeur`1[[{propertyInfo.PropertyType.AssemblyQualifiedName}]]"
+            );
+        var helper = objectHandle!.Unwrap()!;
+        var methode = helper.GetType().GetMethods().Where(e => e.Name == "GetExpression").First();
+        return methode.Invoke(helper, new object[] { propertyInfo })!;
+    }
+
+    private AngleSharp.Dom.IElement? GetInput(IEnumerable<AngleSharp.Dom.IElement> inputs, AngleSharp.Dom.IElement menuOption)
+    {
+        foreach (var item in inputs)
+        {
+            AngleSharp.Dom.IElement element = item;
+            bool test = true;
+            while (test)
+            {
+                var parentElement = element.ParentElement;
+                if (parentElement is AngleSharp.Html.Dom.IHtmlBodyElement || parentElement == null)
+                {
+                    return null;
+                }
+                else
+                {
+                    if (parentElement.SourceReference!.Position.CompareTo(menuOption.SourceReference!.Position) == 0)
+                    {
+                        return item;
+                    }
+                    element = parentElement;
+                }
+            }
+        }
+        return null;
+    }
+}

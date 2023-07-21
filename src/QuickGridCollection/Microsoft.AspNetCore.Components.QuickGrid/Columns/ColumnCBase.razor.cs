@@ -343,7 +343,7 @@ public abstract partial class ColumnCBase<TGridItem> : ComponentBase
     {
         var parameterExp = memberExp.Expression as ParameterExpression;            
         propertyExpression = Expression.Lambda<Func<TGridItem, object?>>(Expression.Convert(memberExp, typeof(object)), parameterExp!);
-        typeOfProperty = Nullable.GetUnderlyingType(memberExp.Type) ?? memberExp.Type;            
+        typeOfProperty = memberExp.Type;            
     }
 
     /// <summary>

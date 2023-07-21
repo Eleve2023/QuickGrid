@@ -116,7 +116,8 @@ public partial class MenuFiltre<TGridItem> : ComponentBase
     /// <summary xml:lang="fr">
     /// Type de la propriété de la colonne.
     /// </summary>        
-    protected Type TypeOfProperty => Column.TypeOfProperty is not null ? Nullable.GetUnderlyingType(Column.TypeOfProperty) ?? Column.TypeOfProperty : throw new MenuOptionException("Column.TypeOfProperty is null");
+    protected Type TypeOfProperty => Column.TypeOfProperty is not null ? Column.TypeOfProperty : throw new MenuOptionException("Column.TypeOfProperty is null");
+    //protected Type TypeOfProperty => Column.TypeOfProperty is not null ? Nullable.GetUnderlyingType(Column.TypeOfProperty) ?? Column.TypeOfProperty : throw new MenuOptionException("Column.TypeOfProperty is null");
 
     /// <summary>
     /// Property expression for the column.
@@ -139,10 +140,15 @@ public partial class MenuFiltre<TGridItem> : ComponentBase
 
     protected override void OnParametersSet()
     {
-        (optionsType, selectedFilterOptions, htmlInputType) = TypeOfProperty switch
+        var typeOfProperty = Nullable.GetUnderlyingType(TypeOfProperty)?? TypeOfProperty;
+        (optionsType, selectedFilterOptions, htmlInputType) = typeOfProperty switch
         {
             Type t when t == typeof(string) =>
                         (typeof(StringFilterOptions), new List<Enum>() { StringFilterOptions.Contains }, "text"),
+            Type t when t == typeof(Guid) =>
+                        (typeof(DataFilterOptions), new() { DataFilterOptions.Equal }, "text"),
+            Type t when t == typeof(char) =>
+                        (typeof(DataFilterOptions), new() { DataFilterOptions.Equal }, "text"),
             Type t when t == typeof(DateTime) || t == typeof(DateTimeOffset) =>
                         (typeof(DataFilterOptions), new() { DataFilterOptions.Equal }, "datetime-local"),
             Type t when t == typeof(DateOnly) =>
@@ -369,40 +375,53 @@ public partial class MenuFiltre<TGridItem> : ComponentBase
 
         if (memberExp != null)
         {
+            var typeOfProperty = Nullable.GetUnderlyingType(TypeOfProperty) ?? TypeOfProperty;
             object? objectConverted;
-            if (objValue == null)
+            if (objValue == null || string.IsNullOrEmpty((string)objValue))
             {
                 objectConverted = null;
             }
-            else if (TypeOfProperty.IsEnum)
+            else if (typeOfProperty.IsEnum)
             {
-                objectConverted = Enum.Parse(TypeOfProperty, (string)objValue);
+                objectConverted = Enum.Parse(typeOfProperty, (string)objValue);
             }
-            else if (TypeOfProperty == typeof(DateOnly) || Nullable.GetUnderlyingType(TypeOfProperty) == typeof(DateOnly))
+            else if (typeOfProperty == typeof(DateOnly) || Nullable.GetUnderlyingType(typeOfProperty) == typeof(DateOnly))
             {
                 objectConverted = DateOnly.Parse((string)objValue);
             }
-            else if (TypeOfProperty == typeof(DateTimeOffset))
+            else if (typeOfProperty == typeof(DateTimeOffset))
             {
                 objectConverted = (DateTimeOffset?)DateTimeOffset.Parse((string)objValue).ToUniversalTime();
             }
-            else if (TypeOfProperty == typeof(decimal))
+            else if (typeOfProperty == typeof(TimeSpan))
+            {
+                objectConverted = TimeSpan.Parse((string)objValue);
+            }
+            else if (typeOfProperty == typeof(TimeOnly))
+            {
+                objectConverted = TimeOnly.Parse((string)objValue);
+            }
+            else if (typeOfProperty == typeof(decimal))
             {
                 objectConverted = decimal.Parse((string)objValue, CultureInfo.InvariantCulture);
             }
+            else if (typeOfProperty == typeof(Guid))
+            {
+                objectConverted = Guid.Parse((string)objValue);
+            }
             else
             {
-                objectConverted = Convert.ChangeType(objValue, TypeOfProperty);
+                objectConverted = Convert.ChangeType(objValue, typeOfProperty);
             }
 
             var parameter = Expression.Parameter(typeof(TGridItem), "x");
             var property = Expression.Property(parameter, memberExp.Member.Name);
 
-            var unaryExpression = Expression.Convert(property, TypeOfProperty);
+            var unaryExpression = Expression.Convert(property, typeOfProperty);
             if (objectConverted != null)
             {
                 var constant = Expression.Constant(objectConverted);
-                var constantConverted = Expression.Convert(constant, TypeOfProperty);
+                var constantConverted = Expression.Convert(constant, typeOfProperty);
                 var comparison = Expression.MakeBinary(comparisonType, unaryExpression, constantConverted);
                 return Expression.Lambda<Func<TGridItem, bool>>(comparison, parameter);
             }
@@ -416,7 +435,15 @@ public partial class MenuFiltre<TGridItem> : ComponentBase
                     ExpressionType.Equal => ExpressionType.Equal,
                     _ => ExpressionType.NotEqual
                 };
-                var comparison = Expression.MakeBinary(salfeComparisonType, property, constant);
+                BinaryExpression comparison;
+                if (Nullable.GetUnderlyingType(TypeOfProperty) == null && TypeOfProperty != typeof(string))
+                {
+                    comparison = Expression.MakeBinary(salfeComparisonType, property, Expression.Default(property.Type));
+                }
+                else
+                {
+                    comparison = Expression.MakeBinary(salfeComparisonType, property, constant);
+                }
                 return Expression.Lambda<Func<TGridItem, bool>>(comparison, parameter);
             }
         }
