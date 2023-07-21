@@ -5,13 +5,13 @@
 
 @code {
     private readonly ICollection<MyGridItem> _items;
-    public QuickGridCTest()
+    public MenuAdvancedFilterTest()
     {
         _items = MyGridItemService.GetMyGridItems();
     }
 
     [Fact]
-    public void ExempleTest()
+    public void MenuAdvancedFilterTypeTest()
     {
         QuickGridC<MyGridItem> gridC = new();
         var cut = Render(
@@ -177,14 +177,17 @@
                 {
                     <PropertyColumnC Property="t40" IsSortable="true" HasAdvancedFilterOptions="true" />
                 }
-
+                else
+                {
+                    throw new Exception();
+                }
             }
 
         }
     </QuickGridC>
     );
-        var _ = cut.Nodes[1].FirstChild as AngleSharp.Html.Dom.IHtmlTableElement;
-        for (int i = 0; i < _!.Rows[0].Cells.Length; i++)
+        var table = cut.Nodes[1].FirstChild as AngleSharp.Html.Dom.IHtmlTableElement;
+        for (int i = 0; i < table!.Rows[0].Cells.Length; i++)
         {
             var iconeOption = cut.FindAll("i", true).Where(e => { var el = e; while (el is not AngleSharp.Html.Dom.IHtmlBodyElement) { if (el is AngleSharp.Html.Dom.IHtmlTableHeaderCellElement hc && hc.Index == i && e.Id == "icon-option") { return true; } el = el!.ParentElement; } return false; }).First();
 
@@ -194,6 +197,8 @@
             var btnOk = buttons.Where(e => e.Name == "ok").First();
             var btnRest = buttons.Where(e => e.Name == "reset").First();
 
+            // Act
+            // avec les valeur not null
             iconeOption.Click();
             input?.Change<string>(rows[0].TextContent);
             btnOk.Click();
@@ -214,7 +219,7 @@
         }
 
     }
-    
+
     private PropertyInfo[] GetPropertyInfos()
     {
         return typeof(MyGridItem).GetProperties();
@@ -229,5 +234,5 @@
         var methode = helper.GetType().GetMethods().Where(e => e.Name == "GetExpression").First();
         return methode.Invoke(helper, new object[] { propertyInfo })!;
     }
-        
+
 }
