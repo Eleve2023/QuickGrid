@@ -210,21 +210,16 @@
             iconeOption.Click();
             btnOk.Click();
             iconeOption.Click();
-            //btnRest.Click();
+            btnRest.Click();
         }
 
     }
-    string GetPropertyColumnCCode(LambdaExpression expression)
-    {
-        var returnType = expression.ReturnType;
-        return $"<PropertyColumnC Property=\"{expression}\" Title=\"C1\" />";
-    }
-
-
+    
     private PropertyInfo[] GetPropertyInfos()
     {
         return typeof(MyGridItem).GetProperties();
     }
+
     private object? GetExpression(PropertyInfo propertyInfo)
     {
         var objectHandle = Activator.CreateInstance("QuickGridCTests, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null\r\n",
@@ -234,30 +229,5 @@
         var methode = helper.GetType().GetMethods().Where(e => e.Name == "GetExpression").First();
         return methode.Invoke(helper, new object[] { propertyInfo })!;
     }
-
-    private AngleSharp.Dom.IElement? GetInput(IEnumerable<AngleSharp.Dom.IElement> inputs, AngleSharp.Dom.IElement menuOption)
-    {
-        foreach (var item in inputs)
-        {
-            AngleSharp.Dom.IElement element = item;
-            bool test = true;
-            while (test)
-            {
-                var parentElement = element.ParentElement;
-                if (parentElement is AngleSharp.Html.Dom.IHtmlBodyElement || parentElement == null)
-                {
-                    return null;
-                }
-                else
-                {
-                    if (parentElement.SourceReference!.Position.CompareTo(menuOption.SourceReference!.Position) == 0)
-                    {
-                        return item;
-                    }
-                    element = parentElement;
-                }
-            }
-        }
-        return null;
-    }
+        
 }
