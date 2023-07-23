@@ -194,7 +194,7 @@ else
 
     [Parameter, EditorRequired] public GridPagingState GridPagingState { get; set; } = default!;
 
-    [Parameter, EditorRequired] public EventCallback<GridFilteringAndSorting<Person>> FilterSortChanged { get; set; }
+    [Parameter, EditorRequired] public EventCallback<GridQuery<Person>> FilterSortChanged { get; set; }
 
     protected override Task OnParametersSetAsync()
     {

@@ -38,9 +38,9 @@ else
         gridPagingState.CurrentPage = 1;
     }
 
-    private void FilterSortChanged(GridFilteringAndSorting<WeatherForecast> filteringAndSorting)
+    private void FilterSortChanged(GridQuery<WeatherForecast> filteringAndSorting)
     { 
-        queryForecastsGrid = filteringAndSorting.ApplyFilterAndSortExpressionsForLinq(forecasts, true);
+        queryForecastsGrid = filteringAndSorting.ApplyQueryForLinq(forecasts, true);
         gridPagingState.CurrentPage = 1;
     }
 

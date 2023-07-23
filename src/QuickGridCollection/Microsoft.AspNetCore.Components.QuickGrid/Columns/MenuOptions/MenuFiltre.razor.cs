@@ -116,8 +116,7 @@ public partial class MenuFiltre<TGridItem> : ComponentBase
     /// <summary xml:lang="fr">
     /// Type de la propriété de la colonne.
     /// </summary>        
-    protected Type TypeOfProperty => Column.TypeOfProperty is not null ? Column.TypeOfProperty : throw new MenuOptionException("Column.TypeOfProperty is null");
-    //protected Type TypeOfProperty => Column.TypeOfProperty is not null ? Nullable.GetUnderlyingType(Column.TypeOfProperty) ?? Column.TypeOfProperty : throw new MenuOptionException("Column.TypeOfProperty is null");
+    protected Type TypeOfProperty => Column.TypeOfProperty is not null ? Column.TypeOfProperty : throw new MenuOptionException("Column.TypeOfProperty is null");    
 
     /// <summary>
     /// Property expression for the column.

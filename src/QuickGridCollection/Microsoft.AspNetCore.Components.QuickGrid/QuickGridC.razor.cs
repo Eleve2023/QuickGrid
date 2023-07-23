@@ -130,7 +130,7 @@ public partial class QuickGridC<TGridItem> : ComponentBase
     /// <summary xml:lang="fr">
     /// Objet contenant les expressions de filtre et les expressions de tri pour chaque colonne.
     /// </summary>
-    private GridFilteringAndSorting<TGridItem> _gridFilteringSorting;
+    private GridQuery<TGridItem> _gridFilteringSorting;
 
     private readonly List<ColumnCBase<TGridItem>> _columns;
     private readonly RenderFragment _ColumnHeaders;
@@ -179,12 +179,12 @@ public partial class QuickGridC<TGridItem> : ComponentBase
     [Parameter] public EventCallback<TGridItem> RowSelected { get; set; }
 
     /// The <see cref="QuickGridC{TGridItem}.FilterSortChanged"/> property is a callback of type
-    /// EventCallback<GridFilteringAndSorting<TGridItem>> <see cref = "EventCallback{GridFilteringAndSorting{TGridItem}}" />
+    /// EventCallback<GridQuery<TGridItem>> <see cref = "EventCallback{GridQuery{TGridItem}}" />
     /// that is called when a filter or sort is changed. When this callback is invoked, it receives as a parameter
     /// the <see cref="QuickGridC{TGridItem}._gridFilteringSorting"/> object containing the updated filtering and sorting information.
 
     /// La propriété<see cref="QuickGridC{TGridItem}.FilterSortChanged"/> est un callback de type
-    /// EventCallback<GridFilteringAndSorting<TGridItem>> <see cref = "EventCallback{GridFilteringAndSorting{TGridItem}}" />
+    /// EventCallback<GridQuery<TGridItem>> <see cref = "EventCallback{GridQuery{TGridItem}}" />
     /// qui est appelé lorsqu’un filtre ou un tri est modifié.Lorsque ce callback est invoqué, il reçoit en paramètre 
     /// l’objet<see cref="QuickGridC{TGridItem}._gridFilteringSorting"/> contenant les informations de filtrage et de tri mises à jour.
 
@@ -194,7 +194,7 @@ public partial class QuickGridC<TGridItem> : ComponentBase
     /// <summary xml:lang="fr">
     /// Callback appelé lorsqu'un filtre ou un tri est modifié.        
     /// </summary>
-    [Parameter] public EventCallback<GridFilteringAndSorting<TGridItem>> FilterSortChanged { get; set; }
+    [Parameter] public EventCallback<GridQuery<TGridItem>> FilterSortChanged { get; set; }
     [Parameter] public GridHtmlCssManager CssClassAndStyle { get => cssClassAndStyle; set => cssClassAndStyle = value; }
 
     internal bool IsFirstRender { get; set; } = true;

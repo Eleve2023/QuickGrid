@@ -54,7 +54,7 @@
     private IQueryable<Person> peopleEF = default!;
     private IQueryable<Person> queryPeopleGrid = default!;
     private IQueryable<Person> queryEFPeopleGrid = default!;
-    private GridFilteringAndSorting<Person> filteringAndSorting = default!;
+    private GridQuery<Person> filteringAndSorting = default!;
     private GridPagingState gridPagingState = new(5);
     private bool? isEgualEF = null;
     private bool? isEgualOdata = null;
@@ -74,13 +74,13 @@
         gridPagingState.CurrentPage = 1;
     }
 
-    private void FilterSortChanged(GridFilteringAndSorting<Person> filteringAndSorting)
+    private void FilterSortChanged(GridQuery<Person> filteringAndSorting)
     {
         // utilisation de Linq
-        queryPeopleGrid = filteringAndSorting.ApplyFilterAndSortExpressionsForLinq(people);
+        queryPeopleGrid = filteringAndSorting.ApplyQueryForLinq(people);
 
         // utiliation de Entity Framework Core
-        queryEFPeopleGrid = filteringAndSorting.ApplyFilterAndSortExpressions(peopleEF);
+        queryEFPeopleGrid = filteringAndSorting.ApplyQuery(peopleEF);
        
         // Utilisation de Simple.Client.OData
         this.filteringAndSorting = filteringAndSorting;
@@ -143,14 +143,14 @@
 
     private async Task<(List<Person>, int)> GetListOdata(GridPageChangedEventArgs e)
     {
-        var filteringAndSorting = new GridFilteringAndSorting<Person>();
-        filteringAndSorting = (GridFilteringAndSorting<Person>)this.filteringAndSorting;
+        var filteringAndSorting = new GridQuery<Person>();
+        filteringAndSorting = (GridQuery<Person>)this.filteringAndSorting;
         var _ = NavigationManager;
         
         var client = new ODataClient($"{NavigationManager.BaseUri}odata");
         var queryableOdata = client.For<Person>();
         if (filteringAndSorting.HasFilterExpressions())
-            queryableOdata.Filter(filteringAndSorting.CombineFilterExpressions()!);
+            queryableOdata.Filter(filteringAndSorting.CombineFilters()!);
         if (filteringAndSorting.HasSortExpressions())
         {
             foreach (var value in filteringAndSorting.SortExpressions!)
