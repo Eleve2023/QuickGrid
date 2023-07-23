@@ -45,7 +45,7 @@ private void InputRender(RenderTreeBuilder __builder, int index)
                 filterValues[index] = (Enum.GetValues(TypeOfProperty)).GetValue(0)!.ToString()!;
             }
         }
-        <select name="inputEnumValue" class="@CssClassAndStyle[CssClass.MenuFiltre_from_divInput_selectInputEnumValue]"
+        <select name="inputEnumValue" id="input-value" class="@CssClassAndStyle[CssClass.MenuFiltre_from_divInput_selectInputEnumValue]"
                     style="@CssClassAndStyle[CssStyle.MenuFiltre_from_divInput_selectInputEnumValue]"
             @bind:get="@filterValues[index]?.ToString()" @bind:set=@((arg) => filterValues[index] = arg)>
                 @foreach (var opt in Enum.GetValues(TypeOfProperty))
@@ -60,7 +60,7 @@ private void InputRender(RenderTreeBuilder __builder, int index)
         {
             filterValues[index] = true.ToString();
         }
-        <select name="inputBoolValue" class="@CssClassAndStyle[CssClass.MenuFiltre_from_divInput_selectInputBoolValue]"
+            <select name="inputBoolValue" id="input-value" class="@CssClassAndStyle[CssClass.MenuFiltre_from_divInput_selectInputBoolValue]"
                     style="@CssClassAndStyle[CssStyle.MenuFiltre_from_divInput_selectInputBoolValue]"
             @bind:get="@filterValues[index]?.ToString()" @bind:set=@((arg) => filterValues[index] = arg)>
                 <option value="@true.ToString()" selected="@true">True</option>
@@ -70,7 +70,7 @@ private void InputRender(RenderTreeBuilder __builder, int index)
     }
     else
     {
-        <input name="inputValue" type="@htmlInputType" class="@CssClassAndStyle[CssClass.MenuFiltre_from_divInput_inputInputValue]"
+            <input name="inputValue" id="input-value" type="@htmlInputType" class="@CssClassAndStyle[CssClass.MenuFiltre_from_divInput_inputInputValue]"
                    style="@CssClassAndStyle[CssStyle.MenuFiltre_from_divInput_inputInputValue]"
             value="@filterValues[index]" @onchange="@((arg) => filterValues[index] = arg.Value)" />
     }

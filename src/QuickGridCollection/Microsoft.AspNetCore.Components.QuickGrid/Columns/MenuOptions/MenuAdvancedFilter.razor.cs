@@ -111,6 +111,10 @@ public partial class MenuAdvancedFilter<TGridItem> : MenuFiltre<TGridItem>
             {
                 ResolveStringFilterOptions(enumlist, optionSelecteds);
             }
+            else if (optionsType.Name == typeof(BoolFilterOptions).Name)
+            {
+                
+            }
             else
             {
                 throw new NotImplementedException();

@@ -7,9 +7,9 @@ using System.Linq.Expressions;
 namespace Components.QuickGrid;
 
 /// <summary>
-/// The <see cref="GridFilteringAndSorting{TGridItem}"/> structure is a generic type that takes a type parameter <c>TGridItem</c> which is the same typeparam as <see cref="QuickGridC{TGridItem}"/>.
+/// The <see cref="GridQuery{TGridItem}"/> structure is a generic type that takes a type parameter <c>TGridItem</c> which is the same typeparam as <see cref="QuickGridC{TGridItem}"/>.
 /// It is used by a <see cref="QuickGridC{TGridItem}"/> component via the <see cref="QuickGridC{TGridItem}.FilterSortChanged"/> property.
-/// This property is of type <see cref="EventCallback{GridFilteringAndSorting{TGridItem}}"/>,
+/// This property is of type <see cref="EventCallback{GridQuery{TGridItem}}"/>,
 /// which means it can be used to trigger an event when the grid's filters or order change.
 /// <para>
 /// The user can then use this instance to filter and sort the grid data using <c>Linq</c>, <c>Entity Framework Linq</c> or <c>Simple.Client.OData</c>.
@@ -21,19 +21,19 @@ namespace Components.QuickGrid;
 /// <Grid TGridItem="Item" Items="Items" FilterOrOrderChange="OnFilterOrOrderChange">
 /// </Grid>
 /// @code {
-///     private async Task OnFilterOrOrderChange(GridFilteringAndSorting&lt;Item&gt; filtersAndOrder)
+///     private async Task OnFilterOrOrderChange(GridQuery&lt;Item&gt; filtersAndOrder)
 ///    {
 ///         // Using Linq
-///         Items = filtersAndOrder.ApplyFilterAndSortExpressionsForLinq(myData.AsQueryable()).ToList();
+///         Items = filtersAndOrder.ApplyQueryForLinq(myData.AsQueryable()).ToList();
 ///
 ///         // Using Entity Framework Linq
-///         Items = filtersAndOrder.ApplyFilterAndSortExpressions(dbContext.Set&lt;Item&gt;()).ToList();
+///         Items = filtersAndOrder.ApplyQuery(dbContext.Set&lt;Item&gt;()).ToList();
 ///
 ///        // Using Simple.Client.OData
 ///        var client = new ODataClient("https://my-service.com/odata");
 ///        var queryableOdata = client.For&lt;Item&gt;();
 ///        if (filtersAndOrder.HasFilterExpressions())
-///           queryableOdata.Filter(filtersAndOrder.CombineFilterExpressions()!);
+///           queryableOdata.Filter(filtersAndOrder.CombineFilters()!);
 ///        if(filtersAndOrder.HasSortExpressions())
 ///        {
 ///            foreach (var value in filtersAndOrder.SortExpressions)
@@ -59,9 +59,9 @@ namespace Components.QuickGrid;
 /// <typeparam name="TGridItem">The type of grid item.</typeparam> 
 
 /// <summary xml:lang="fr">
-/// La structure <see cref="GridFilteringAndSorting{TGridItem}"/> est un type générique qui prend un paramètre de type <c>TGridItem</c> est le même typeparam que <see cref="QuickGridC{TGridItem}"/>.
+/// La structure <see cref="GridQuery{TGridItem}"/> est un type générique qui prend un paramètre de type <c>TGridItem</c> est le même typeparam que <see cref="QuickGridC{TGridItem}"/>.
 /// Elle est utilisée par un composant <see cref="QuickGridC{TGridItem}"/> via la propriété <see cref="QuickGridC{TGridItem}.FilterSortChanged"/>.
-/// Cette propriété est de type <see cref="EventCallback{GridFilteringAndSorting{TGridItem}}"/>,
+/// Cette propriété est de type <see cref="EventCallback{GridQuery{TGridItem}}"/>,
 /// ce qui signifie qu'elle peut être utilisée pour déclencher un événement lorsque les filtres ou l'ordre de la grille changent.
 /// <para xml:lang="fr">
 /// L'utilisateur peut alors utiliser cette instance pour filtrer et trier les données de la grille avec <c>Linq</c>, <c>Entity Framework Linq</c> ou <c>Simple.Client.OData</c>.
@@ -73,19 +73,19 @@ namespace Components.QuickGrid;
 /// &lt;Grid TGridItem="Item" Items="Items" FilterOrOrderChange="OnFilterOrOrderChange"&gt;
 /// &lt;/Grid&gt;
 /// @code {
-///     private async Task OnFilterOrOrderChange(GridFilteringAndSorting&lt;Item&gt; filtersAndOrder)
+///     private async Task OnFilterOrOrderChange(GridQuery&lt;Item&gt; filtersAndOrder)
 ///    {
 ///         // Utilisation de Linq
-///         Items = filtersAndOrder.ApplyFilterAndSortExpressionsForLinq(myData.AsQueryable()).ToList();
+///         Items = filtersAndOrder.ApplyQueryForLinq(myData.AsQueryable()).ToList();
 ///
 ///         // Utilisation d'Entity Framework Linq
-///         Items = filtersAndOrder.ApplyFilterAndSortExpressions(dbContext.Set&lt;Item&gt;()).ToList();
+///         Items = filtersAndOrder.ApplyQuery(dbContext.Set&lt;Item&gt;()).ToList();
 ///
 ///        // Utilisation de Simple.Client.OData
 ///        var client = new ODataClient("https://my-service.com/odata");
 ///        var queryableOdata = client.For&lt;Item&gt;();
 ///        if (filtersAndOrder.HasFilterExpressions())
-///           queryableOdata.Filter(filtersAndOrder.CombineFilterExpressions()!);
+///           queryableOdata.Filter(filtersAndOrder.CombineFilters()!);
 ///        if(filtersAndOrder.HasSortExpressions())
 ///        {
 ///            foreach (var value in filtersAndOrder.SortExpressions)
@@ -109,14 +109,14 @@ namespace Components.QuickGrid;
 /// </para>
 /// </summary>
 /// <typeparam name="TGridItem" xml:lang="fr">Le type d'élément de la grille.</typeparam>
-public struct GridFilteringAndSorting<TGridItem>
+public struct GridQuery<TGridItem>
 {
     /// <summary>
     /// Nullable array of expressions that take a TGridItem and return a boolean value.
     /// These expressions can be used to filter grid items.
     /// For example,
     /// <code>
-    /// var queryable = myData.AsQueryable().Where(gridFilteringAndSorting.FilterExpressions[0])
+    /// var queryable = myData.AsQueryable().Where(GridQuery.FilterExpressions[0])
     /// </code>
     /// </summary>
     /// <summary xml:lang="fr">
@@ -124,7 +124,7 @@ public struct GridFilteringAndSorting<TGridItem>
     /// Ces expressions peuvent être utilisées pour filtrer les éléments de la grille.
     /// Par exemple, 
     /// <code xml:lang="fr">
-    /// var queryable = myData.AsQueryable().Where(gridFilteringAndSorting.FilterExpressions[0])
+    /// var queryable = myData.AsQueryable().Where(GridQuery.FilterExpressions[0])
     /// </code>
     /// </summary>
     public Expression<Func<TGridItem, bool>>[]? FilterExpressions { get; internal set; }
@@ -136,8 +136,8 @@ public struct GridFilteringAndSorting<TGridItem>
     /// For example, to sort items in ascending order, the following code can be used:
     /// <code>
     /// var queryable = myData.AsQueryable();
-    /// if (gridFilteringAndSorting.SortExpressions[0].Item1 == SortedLinq.OrderBy)
-    ///    queryable = queryable.OrderBy(gridFilteringAndSorting.SortExpressions[0].Item2);
+    /// if (GridQuery.SortExpressions[0].Item1 == SortedLinq.OrderBy)
+    ///    queryable = queryable.OrderBy(GridQuery.SortExpressions[0].Item2);
     /// </code>
     /// </summary>
     /// <summary xml:lang="fr">
@@ -147,18 +147,18 @@ public struct GridFilteringAndSorting<TGridItem>
     /// Par exemple, pour trier les éléments dans l'ordre croissant, on peut utiliser le code suivant:
     /// <code xml:lang="fr">
     /// var queryable = myData.AsQueryable();
-    /// if (gridFilteringAndSorting.SortExpressions[0].Item1 == SortedLinq.OrderBy)
-    ///    queryable = queryable.OrderBy(gridFilteringAndSorting.SortExpressions[0].Item2);
+    /// if (GridQuery.SortExpressions[0].Item1 == SortedLinq.OrderBy)
+    ///    queryable = queryable.OrderBy(GridQuery.SortExpressions[0].Item2);
     /// </code>
     /// </summary>
     public (SortedLinq, Expression<Func<TGridItem, object?>>)[]? SortExpressions { get; internal set; }
 
     /// <summary>
-    /// Checks if the sorting tuple array <see cref="GridFilteringAndSorting{TGridItem}.SortExpressions"/> is non-null and non-empty.
+    /// Checks if the sorting tuple array <see cref="GridQuery{TGridItem}.SortExpressions"/> is non-null and non-empty.
     /// </summary>
     /// <returns>Returns <c>true</c> if the sorting tuple array is non-null and non-empty, otherwise <c>false</c>.</returns>
     /// <summary xml:lang="fr">
-    /// Vérifie si le tableau de tuples de tri <see cref="GridFilteringAndSorting{TGridItem}.SortExpressions"/> est non nul et non vide.
+    /// Vérifie si le tableau de tuples de tri <see cref="GridQuery{TGridItem}.SortExpressions"/> est non nul et non vide.
     /// </summary>
     /// <returns xml:lang="fr">Retourne <c>true</c> si le tableau de tuples de tri est non nul et non vide, sinon <c>false</c>.</returns>
     public readonly bool HasSortExpressions()
@@ -174,10 +174,10 @@ public struct GridFilteringAndSorting<TGridItem>
     }
 
     /// <summary>
-    /// Checks if the filtering expression array <see cref="GridFilteringAndSorting{TGridItem}.FilterExpressions"/> is non-null and non-empty.
+    /// Checks if the filtering expression array <see cref="GridQuery{TGridItem}.FilterExpressions"/> is non-null and non-empty.
     /// </summary> 
     /// <summary xml:lang="fr">
-    /// Vérifie si le tableau d'expressions de filtrage <see cref="GridFilteringAndSorting{TGridItem}.FilterExpressions"/> est non nul et non vide.
+    /// Vérifie si le tableau d'expressions de filtrage <see cref="GridQuery{TGridItem}.FilterExpressions"/> est non nul et non vide.
     /// </summary>
     /// <returns xml:lang="fr">Retourne <c>true</c> si le tableau d'expressions de filtrage est non nul et non vide, sinon <c>false</c>.</returns>
     public readonly bool HasFilterExpressions()
@@ -193,7 +193,7 @@ public struct GridFilteringAndSorting<TGridItem>
     }
 
     /// <summary>
-    /// Applies the filtering expressions <see cref="GridFilteringAndSorting{TGridItem}.FilterExpressions"/> to the provided IQueryable using the AndAlso (logical AND) operator.
+    /// Applies the filtering expressions <see cref="GridQuery{TGridItem}.FilterExpressions"/> to the provided IQueryable using the AndAlso (logical AND) operator.
     /// </summary>
     /// <param name="queryable">The <see cref="IQueryable"/> to filter.</param>
     /// <param name="useDefaultValueForNull">
@@ -208,7 +208,7 @@ public struct GridFilteringAndSorting<TGridItem>
     /// </param>
     /// <returns>Returns a filtered <see cref="IQueryable"/> or <c>null</c> if no filtering expression is defined.</returns>
     /// <summary xml:lang="fr">
-    /// Applique les expressions de filtrage <see cref="GridFilteringAndSorting{TGridItem}.FilterExpressions"/> au IQueryable fourni en utilisant l'opérateur AndAlso (ET logique).
+    /// Applique les expressions de filtrage <see cref="GridQuery{TGridItem}.FilterExpressions"/> au IQueryable fourni en utilisant l'opérateur AndAlso (ET logique).
     /// </summary>
     /// <param name="queryable" xml:lang="fr">Le <see cref="IQueryable"/> à filtrer.</param>
     /// <param name="useDefaultValueForNull"  xml:lang="fr">
@@ -222,13 +222,13 @@ public struct GridFilteringAndSorting<TGridItem>
     /// Si cette valeur est <c>false</c>, les expressions générées effectueront des comparaisons sensibles à la casse.
     /// </param>
     /// <returns xml:lang="fr">Retourne un <see cref="IQueryable"/> filtré ou <c>null</c> si aucune expression de filtrage n'est définie.</returns>
-    public readonly IQueryable<TGridItem>? ApplyFilterExpressionsForLinq(
+    public readonly IQueryable<TGridItem>? ApplyFiltersForLinq(
         IQueryable<TGridItem> queryable,
         bool useDefaultValueForNull = false,
         bool ignoreCaseInStringComparison = true,
         FilterOperator operatorType = FilterOperator.AndAlso)
     {
-        var expression = CombineFilterExpressionsForLinq(useDefaultValueForNull, ignoreCaseInStringComparison, operatorType);
+        var expression = CombineFiltersForLinq(useDefaultValueForNull, ignoreCaseInStringComparison, operatorType);
         if (expression != null)
         {
             return queryable.Where(expression);
@@ -238,22 +238,22 @@ public struct GridFilteringAndSorting<TGridItem>
     }
     
     /// <summary>
-    /// Applies the filtering expressions <see cref="GridFilteringAndSorting{TGridItem}.FilterExpressions"/> to the provided IQueryable using the AndAlso (logical AND) operator.
+    /// Applies the filtering expressions <see cref="GridQuery{TGridItem}.FilterExpressions"/> to the provided IQueryable using the AndAlso (logical AND) operator.
     /// </summary>
     /// <param name="queryable">The <see cref="IQueryable"/> to filter.</param>  
     /// <param name="operatorType">The operator to use to combine expressions.</param>
     /// <returns>Returns a filtered <see cref="IQueryable"/> or <c>null</c> if no filtering expression is defined.</returns>
     /// <summary xml:lang="fr">
-    /// Applique les expressions de filtrage <see cref="GridFilteringAndSorting{TGridItem}.FilterExpressions"/> au IQueryable fourni en utilisant l'opérateur AndAlso (ET logique).
+    /// Applique les expressions de filtrage <see cref="GridQuery{TGridItem}.FilterExpressions"/> au IQueryable fourni en utilisant l'opérateur AndAlso (ET logique).
     /// </summary>
     /// <param name="queryable" xml:lang="fr">Le <see cref="IQueryable"/> à filtrer.</param>  
     /// <param name="operatorType"  xml:lang="fr">L'opérateur à utiliser pour combiner les expressions.</param>
     /// <returns xml:lang="fr">Retourne un <see cref="IQueryable"/> filtré ou <c>null</c> si aucune expression de filtrage n'est définie.</returns>
-    public readonly IQueryable<TGridItem>? ApplyFilterExpressions(
+    public readonly IQueryable<TGridItem>? ApplyFilters(
         IQueryable<TGridItem> queryable,           
         FilterOperator operatorType = FilterOperator.AndAlso)
     {
-        var expression = CombineFilterExpressions(operatorType);
+        var expression = CombineFilters(operatorType);
         if (expression != null)
         {
             return queryable.Where(expression);
@@ -263,16 +263,16 @@ public struct GridFilteringAndSorting<TGridItem>
     }
 
     /// <summary>
-    /// Applies the sorting tuples <see cref="GridFilteringAndSorting{TGridItem}.SortExpressions"/> to the provided <see cref="IQueryable"/>.
+    /// Applies the sorting tuples <see cref="GridQuery{TGridItem}.SortExpressions"/> to the provided <see cref="IQueryable"/>.
     /// </summary>
     /// <param name="queryable">The <see cref="IQueryable"/> to sort.</param>
     /// <returns>Returns a sorted <see cref="IOrderedQueryable"/> or <c>null</c> if no sorting tuple is defined.</returns>
     /// <summary xml:lang="fr">
-    /// Applique les tuples de tri <see cref="GridFilteringAndSorting{TGridItem}.SortExpressions"/> au <see cref="IQueryable"/> fourni.
+    /// Applique les tuples de tri <see cref="GridQuery{TGridItem}.SortExpressions"/> au <see cref="IQueryable"/> fourni.
     /// </summary>
     /// <param name="queryable" xml:lang="fr">Le <see cref="IQueryable"/> à trier.</param>
     /// <returns xml:lang="fr">Retourne un <see cref="IOrderedQueryable"/> trié ou  <c>null</c> si aucun tuple de tri n'est défini.</returns>
-    public readonly IOrderedQueryable<TGridItem>? ApplySortExpressions(IQueryable<TGridItem> queryable)
+    public readonly IOrderedQueryable<TGridItem>? ApplySorts(IQueryable<TGridItem> queryable)
     {
         IOrderedQueryable<TGridItem> query = queryable.Order();
         if (HasSortExpressions())
@@ -306,7 +306,7 @@ public struct GridFilteringAndSorting<TGridItem>
     }
 
     /// <summary>
-    /// Applies the filtering expressions <see cref="GridFilteringAndSorting{TGridItem}.FilterExpressions"/> and sorting tuples <see cref="GridFilteringAndSorting{TGridItem}.SortExpressions"/> to the provided <see cref="IQueryable"/>.
+    /// Applies the filtering expressions <see cref="GridQuery{TGridItem}.FilterExpressions"/> and sorting tuples <see cref="GridQuery{TGridItem}.SortExpressions"/> to the provided <see cref="IQueryable"/>.
     /// </summary>
     /// <param name="queryable">The <see cref="IQueryable"/> to filter and sort.</param>
     /// <param name="useDefaultValueForNull">
@@ -322,7 +322,7 @@ public struct GridFilteringAndSorting<TGridItem>
     /// <param name="operatorType">The operator to use to combine expressions.</param>
     /// <returns>Returns a filtered and sorted <see cref="IQueryable"/>.</returns>
     /// <summary xml:lang="fr">
-    /// Applique les expressions de filtrage <see cref="GridFilteringAndSorting{TGridItem}.FilterExpressions"/> et les tuples de tri <see cref="GridFilteringAndSorting{TGridItem}.SortExpressions"/> au <see cref="IQueryable"/> fourni.
+    /// Applique les expressions de filtrage <see cref="GridQuery{TGridItem}.FilterExpressions"/> et les tuples de tri <see cref="GridQuery{TGridItem}.SortExpressions"/> au <see cref="IQueryable"/> fourni.
     /// </summary>
     /// <param name="queryable" xml:lang="fr">Le <see cref="IQueryable"/> à filtrer et trier.</param>
     /// <param name="useDefaultValueForNull" xml:lang="fr">
@@ -337,19 +337,19 @@ public struct GridFilteringAndSorting<TGridItem>
     /// </param>
     /// <param name="operatorType" xml:lang="fr">L'opérateur à utiliser pour combiner les expressions.</param>
     /// <returns xml:lang="fr">Retourne un <see cref="IQueryable"/> filtré et trié.</returns>
-    public readonly IQueryable<TGridItem> ApplyFilterAndSortExpressionsForLinq(
+    public readonly IQueryable<TGridItem> ApplyQueryForLinq(
         IQueryable<TGridItem> queryable,
         bool useDefaultValueForNull = false,
         bool ignoreCaseInStringComparison = true,
         FilterOperator operatorType = FilterOperator.AndAlso)
     {
-        var q = ApplyFilterExpressionsForLinq(queryable, useDefaultValueForNull, ignoreCaseInStringComparison, operatorType);
+        var q = ApplyFiltersForLinq(queryable, useDefaultValueForNull, ignoreCaseInStringComparison, operatorType);
         if (q != null)
         {
             queryable = q;
         }
 
-        var oq = ApplySortExpressions(queryable);
+        var oq = ApplySorts(queryable);
         if (oq != null)
         {
             queryable = oq;
@@ -358,28 +358,28 @@ public struct GridFilteringAndSorting<TGridItem>
         return queryable;
     }
     /// <summary>
-    /// Applies the filtering expressions <see cref="GridFilteringAndSorting{TGridItem}.FilterExpressions"/> and sorting tuples <see cref="GridFilteringAndSorting{TGridItem}.SortExpressions"/> to the provided <see cref="IQueryable"/>.
+    /// Applies the filtering expressions <see cref="GridQuery{TGridItem}.FilterExpressions"/> and sorting tuples <see cref="GridQuery{TGridItem}.SortExpressions"/> to the provided <see cref="IQueryable"/>.
     /// </summary>
     /// <param name="queryable">The <see cref="IQueryable"/> to filter and sort.</param>        
     /// <param name="operatorType">The operator to use to combine expressions.</param>
     /// <returns>Returns a filtered and sorted <see cref="IQueryable"/>.</returns>
     /// <summary xml:lang="fr">
-    /// Applique les expressions de filtrage <see cref="GridFilteringAndSorting{TGridItem}.FilterExpressions"/> et les tuples de tri <see cref="GridFilteringAndSorting{TGridItem}.SortExpressions"/> au <see cref="IQueryable"/> fourni.
+    /// Applique les expressions de filtrage <see cref="GridQuery{TGridItem}.FilterExpressions"/> et les tuples de tri <see cref="GridQuery{TGridItem}.SortExpressions"/> au <see cref="IQueryable"/> fourni.
     /// </summary>
     /// <param name="queryable" xml:lang="fr">Le <see cref="IQueryable"/> à filtrer et trier.</param>        
     /// <param name="operatorType" xml:lang="fr">L'opérateur à utiliser pour combiner les expressions.</param>
     /// <returns xml:lang="fr">Retourne un <see cref="IQueryable"/> filtré et trié.</returns>
-    public readonly IQueryable<TGridItem> ApplyFilterAndSortExpressions(
+    public readonly IQueryable<TGridItem> ApplyQuery(
         IQueryable<TGridItem> queryable,            
         FilterOperator operatorType = FilterOperator.AndAlso)
     {
-        var q = ApplyFilterExpressions(queryable, operatorType);
+        var q = ApplyFilters(queryable, operatorType);
         if (q != null)
         {
             queryable = q;
         }
 
-        var oq = ApplySortExpressions(queryable);
+        var oq = ApplySorts(queryable);
         if (oq != null)
         {
             queryable = oq;
@@ -388,16 +388,16 @@ public struct GridFilteringAndSorting<TGridItem>
         return queryable;
     }
     /// <summary>
-    /// Combines the filtering expressions <see cref="GridFilteringAndSorting{TGridItem}.FilterExpressions"/> using the AndAlso (logical AND) operator.
+    /// Combines the filtering expressions <see cref="GridQuery{TGridItem}.FilterExpressions"/> using the AndAlso (logical AND) operator.
     /// </summary>
     /// <param name="operatorType">The operator to use to combine expressions.</param>
     /// <summary xml:lang="fr">
     /// <returns>Returns a combined expression or <c>null</c> if no filtering expression is defined.</returns>
-    /// Combine les expressions de filtrage <see cref="GridFilteringAndSorting{TGridItem}.FilterExpressions"/> en utilisant l'opérateur AndAlso (ET logique).
+    /// Combine les expressions de filtrage <see cref="GridQuery{TGridItem}.FilterExpressions"/> en utilisant l'opérateur AndAlso (ET logique).
     /// </summary>
     /// <param name="operatorType" xml:lang="fr">L'opérateur à utiliser pour combiner les expressions.</param>
     /// <returns xml:lang="fr">Retourne une expression combinée ou <c>null</c> si aucune expression de filtrage n'est définie.</returns>
-    public readonly Expression<Func<TGridItem, bool>>? CombineFilterExpressions(FilterOperator operatorType = FilterOperator.AndAlso)
+    public readonly Expression<Func<TGridItem, bool>>? CombineFilters(FilterOperator operatorType = FilterOperator.AndAlso)
     {            
         if (HasFilterExpressions())
         {
@@ -411,7 +411,7 @@ public struct GridFilteringAndSorting<TGridItem>
     }
 
     /// <summary>
-    /// Combines the filtering expressions <see cref="GridFilteringAndSorting{TGridItem}.FilterExpressions"/> using the AndAlso (logical AND) operator.
+    /// Combines the filtering expressions <see cref="GridQuery{TGridItem}.FilterExpressions"/> using the AndAlso (logical AND) operator.
     /// Adds a null check for nullable types
     /// </summary>
     /// <param name="useDefaultValueForNull">
@@ -427,7 +427,7 @@ public struct GridFilteringAndSorting<TGridItem>
     /// <param name="operatorType">The operator to use to combine expressions.</param>
     /// <returns>Returns a combined expression or <c>null</c> if no filtering expression is defined.</returns>
     /// <summary xml:lang="fr">
-    /// Combine les expressions de filtrage <see cref="GridFilteringAndSorting{TGridItem}.FilterExpressions"/> en utilisant l'opérateur AndAlso (ET logique).
+    /// Combine les expressions de filtrage <see cref="GridQuery{TGridItem}.FilterExpressions"/> en utilisant l'opérateur AndAlso (ET logique).
     /// Ajoute un contre valeur null pour les type nullable
     /// </summary>
     /// <param name="useDefaultValueForNull" xml:lang="fr">
@@ -442,7 +442,7 @@ public struct GridFilteringAndSorting<TGridItem>
     /// </param>
     /// <param name="operatorType" xml:lang="fr">L'opérateur à utiliser pour combiner les expressions.</param>
     /// <returns xml:lang="fr">Retourne une expression combinée ou <c>null</c> si aucune expression de filtrage n'est définie.</returns>
-    public readonly Expression<Func<TGridItem, bool>>? CombineFilterExpressionsForLinq(
+    public readonly Expression<Func<TGridItem, bool>>? CombineFiltersForLinq(
         bool useDefaultValueForNull = false,
         bool ignoreCaseInStringComparison = true,
         FilterOperator operatorType = FilterOperator.AndAlso)
