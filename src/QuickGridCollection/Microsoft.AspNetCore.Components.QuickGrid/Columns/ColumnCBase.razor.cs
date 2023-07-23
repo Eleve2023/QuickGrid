@@ -134,6 +134,8 @@ public abstract partial class ColumnCBase<TGridItem> : ComponentBase
         HeaderContent = RenderDefaultHeaderContent;
         SortContent = RenderSortContent;
         OptionsContent = RenderOptionsContent;
+        AlignCell = Align.Default;
+        AlignHeader = Align.Default;
     }
 
     /// <summary>
@@ -159,7 +161,7 @@ public abstract partial class ColumnCBase<TGridItem> : ComponentBase
     /// Modèle d'en-tête personnalisé pour la colonne.
     /// </summary>
     [Parameter] public RenderFragment<HeaderTemplateContext<TGridItem>>? HeaderTemplate { get; set; }
-    
+
     /// <summary>
     /// Custom column options.
     /// </summary>
@@ -167,6 +169,16 @@ public abstract partial class ColumnCBase<TGridItem> : ComponentBase
     /// Options de colonne personnalisées.
     /// </summary>
     [Parameter] public RenderFragment<ColumnOptionsContext<TGridItem>>? ColumnOptions { get; set; }
+
+    /// <summary>
+    /// If specified, controls the justification of body cells for this column.
+    /// </summary>
+    [Parameter] public Align AlignCell { get; set; }
+
+    /// <summary>
+    /// If specified, controls the justification of table header for this column.
+    /// </summary>
+    [Parameter] public Align AlignHeader { get; set; }
 
     /// <summary>
     /// Column header content.
@@ -191,7 +203,7 @@ public abstract partial class ColumnCBase<TGridItem> : ComponentBase
     /// Contenu menu option d'en-tête de la colonne.
     /// </summary>
     protected internal RenderFragment OptionsContent { get; protected set; }
-    
+
     /// <summary>
     /// Property expression for the column.
     /// </summary>
@@ -293,6 +305,62 @@ public abstract partial class ColumnCBase<TGridItem> : ComponentBase
 
     protected internal abstract void CellContent(RenderTreeBuilder builder, TGridItem item);
 
+    internal string GetCssClassOfHeader()
+    {
+        return AlignHeader switch
+        {
+            Align.Default => CssClassAndStyle[CssClass.Grid_div_table_thead_tr_th_Default],
+            Align.Start => CssClassAndStyle[CssClass.Grid_div_table_thead_tr_td_Start],
+            Align.Center => CssClassAndStyle[CssClass.Grid_div_table_thead_tr_td_Center],
+            Align.End => CssClassAndStyle[CssClass.Grid_div_table_thead_tr_td_End],
+            Align.Left => CssClassAndStyle[CssClass.Grid_div_table_thead_tr_td_Left],
+            Align.Right => CssClassAndStyle[CssClass.Grid_div_table_thead_tr_td_Right],
+            _ => throw new NotImplementedException(),
+        };
+    }
+
+    internal string GetCssStyleOfHeader()
+    {
+        return AlignHeader switch
+        {
+            Align.Default => CssClassAndStyle[CssStyle.Grid_div_table_thead_tr_th_Default],
+            Align.Start => CssClassAndStyle[CssStyle.Grid_div_table_thead_tr_td_Start],
+            Align.Center => CssClassAndStyle[CssStyle.Grid_div_table_thead_tr_td_Center],
+            Align.End => CssClassAndStyle[CssStyle.Grid_div_table_thead_tr_td_End],
+            Align.Left => CssClassAndStyle[CssStyle.Grid_div_table_thead_tr_td_Left],
+            Align.Right => CssClassAndStyle[CssStyle.Grid_div_table_thead_tr_td_Right],
+            _ => throw new NotImplementedException(),
+        };
+    }
+
+    internal string GetCssClassOfCell()
+    {
+        return  AlignCell switch
+        {
+            Align.Default => CssClassAndStyle[CssClass.Grid_div_table_tbody_tr_td_Default],
+            Align.Start => CssClassAndStyle[CssClass.Grid_div_table_tbody_tr_td_Start],
+            Align.Center => CssClassAndStyle[CssClass.Grid_div_table_tbody_tr_td_Center],
+            Align.End => CssClassAndStyle[CssClass.Grid_div_table_tbody_tr_td_End],
+            Align.Left => CssClassAndStyle[CssClass.Grid_div_table_tbody_tr_td_Left],
+            Align.Right => CssClassAndStyle[CssClass.Grid_div_table_tbody_tr_td_Right],
+            _ => throw new NotImplementedException(),
+        };        
+    }
+
+    internal string GetCssStyleOfCell()
+    {
+        return AlignCell switch
+        {
+            Align.Default => CssClassAndStyle[CssStyle.Grid_div_table_tbody_tr_td_Default],
+            Align.Start => CssClassAndStyle[CssStyle.Grid_div_table_tbody_tr_td_Start],
+            Align.Center => CssClassAndStyle[CssStyle.Grid_div_table_tbody_tr_td_Center],
+            Align.End => CssClassAndStyle[CssStyle.Grid_div_table_tbody_tr_td_End],
+            Align.Left => CssClassAndStyle[CssStyle.Grid_div_table_tbody_tr_td_Left],
+            Align.Right => CssClassAndStyle[CssStyle.Grid_div_table_tbody_tr_td_Right],
+            _ => throw new NotImplementedException(),
+        };
+    }
+
     /// <summary>
     /// Adds a column to the grid.
     /// </summary>
@@ -341,9 +409,9 @@ public abstract partial class ColumnCBase<TGridItem> : ComponentBase
     /// <param name="memberExp"  xml:lang="fr">Expression de membre à utiliser.</param>
     internal void SetPropertyExpressionAndTypet(MemberExpression memberExp)
     {
-        var parameterExp = memberExp.Expression as ParameterExpression;            
+        var parameterExp = memberExp.Expression as ParameterExpression;
         propertyExpression = Expression.Lambda<Func<TGridItem, object?>>(Expression.Convert(memberExp, typeof(object)), parameterExp!);
-        typeOfProperty = memberExp.Type;            
+        typeOfProperty = memberExp.Type;
     }
 
     /// <summary>
