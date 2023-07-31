@@ -16,13 +16,33 @@ public enum CssStyle
     /// <summary> </summary>
     Grid_div_table_thead_tr,
     /// <summary> </summary>
-    Grid_div_table_thead_tr_th,
+    Grid_div_table_thead_tr_th_Default,
+    /// <summary> </summary>
+    Grid_div_table_thead_tr_td_Start,
+    /// <summary> </summary>
+    Grid_div_table_thead_tr_td_Center,
+    /// <summary> </summary>
+    Grid_div_table_thead_tr_td_End,
+    /// <summary> </summary>
+    Grid_div_table_thead_tr_td_Left,
+    /// <summary> </summary>
+    Grid_div_table_thead_tr_td_Right,
     /// <summary> </summary>
     Grid_div_table_tbody,
     /// <summary> </summary>
     Grid_div_table_tbody_tr,
     /// <summary> </summary>
-    Grid_div_table_tbody_tr_td,
+    Grid_div_table_tbody_tr_td_Default,
+    /// <summary> </summary>
+    Grid_div_table_tbody_tr_td_Start,
+    /// <summary> </summary>
+    Grid_div_table_tbody_tr_td_Center,
+    /// <summary> </summary>
+    Grid_div_table_tbody_tr_td_End,
+    /// <summary> </summary>
+    Grid_div_table_tbody_tr_td_Left,
+    /// <summary> </summary>
+    Grid_div_table_tbody_tr_td_Right,
     /// <summary> </summary>
     Column_Sort_i,
     /// <summary> </summary>

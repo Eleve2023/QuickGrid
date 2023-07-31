@@ -1,5 +1,4 @@
-﻿
-@using Components.QuickGrid
+﻿@using Components.QuickGrid
 @using SimpeQuickGrid.Data;
 
 
@@ -13,7 +12,7 @@ else
 
     <button class="btn btn-sm btn-primary" @onclick=@(()=> cssManagerDefault = !cssManagerDefault)> change the style</button>
 
-    <div class="form-control">
+    <div class="form-control form-control-sm">
 
         <select class="form-select form-select-sm" @bind="@column" @bind:event="oninput">
             @foreach (var item in columns)
@@ -65,7 +64,7 @@ else
                     @onchange="@(()=> {@optionsBool[column]["HasFilterOptions"] = false;@optionsBool[column]["HasAdvancedFilterOptions"] = false;} )">
                     <label class="form-check-label" for="hasOption3">Not</label>
                 </div>
-               
+
                 <div class="input-group input-group-sm mb-3">
                     <label class="input-group-text" for="inputGroupFile01">MaxFilters</label>
                     <input type="number" class="form-control" id="inputGroupFile01"
@@ -73,20 +72,39 @@ else
                     @bind-value="@optionsInt[column]["MaxFilters"]">
                 </div>
             </div>
-            
+
             <div class="form-control form-control-sm">
                 <div class="form-check form-check-inline form-switch">
                     <input class="form-check-input" type="checkbox" role="switch" id="checkIsSortable"
                            checked="@optionsBool[column]["IsSortable"]"
-                    @bind-value="@optionsBool[column]["IsSortable"]" >
+                    @bind-value="@optionsBool[column]["IsSortable"]">
                     <label class="form-check-label" for="checkIsSortable">IsSortable</label>
                 </div>
-               
+
                 <div class="form-check form-check-inline form-switch">
                     <input class="form-check-input" type="checkbox" role="switch" id="checkMultipleSortingAllowed"
                            checked="@optionsBool[column]["MultipleSortingAllowed"]"
                     @bind-value="@optionsBool[column]["MultipleSortingAllowed"]" disabled="@(!optionsBool[column]["IsSortable"])">
                     <label class="form-check-label" for="checkMultipleSortingAllowed">MultipleSortingAllowed</label>
+                </div>
+            </div>
+            <div class="form-control  form-control-sm">
+                <div class="input-group input-group-sm">
+
+                    <label class="input-group-text">AlignHeader : </label>
+                    <select class="form-select form-select-sm" @bind="@optionsEnum[column]["AlignHeader"]" @bind:event="oninput">
+                        @foreach (var item in Enum.GetValues(typeof(Align)))
+                        {
+                            <option value="@item">@item</option>
+                        }
+                    </select>
+                    <label class="input-group-text"> AlignCell : </label>
+                    <select class="form-select form-select-inline form-select-sm" @bind="@optionsEnum[column]["AlignCell"]" @bind:event="oninput">
+                        @foreach (var item in Enum.GetValues(typeof(Align)))
+                        {
+                            <option value="@item">@item</option>
+                        }
+                    </select>
                 </div>
             </div>
         </div>
@@ -101,42 +119,48 @@ else
                          HasAdvancedFilterOptions="@optionsBool["FirstName"]["HasAdvancedFilterOptions"]"
                          MaxFilters="@optionsInt["FirstName"]["MaxFilters"]" Title="@optionsString["FirstName"]["Title"]"
                          IsSortable="@optionsBool["FirstName"]["IsSortable"]"
-                         MultipleSortingAllowed="@optionsBool["FirstName"]["MultipleSortingAllowed"]" />
+                         MultipleSortingAllowed="@optionsBool["FirstName"]["MultipleSortingAllowed"]"
+                         AlignHeader="@optionsEnum["FirstName"]["AlignHeader"]" AlignCell="@optionsEnum["FirstName"]["AlignCell"]" />
 
         <PropertyColumnC Property="@(e => e.LastName)" DisplayFormat="@optionsString["LastName"]["DisplayFormat"]"
                          HasFilterOptions="@optionsBool["LastName"]["HasFilterOptions"]"
                          HasAdvancedFilterOptions="@optionsBool["LastName"]["HasAdvancedFilterOptions"]"
                          MaxFilters="@optionsInt["LastName"]["MaxFilters"]" Title="@optionsString["LastName"]["Title"]"
                          IsSortable="@optionsBool["LastName"]["IsSortable"]"
-                         MultipleSortingAllowed="@optionsBool["LastName"]["MultipleSortingAllowed"]" />
+                         MultipleSortingAllowed="@optionsBool["LastName"]["MultipleSortingAllowed"]"
+                         AlignHeader="@optionsEnum["LastName"]["AlignHeader"]" AlignCell="@optionsEnum["LastName"]["AlignCell"]" />
 
         <PropertyColumnC Property="@(e => e.BirthDate)" DisplayFormat="@optionsString["BirthDate"]["DisplayFormat"]"
                          HasFilterOptions="@optionsBool["BirthDate"]["HasFilterOptions"]"
                          HasAdvancedFilterOptions="@optionsBool["BirthDate"]["HasAdvancedFilterOptions"]"
                          MaxFilters="@optionsInt["BirthDate"]["MaxFilters"]" Title="@optionsString["BirthDate"]["Title"]"
                          IsSortable="@optionsBool["BirthDate"]["IsSortable"]"
-                         MultipleSortingAllowed="@optionsBool["BirthDate"]["MultipleSortingAllowed"]" />
+                         MultipleSortingAllowed="@optionsBool["BirthDate"]["MultipleSortingAllowed"]"
+                         AlignHeader="@optionsEnum["BirthDate"]["AlignHeader"]" AlignCell="@optionsEnum["BirthDate"]["AlignCell"]" />
 
         <PropertyColumnC Property="@(e => e.Gender)" DisplayFormat="@optionsString["Gender"]["DisplayFormat"]"
                          HasFilterOptions="@optionsBool["Gender"]["HasFilterOptions"]"
                          HasAdvancedFilterOptions="@optionsBool["Gender"]["HasAdvancedFilterOptions"]"
                          MaxFilters="@optionsInt["Gender"]["MaxFilters"]" Title="@optionsString["Gender"]["Title"]"
                          IsSortable="@optionsBool["Gender"]["IsSortable"]"
-                         MultipleSortingAllowed="@optionsBool["Gender"]["MultipleSortingAllowed"]" />
+                         MultipleSortingAllowed="@optionsBool["Gender"]["MultipleSortingAllowed"]"
+                         AlignHeader="@optionsEnum["Gender"]["AlignHeader"]" AlignCell="@optionsEnum["Gender"]["AlignCell"]" />
 
         <PropertyColumnC Property="@(e => e.Sold)" DisplayFormat="@optionsString["Sold"]["DisplayFormat"]"
                          HasFilterOptions="@optionsBool["Sold"]["HasFilterOptions"]"
                          HasAdvancedFilterOptions="@optionsBool["Sold"]["HasAdvancedFilterOptions"]"
                          MaxFilters="@optionsInt["Sold"]["MaxFilters"]" Title="@optionsString["Sold"]["Title"]"
                          IsSortable="@optionsBool["Sold"]["IsSortable"]"
-                         MultipleSortingAllowed="@optionsBool["Sold"]["MultipleSortingAllowed"]" />
+                         MultipleSortingAllowed="@optionsBool["Sold"]["MultipleSortingAllowed"]"
+                         AlignHeader="@optionsEnum["Sold"]["AlignHeader"]" AlignCell="@optionsEnum["Sold"]["AlignCell"]" />
 
         <PropertyColumnC Property="@(e => e.Active)" DisplayFormat="@optionsString["Active"]["DisplayFormat"]"
                          HasFilterOptions="@optionsBool["Active"]["HasFilterOptions"]"
                          HasAdvancedFilterOptions="@optionsBool["Active"]["HasAdvancedFilterOptions"]"
                          MaxFilters="@optionsInt["Active"]["MaxFilters"]" Title="@optionsString["Active"]["Title"]"
                          IsSortable="@optionsBool["Active"]["IsSortable"]"
-                         MultipleSortingAllowed="@optionsBool["Active"]["MultipleSortingAllowed"]" />
+                         MultipleSortingAllowed="@optionsBool["Active"]["MultipleSortingAllowed"]"
+                         AlignHeader="@optionsEnum["Active"]["AlignHeader"]" AlignCell="@optionsEnum["Active"]["AlignCell"]" />
     </QuickGridC>
     <GridPaging PaginationState="GridPagingState" />
 }
@@ -145,6 +169,7 @@ else
     private Dictionary<string, Dictionary<string, bool>> optionsBool = new();
     private Dictionary<string, Dictionary<string, int>> optionsInt = new();
     private Dictionary<string, Dictionary<string, string?>> optionsString = new();
+    private Dictionary<string, Dictionary<string, Align>> optionsEnum = new();
     private List<string> columns;
     private string column;
     private GridHtmlCssManager gridHtmlCssManager;
@@ -172,7 +197,7 @@ else
         optionsInt.Add(nameof(Person.Gender), oi.ToDictionary());
         optionsInt.Add(nameof(Person.Sold), oi.ToDictionary());
         optionsInt.Add(nameof(Person.Active), oi.ToDictionary());
-        
+
         Dictionary<string, bool> ob = new();
         ob.Add("HasFilterOptions", true);
         ob.Add("HasAdvancedFilterOptions", false);
@@ -188,6 +213,16 @@ else
         optionsBool.Add(nameof(Person.Gender), ob.ToDictionary());
         optionsBool.Add(nameof(Person.Sold), ob.ToDictionary());
         optionsBool.Add(nameof(Person.Active), ob.ToDictionary());
+
+        Dictionary<string, Align> oe = new();
+        oe.Add("AlignCell", Align.Default);
+        oe.Add("AlignHeader", Align.Default);
+        optionsEnum.Add(nameof(Person.FirstName), oe.ToDictionary());
+        optionsEnum.Add(nameof(Person.LastName), oe.ToDictionary());
+        optionsEnum.Add(nameof(Person.BirthDate), oe.ToDictionary());
+        optionsEnum.Add(nameof(Person.Gender), oe.ToDictionary());
+        optionsEnum.Add(nameof(Person.Sold), oe.ToDictionary());
+        optionsEnum.Add(nameof(Person.Active), oe.ToDictionary());
     }
 
     [Parameter, EditorRequired] public ICollection<Person>? People { get; set; }
