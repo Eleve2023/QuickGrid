@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace QuickGridCTests
+namespace Shared
 {
     public class MyAllTypeService
     {
