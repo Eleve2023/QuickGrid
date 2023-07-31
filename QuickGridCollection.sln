@@ -20,7 +20,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{3DF5E16E
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "QuickGridCTests", "src\tests\QuickGridCTests\QuickGridCTests.csproj", "{0C23940D-29A4-44B7-AABD-62D45C56C4CF}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Shard", "Shard\Shard.csproj", "{3204C9EE-8793-41CE-9638-0A7D785CD5D0}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Shared", "Shard\Shared.csproj", "{3204C9EE-8793-41CE-9638-0A7D785CD5D0}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

@@ -3,7 +3,7 @@ using System.Diagnostics;
 
 namespace QuickGridCTests
 {
-    public class MyGridItem
+    public class MyAllType
     {
         public string String { get; set; } = default!;
         public string? StringNullable { get; set; }

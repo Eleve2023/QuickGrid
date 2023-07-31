@@ -32,7 +32,7 @@
 	</ItemGroup>
 
 	<ItemGroup>
-	  <ProjectReference Include="..\..\..\Shard\Shard.csproj" />
+	  <ProjectReference Include="..\..\..\Shard\Shared.csproj" />
 	  <ProjectReference Include="..\..\QuickGridCollection\Microsoft.AspNetCore.Components.QuickGrid\Components.QuickGrid.csproj" />
 	</ItemGroup>
 
