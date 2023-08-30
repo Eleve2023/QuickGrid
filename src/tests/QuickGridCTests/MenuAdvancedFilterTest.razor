@@ -5,18 +5,138 @@
 @inherits TestContext
 
 @code {
-    private readonly ICollection<MyAllType> _items;
+    private readonly ICollection<MyAllType> _myAllTypes;
+    private readonly ICollection<MyExpModele1> _myExps1;
     public MenuAdvancedFilterTest()
     {
-        _items = MyAllTypeService.GetMyGridItems();
+        _myAllTypes = MyService.GetMyAllTypes();
+        _myExps1 = MyService.MyExpModele1s;
     }
 
     [Fact]
     public void MenuAdvancedFilterTypeTest()
     {
-        QuickGridC<MyAllType> gridC = new();
+        var cut = GetCutQuickeGrirdCAllType()?? throw new Exception();
+
+        var table = GetHtmlTable(cut);
+        for (int i = 0; i < GetHtmlTableCells(table!).Length; i++)
+        {            
+            var iconeOption = GetTableHeaderCell(cut, "i", i, "icon-option")!;
+
+            var input = GetTableHeaderCell(cut, "input", i, "input-value");
+            var rows = GetHtmlTableDataCells(cut, i);
+
+            var buttons = GetTableHeaderCellButtons(cut, i);
+
+            var btnOk = GetTableHeaderCellButton(buttons, "ok");
+
+            var btnRest = GetTableHeaderCellButton(buttons, "reset");
+
+            // Act
+            // avec les valeur not null
+            iconeOption.Click();
+            input?.Change<string>(rows[0].TextContent);
+            btnOk.Click();
+            iconeOption.Click();
+            btnRest.Click();
+            //avec les valeur null
+            iconeOption.Click();
+            input = GetTableHeaderCell(cut, "input", i, "input-value");
+            input?.Change<string>(rows[1].TextContent);
+            btnOk.Click();
+            iconeOption.Click();
+            btnRest.Click();
+            //sant touche input
+            iconeOption.Click();
+            btnOk.Click();
+            iconeOption.Click();
+            btnRest.Click();
+        }
+
+    }
+
+    [Fact]
+    public void AjoutFiltreTest()
+    {
+        var gridQuery = new GridQuery<MyExpModele1>();
+        Action<GridQuery<MyExpModele1>> act = e => gridQuery = e; 
         var cut = Render(
-    @<QuickGridC TGridItem="MyAllType" Items="_items" @ref="gridC">
+        @<QuickGridC TGridItem="MyExpModele1" Items="_myExps1" FilterSortChanged="act">
+        <PropertyColumnC Property="e => e.String1" HasAdvancedFilterOptions = "true" />
+        <PropertyColumnC Property="e => e.String2" HasAdvancedFilterOptions = "true" />
+        <PropertyColumnC Property="e => e.Int1" HasAdvancedFilterOptions = "true" />
+        <PropertyColumnC Property="e => e.Bool1" HasAdvancedFilterOptions = "true" />
+        <PropertyColumnC Property="e => e.Enum1" HasAdvancedFilterOptions = "true" />
+        </QuickGridC>
+    );
+        var table = GetHtmlTable(cut);
+        var iconeOption1 = GetTableHeaderCell(cut, "i", 0, "icon-option")!;
+        var input1 = GetTableHeaderCell(cut, "input", 0, "input-value")!;
+        //var rows = GetHtmlTableDataCells(cut, i);
+        var buttons1 = GetTableHeaderCellButtons(cut, 0);
+        var btnOk1 = GetTableHeaderCellButton(buttons1, "ok");
+        var btnRest1 = GetTableHeaderCellButton(buttons1, "reset");
+        iconeOption1.Click();
+        input1.Change<string>("A");
+        btnOk1.Click();
+        Assert.Equal("x.String1.Contains(\"A\")", gridQuery.FilterExpressions[0].Body.ToString());
+        iconeOption1.Click();
+        btnRest1.Click();
+        Assert.Empty(gridQuery.FilterExpressions);
+        
+        input1 = GetTableHeaderCell(cut, "input", 0, "input-value")!;
+        var btnAdd = GetTableHeaderCellButton(buttons1, "add");
+        iconeOption1.Click();
+        input1.Change<string>("A");
+        btnOk1.Click();
+
+    }
+
+    private AngleSharp.Html.Dom.IHtmlTableElement? GetHtmlTable(IRenderedFragment cut, int indexNode = 1)
+    {
+        return cut!.Nodes[indexNode].FirstChild as AngleSharp.Html.Dom.IHtmlTableElement;
+    }
+    private AngleSharp.Dom.IHtmlCollection<AngleSharp.Html.Dom.IHtmlTableCellElement> GetHtmlTableCells(AngleSharp.Html.Dom.IHtmlTableElement table, int rowIndex = 0)
+    {
+        return table!.Rows[rowIndex].Cells;
+    }
+    private AngleSharp.Html.Dom.IHtmlTableDataCellElement[] GetHtmlTableDataCells(IRenderedFragment cut, int cellIndex)
+    {
+        return cut.FindAll("td").Where(e => { if (e is AngleSharp.Html.Dom.IHtmlTableDataCellElement c) { if (c.Index == cellIndex) { return true; } } return false; }).Cast<AngleSharp.Html.Dom.IHtmlTableDataCellElement>().ToArray();
+    }
+    private AngleSharp.Dom.IElement? GetTableHeaderCell(IRenderedFragment cut, string find, int cellIndex, string id)
+    {
+        return cut.FindAll(find, true).Where(e => { var el = e; while (el is not AngleSharp.Html.Dom.IHtmlBodyElement) { if (el is AngleSharp.Html.Dom.IHtmlTableHeaderCellElement hc && hc.Index == cellIndex && e.Id == id) { return true; } el = el!.ParentElement; } return false; }).FirstOrDefault();
+    }
+    private IEnumerable<AngleSharp.Html.Dom.IHtmlButtonElement> GetTableHeaderCellButtons(IRenderedFragment cut, int cellIndex)
+    {
+        return cut.FindAll("button").Where(e => { var el = e; while (el is not AngleSharp.Html.Dom.IHtmlBodyElement) { if (el is AngleSharp.Html.Dom.IHtmlTableHeaderCellElement hc && hc.Index == cellIndex) { return true; } el = el!.ParentElement; } return false; }).Cast<AngleSharp.Html.Dom.IHtmlButtonElement>();
+    }
+
+    private AngleSharp.Html.Dom.IHtmlButtonElement GetTableHeaderCellButton(IEnumerable<AngleSharp.Html.Dom.IHtmlButtonElement> buttons, string name)
+    {
+        return buttons.Where(e => e.Name == name).First();
+    }
+
+    private PropertyInfo[] GetPropertyInfos()
+    {
+        return typeof(MyAllType).GetProperties();
+    }
+
+    private object? GetExpression(PropertyInfo propertyInfo)
+    {
+        var objectHandle = Activator.CreateInstance("QuickGridCTests, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null\r\n",
+    $"QuickGridCTests.HelperExpressionOfMyAllType`1[[{propertyInfo.PropertyType.AssemblyQualifiedName}]]"
+    );
+        var helper = objectHandle!.Unwrap()!;
+        var methode = helper.GetType().GetMethods().Where(e => e.Name == "GetExpression").First();
+        return methode.Invoke(helper, new object[] { propertyInfo })!;
+    }
+
+    private IRenderedFragment? GetCutQuickeGrirdCAllType()
+    {
+        return Render(
+    @<QuickGridC TGridItem="MyAllType" Items="_myAllTypes">
         @foreach (var propertyInfo in GetPropertyInfos())
         {
             var expression = GetExpression(propertyInfo);
@@ -187,53 +307,6 @@
         }
     </QuickGridC>
     );
-        var table = cut.Nodes[1].FirstChild as AngleSharp.Html.Dom.IHtmlTableElement;
-        for (int i = 0; i < table!.Rows[0].Cells.Length; i++)
-        {
-            var iconeOption = cut.FindAll("i", true).Where(e => { var el = e; while (el is not AngleSharp.Html.Dom.IHtmlBodyElement) { if (el is AngleSharp.Html.Dom.IHtmlTableHeaderCellElement hc && hc.Index == i && e.Id == "icon-option") { return true; } el = el!.ParentElement; } return false; }).First();
-
-            var input = cut.FindAll("input", true).Where(e => { var el = e; while (el is not AngleSharp.Html.Dom.IHtmlBodyElement) { if (el is AngleSharp.Html.Dom.IHtmlTableHeaderCellElement hc && hc.Index == i && e.Id == "input-value") { return true; } el = el!.ParentElement; } return false; }).FirstOrDefault();
-            var rows = cut.FindAll("td").Where(e => { if (e is AngleSharp.Html.Dom.IHtmlTableDataCellElement c) { if (c.Index == i) { return true; } } return false; }).ToArray();
-            var buttons = cut.FindAll("button").Where(e => { var el = e; while (el is not AngleSharp.Html.Dom.IHtmlBodyElement) { if (el is AngleSharp.Html.Dom.IHtmlTableHeaderCellElement hc && hc.Index == i) { return true; } el = el!.ParentElement; } return false; }).Cast<AngleSharp.Html.Dom.IHtmlButtonElement>();
-            var btnOk = buttons.Where(e => e.Name == "ok").First();
-            var btnRest = buttons.Where(e => e.Name == "reset").First();
-
-            // Act
-            // avec les valeur not null
-            iconeOption.Click();
-            input?.Change<string>(rows[0].TextContent);
-            btnOk.Click();
-            iconeOption.Click();
-            btnRest.Click();
-            //avec les valeur null
-            iconeOption.Click();
-            input = cut.FindAll("input", true).Where(e => { var el = e; while (el is not AngleSharp.Html.Dom.IHtmlBodyElement) { if (el is AngleSharp.Html.Dom.IHtmlTableHeaderCellElement hc && hc.Index == i && e.Id == "input-value") { return true; } el = el!.ParentElement; } return false; }).FirstOrDefault();
-            input?.Change<string>(rows[1].TextContent);
-            btnOk.Click();
-            iconeOption.Click();
-            btnRest.Click();
-            //sant touche input
-            iconeOption.Click();
-            btnOk.Click();
-            iconeOption.Click();
-            btnRest.Click();
-        }
-
-    }
-
-    private PropertyInfo[] GetPropertyInfos()
-    {
-        return typeof(MyAllType).GetProperties();
-    }
-
-    private object? GetExpression(PropertyInfo propertyInfo)
-    {
-        var objectHandle = Activator.CreateInstance("QuickGridCTests, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null\r\n",
-            $"QuickGridCTests.HelperExpressionOfMyAllType`1[[{propertyInfo.PropertyType.AssemblyQualifiedName}]]"
-            );
-        var helper = objectHandle!.Unwrap()!;
-        var methode = helper.GetType().GetMethods().Where(e => e.Name == "GetExpression").First();
-        return methode.Invoke(helper, new object[] { propertyInfo })!;
     }
 
 }

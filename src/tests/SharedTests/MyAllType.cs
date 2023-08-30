@@ -47,13 +47,4 @@ namespace Shared
         public TimeOnly? TimeOnlyNullable { get; set; }
     }
 
-    public enum EnumTest
-    {
-        One,
-        Two,
-        Three,
-        Four,
-        Five
-    }
-
 }
