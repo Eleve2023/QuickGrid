@@ -21,7 +21,7 @@ jobs:
     - name: 'Install dotnet'
       uses: actions/setup-dotnet@v3
       with:
-        dotnet-version: '8.0.0-preview.7.23376.1'
+        dotnet-version: '8.0.100-preview.7.23376.3'
 
     - name: 'Restore packages'
       run: dotnet restore ${{ env.PROJECT_PATH }}
