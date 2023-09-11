@@ -4,7 +4,30 @@
     <TargetFramework>net8.0</TargetFramework>
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
+    <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
+    <Title>QuickGrid</Title>
+    <RepositoryUrl>https://github.com/Eleve2023/QuickGrid</RepositoryUrl>
+    <IncludeSymbols>True</IncludeSymbols>
+    <PackageReadmeFile>README.md</PackageReadmeFile>
+    <PackageLicenseFile>LICENSE.txt</PackageLicenseFile>
+    <PackageRequireLicenseAcceptance>True</PackageRequireLicenseAcceptance>
+    <PackageTags>Blazor; razor; DataGrid</PackageTags>
+    <Description>Our version of QuickGrid offers additional features compared to the original version. It accepts ICollection and offers advanced filter options. In addition, it allows multiple sorting and can be used with any provider that accepts System.Linq.Expressions, such as Linq, Entity Framework or Simple.Odata.Client. Filtering and sorting are done externally, and pagination is independent of the grid.</Description>
+    <FileVersion>1.0.0.001</FileVersion>
+    <AssemblyVersion>1.0.0.001</AssemblyVersion>
+    <Version>1.0.001$(VersionPrefix)</Version>
   </PropertyGroup>
+
+  <ItemGroup>
+    <None Include="..\..\..\LICENSE.txt">
+      <Pack>True</Pack>
+      <PackagePath>\</PackagePath>
+    </None>
+    <None Include="..\..\..\README.md">
+      <Pack>True</Pack>
+      <PackagePath>\</PackagePath>
+    </None>
+  </ItemGroup>
 
 
   <ItemGroup>
