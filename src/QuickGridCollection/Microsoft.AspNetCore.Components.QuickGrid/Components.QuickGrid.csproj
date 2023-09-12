@@ -15,7 +15,7 @@
     <Description>Our version of QuickGrid offers additional features compared to the original version. It accepts ICollection and offers advanced filter options. In addition, it allows multiple sorting and can be used with any provider that accepts System.Linq.Expressions, such as Linq, Entity Framework or Simple.Odata.Client. Filtering and sorting are done externally, and pagination is independent of the grid.</Description>
     <FileVersion>1.0.0.001</FileVersion>
     <AssemblyVersion>1.0.0.001</AssemblyVersion>
-    <Version>1.0.101$(VersionPrefix)</Version>
+    <Version>1.2.102$(VersionPrefix)</Version>
   </PropertyGroup>
 
   <ItemGroup>
@@ -35,7 +35,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="8.0.0-preview.6.23329.11" />
+    <PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="8.0.0-rc.1.23421.29" />
   </ItemGroup>
 
 </Project>
