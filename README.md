@@ -1,5 +1,7 @@
 # QuickGridCollection
 Notre version de QuickGrid offre des fonctionnalités supplémentaires par rapport à la version originale. Elle accepte les ICollection et offre des options de filtre avancées. De plus, elle permet un tri multiple et peut être utilisée avec n’importe quel fournisseur qui accepte System.Linq.Expressions, tels que Linq, Entity Framework ou Simple.Odata.Client. Le filtrage et le tri sont effectués en externe, et la pagination est indépendante de la grille.
+
+Our version of QuickGrid offers additional features compared to the original version. It accepts ICollection and offers advanced filter options. In addition, it allows multiple sorting and can be used with any provider that accepts System.Linq.Expressions, such as Linq, Entity Framework or Simple.Odata.Client. Filtering and sorting are done externally, and pagination is independent of the grid.
 ## Example of use
 ```csharp
 <QuickGridC TGridItem="WeatherForecast" Items="@forecastsGrid" FilterSortChanged="FilterSortChanged">
